@@ -27,6 +27,8 @@ module.exports = grammar({
     $._for_keyword,
     $._def_keyword,
     $._var_keyword,
+    $._index_keyword,
+    $._field_keyword,
     $._special_character
   ],
   extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
@@ -62,9 +64,14 @@ module.exports = grammar({
     body: ($) => seq(":", repeat($._statement)),
     dot_body: ($) => seq(choice(":", "."), repeat($._statement)),
 
-    file_name: ($) => /[A-z-_|0-9|\/]+\.[i]/i,
+    file_name: ($) => /[A-z-_|0-9|\/]+\.[ip]/i,
+
     comment: ($) =>
-      choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+      choice(
+        seq("//", /.*/),
+        seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
+      ),
+
     constant: ($) =>
       seq("{", optional("&"), choice($.identifier, $._integer_literal), "}"),
 
@@ -315,13 +322,23 @@ module.exports = grammar({
     variable_tuning: ($) =>
       seq(
         choice(
+          seq(kw("SERIALIZE-NAME"), $.string_literal),
+          seq(kw("BGCOLOR"), $._expression),
+          seq(kw("FGCOLOR"), $._expression),
+          seq(kw("PFCOLOR"), $._expression),
+          seq(kw("DCOLOR"), $._expression),
+          seq(kw("CONTEXT-HELP-ID"), $._expression),
           seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
           seq(kw("FORMAT"), $._expression),
+          seq(kw("FONT"), $._expression),
           seq(kw("LABEL"), $._expression),
+          seq(kw("MOUSE-POINTER"), $._expression),
           seq(kw("COLUMN-LABEL"), $._expression),
-          seq(kw("DECIMALS"), $._expression),
+          seq(kw("DECIMALS"), $.number_literal),
           seq(kw("EXTENT"), $.number_literal),
-          kw("NO-UNDO")
+          kw("DROP-TARGET"),
+          kw("NO-UNDO"),
+          seq(optional(kw("NOT")), kw("CASE-SENSITIVE")),
         )
       ),
 
@@ -338,6 +355,110 @@ module.exports = grammar({
     serialization_tuning: ($) =>
       choice(kw("SERIALIZABLE"), kw("NON-SERIALIZABLE")),
 
+    combo_box_phrase: ($) =>
+      seq(
+        kw("COMBO-BOX"),
+        repeat(
+          choice(
+            seq(choice(kw("LIST-ITEMS"), kw("LIST-ITEM-PAIRS")), $.string_literal, repeat(seq(",", $.string_literal))),
+            seq(kw("INNER-LINES"), $.number_literal),
+            $.size_phrase,
+            kw("SORT"),
+            seq(kw("TOOLTIP"), $.string_literal),
+            kw("SIMPLE"),
+            kw("DROP-DOWN"),
+            kw("DROP-DOWN-LIST"),
+            seq(kw("MAX-CHARS"), $.number_literal),
+            seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
+          )
+        )
+      ),
+
+    editor_phrase: ($) =>
+      seq(
+        choice($.size_phrase, seq(kw("INNER-CHARS"), $.number_literal, kw("INNER-LINES"), $.number_literal)),
+        repeat(
+          choice(
+            seq(kw("BUFFER-CHARS"), $.number_literal),
+            seq(kw("BUFFER-LINES"), $.number_literal),
+            kw("LARGE"),
+            seq(kw("MAX-CHARS"), $.number_literal),
+            kw("NO-BOX"),
+            kw("NO-WORD-WRAP"),
+            kw("SCROLLBAR-HORIZONTAL"),
+            kw("SCROLLBAR-VERTICAL"),
+            seq(kw("TOOLTIP"), $.string_literal)
+          )
+        )
+      ),
+
+    radio_set_phrase: ($) =>
+      seq(
+        kw("RADIO-SET"),
+        optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
+        seq(
+          kw("RADIO-BUTTONS"),
+          field("label", $.identifier), ",", field("value", $.identifier),
+          repeat(seq(",", field("label", $.identifier), ",", field("value", $.identifier)))
+        ),
+        optional(seq(kw("TOOLTIP"), $.string_literal))
+      ),
+
+    selection_list_phrase: ($) =>
+      seq(
+        kw("SELECTION-LIST"),
+        repeat(
+          choice(
+            kw("SINGLE"),
+            kw("MULTIPLE"),
+            kw("NO-DRAG"),
+            seq(choice(kw("LIST-ITEMS"), kw("LIST-ITEM-PAIRS")), $.string_literal, repeat(seq(",", $.string_literal))),
+            kw("SCROLLBAR-HORIZONTAL"),
+            kw("SCROLLBAR-VERTICAL"),
+            $.size_phrase,
+            seq(kw("INNER-CHARS"), $.number_literal, kw("INNER-LINES"), $.number_literal),
+            kw("SORT"),
+            seq(kw("TOOLTIP"), $.string_literal)
+          )
+        ),
+      ),
+
+    slider_phrase: ($) =>
+      seq(
+        kw("SLIDER"),
+        seq(kw("MAX-VALUE"), $.number_literal, kw("MIN-VALUE"), $.number_literal),
+        repeat(
+          choice(
+            kw("HORIZONTAL"),
+            kw("VERTICAL"),
+            kw("NO-CURRENT-VALUE"),
+            kw("LARGE-TO-SMALL"),
+            seq(
+              kw("TIC-MARKS"),
+              choice(kw("NONE"), kw("TOP"), kw("BOTTOM"), kw("LEFT"), kw("RIGHT"), kw("BOTH")),
+              optional(seq(kw("FREQUENCY"), $.number_literal))
+            ),
+            seq(kw("TOOLTIP"), $.string_literal),
+            $.size_phrase
+          )
+        )
+      ),
+
+    view_as_phrase: ($) =>
+      seq(
+        kw("VIEW-AS"),
+        choice(
+          $.combo_box_phrase,
+          $.editor_phrase,
+          seq(kw("FILL-IN"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
+          $.radio_set_phrase,
+          $.selection_list_phrase,
+          $.slider_phrase,
+          seq(kw("TEXT"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
+          seq(kw("TOGGLE-BOX"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
+        )
+      ),
+
     variable_definition: ($) =>
       seq(
         $._define,
@@ -345,7 +466,8 @@ module.exports = grammar({
         choice(kw("VARIABLE"), kw("VAR")),
         field("name", $.identifier),
         $.type_tuning,
-        repeat($.variable_tuning),
+        repeat(choice($.variable_tuning, $.view_as_phrase)),
+        // optional($.view_as_phrase),
         $._terminator
       ),
 
@@ -1079,10 +1201,18 @@ module.exports = grammar({
         optional(seq(kw("BY"), $.number_literal))
       ),
 
+    do_for_phrase: ($) =>
+      seq(
+        kw("FOR"),
+        choice($.identifier, $.qualified_name),
+        repeat(seq(",", choice($.identifier, $.qualified_name)))
+      ),
+
     do_block: ($) =>
       seq(
         optional($.label),
         kw("DO"),
+        optional($.do_for_phrase),
         optional($.preselect_phrase),
         optional($.to_phrase),
         optional($.do_tuning),
@@ -1144,7 +1274,7 @@ module.exports = grammar({
     sort_order: ($) =>
       choice(kw("ASCENDING"), kw("DESCENDING"), kw("DESC"), kw("ASC")),
     sort_column: ($) =>
-      seq(field("column", $._expression), optional($.sort_order)),
+      seq(field("column", choice($.identifier, $.qualified_name, $.function_call)), optional($.sort_order)),
 
     sort_clause: ($) =>
       seq(optional(kw("BREAK")), seq(kw("BY"), repeat1($.sort_column))),
@@ -1374,7 +1504,7 @@ module.exports = grammar({
         seq(kw("COLUMN-CODEPAGE"), $.string_literal),
       ),
     field_definition: ($) =>
-      seq(kw("FIELD"), $.identifier, $.type_tuning, repeat($.field_option)),
+      seq(alias($._field_keyword, "FIELD"), $.identifier, $.type_tuning, repeat($.field_option)),
     index_tuning: ($) =>
       seq(
         optional(choice(kw("IS"), kw("AS"))),
@@ -1385,13 +1515,11 @@ module.exports = grammar({
         )
       ),
     index_definition: ($) =>
-      prec.left(
-        seq(
-          kw("INDEX"),
-          $.identifier,
-          repeat($.index_tuning),
-          repeat($.sort_column)
-        )
+      seq(
+        alias($._index_keyword, "INDEX"),
+        $.identifier,
+        repeat($.index_tuning),
+        repeat($.sort_column)
       ),
 
     workfile_tuning: ($) => kw("NO-UNDO"),
@@ -1421,7 +1549,7 @@ module.exports = grammar({
     widget_phrase: ($) =>
       choice(
         seq(kw("FRAME"), $.identifier),
-        seq(optional(kw("FIELD")), $.identifier, optional(seq(kw("IN"), kw("FRAME"), $.identifier))),
+        seq(optional(alias($._field_keyword, "FIELD")), $.identifier, optional(seq(kw("IN"), kw("FRAME"), $.identifier))),
         seq($.identifier, optional(seq(kw("IN"), kw("BROWSE"), $.identifier))),
         seq(choice(kw("MENU"), kw("SUB-MENU")), $.identifier),
         seq(kw("MENU-ITEM"), $.identifier, optional(seq(kw("IN"), kw("MENU"), $.identifier))),
@@ -1440,7 +1568,6 @@ module.exports = grammar({
       seq(
         kw("OF"),
         $.widget_phrase,
-        optional(kw("ANYWHERE"))
       ),
 
     _on_statement_database_phrase: ($) =>
@@ -1462,7 +1589,15 @@ module.exports = grammar({
       _on_statement_widget_phrase: ($) =>
         prec(2, seq(
           _list(choice($.identifier, $.constant), ","),
-          choice(kw("ANYWHERE"), $.of_phrase),
+          $.of_phrase,
+          repeat(
+            seq(
+              kw("OR"),
+              _list(choice($.identifier, $.constant), ","),
+              $.of_phrase
+            )
+          ),
+          optional(kw("ANYWHERE")),
           choice($.do_block, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
         )),
 
@@ -1606,6 +1741,15 @@ module.exports = grammar({
         $._terminator
       ),
 
+    // frame_definition: ($) =>
+    //   seq(
+    //     $._define,
+    //     optional($.access_tuning),
+    //     kw("FRAME"),
+    //     field("name", $.identifier),
+
+    //   ),
+
     run_tuning: ($) =>
       choice(
         kw("PERSISTENT"),
@@ -1622,7 +1766,7 @@ module.exports = grammar({
         kw("RUN"),
         field(
           "procedure",
-          choice($.identifier, $.qualified_name, $.function_call)
+          choice($.identifier, $.qualified_name, $.function_call, $.file_name)
         ),
         repeat($.run_tuning),
         optional(alias($.function_arguments, $.arguments)),

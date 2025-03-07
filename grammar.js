@@ -1274,7 +1274,7 @@ module.exports = grammar({
     sort_order: ($) =>
       choice(kw("ASCENDING"), kw("DESCENDING"), kw("DESC"), kw("ASC")),
     sort_column: ($) =>
-      seq(field("column", choice($.identifier, $.qualified_name, $.function_call)), optional($.sort_order)),
+      seq(field("column", $._expression), optional($.sort_order)),
 
     sort_clause: ($) =>
       seq(optional(kw("BREAK")), seq(kw("BY"), repeat1($.sort_column))),
@@ -1519,7 +1519,7 @@ module.exports = grammar({
         alias($._index_keyword, "INDEX"),
         $.identifier,
         repeat($.index_tuning),
-        repeat($.sort_column)
+        repeat(seq(field("field", $.identifier), optional($.sort_order)))
       ),
 
     workfile_tuning: ($) => kw("NO-UNDO"),

@@ -22,10 +22,18 @@ COMMENT (long)
  COMMENT
 ********************/
 
+/*
+Some text
+Other text /* note */
+More text
+*/
+
 --------------------------------------------------------------------------------
 
 (source_code
-  (comment))
+  (comment)
+  (comment
+    (comment)))
 
 ================================================================================
 INCLUDE
@@ -75,6 +83,19 @@ DEFINE VARIABLE ojb AS Progress.Json.ObjectModel.JsonObject NO-UNDO.
 
 DEFINE VARIABLE cls AS CLASS CustomClass.
 
+DEFINE VARIABLE credit-percent AS INTEGER NO-UNDO
+  COLUMN-LABEL "Enter   !percentage!increase ".
+
+DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
+  INITIAL ["Add","Delete","Update"].
+
+DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
+  VIEW-AS SELECTION-LIST SIZE 20 BY 5 MULTIPLE SCROLLBAR-VERTICAL NO-DRAG
+    LIST-ITEMS "One Iron", "Two Iron", "Three Iron", "Four Iron",
+               "Five Iron", "Six Iron", "Seven Iron", "Eight Iron",
+               "Nine Iron", "Pitching Wedge"
+  LABEL "Golf Clubs Available".
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -122,7 +143,48 @@ DEFINE VARIABLE cls AS CLASS CustomClass.
     (identifier)
     (type_tuning
       (class_type
-        (identifier)))))
+        (identifier))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (string_literal)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (number_literal))
+    (variable_tuning
+      (array_literal
+        (string_literal)
+        (string_literal)
+        (string_literal))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (view_as_phrase
+      (selection_list_phrase
+        (size_phrase
+          (number_literal)
+          (number_literal))
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)
+        (string_literal)))
+    (variable_tuning
+      (string_literal))))
 
 ================================================================================
 VARIABLE ASSIGNMENT statement
@@ -1941,6 +2003,10 @@ DO ON STOP UNDO label1, LEAVE label2:
   STOP.
 END.
 
+DO FOR some_copy TRANSACTION STOP-AFTER 2 ON ERROR UNDO, THROW:
+  a = 5.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1969,7 +2035,20 @@ END.
       (identifier))
     (body
       (abl_statement
-        (identifier)))))
+        (identifier))))
+  (do_block
+    (do_for_phrase
+      (identifier))
+    (do_tuning)
+    (stop_after_phrase
+      (number_literal))
+    (on_error_phrase)
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal))))))
 
 ================================================================================
 UNDO statement
@@ -2082,14 +2161,12 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
     (index_definition
       (identifier)
       (index_tuning)
-      (sort_column
-        (identifier)
-        (sort_order)))
+      (identifier)
+      (sort_order))
     (index_definition
       (identifier)
-      (sort_column
-        (identifier)
-        (sort_order))))
+      (identifier)
+      (sort_order)))
   (temp_table_definition
     (identifier)
     (field_definition
@@ -2106,15 +2183,12 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
         (primitive_type)))
     (index_definition
       (identifier)
-      (sort_column
-        (identifier)
-        (sort_order))
-      (sort_column
-        (identifier)
-        (sort_order))
-      (sort_column
-        (identifier)
-        (sort_order))))
+      (identifier)
+      (sort_order)
+      (identifier)
+      (sort_order)
+      (identifier)
+      (sort_order)))
   (temp_table_definition
     (identifier)
     (temp_table_tuning)
@@ -2140,14 +2214,12 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
     (index_definition
       (identifier)
       (index_tuning)
-      (sort_column
-        (identifier)
-        (sort_order)))
+      (identifier)
+      (sort_order))
     (index_definition
       (identifier)
-      (sort_column
-        (identifier)
-        (sort_order)))))
+      (identifier)
+      (sort_order))))
 
 ================================================================================
 QUIRKS
@@ -2699,9 +2771,7 @@ RUN server-error.p ON SERVER hServer
 
 (source_code
   (run_statement
-    (qualified_name
-      (identifier)
-      (identifier))
+    (file_name)
     (arguments
       (argument
         (identifier))
@@ -2727,9 +2797,7 @@ RUN server-error.p ON SERVER hServer
     (run_tuning
       (identifier)))
   (run_statement
-    (qualified_name
-      (identifier)
-      (identifier))
+    (file_name)
     (run_tuning
       (identifier))
     (run_tuning)
@@ -2875,6 +2943,9 @@ ON {&SEARCH-KEYBOARD},{&SEARCH-MOUSE} OF particular_fill-in_Field DO:
   display Messages.
 END.
 
+ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
+  RUN adehelp.p.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -2925,5 +2996,17 @@ END.
       (body
         (abl_statement
           statement: (identifier)
-          (identifier))))))
+          (identifier)))))
+  (on_statement
+    (identifier)
+    (of_phrase
+      (widget_phrase
+        (identifier)))
+    (identifier)
+    (of_phrase
+      (widget_phrase
+        (identifier)
+        (identifier)))
+    (run_statement
+      procedure: (file_name))))
 

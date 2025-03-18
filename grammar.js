@@ -42,20 +42,20 @@ module.exports = grammar({
     ...combinations([$._statement, $.if_statement]),
     ...combinations([$._statement, $.on_statement]),
     // DEFINE * conflicts
-    ...combinations([
-      $.abl_statement,
-      $.variable_definition,
-      $.buffer_definition,
-      $.query_definition,
-      $.temp_table_definition,
-      $.workfile_definition,
-      $.property_definition,
-      $.data_source_definition,
-      $.event_definition,
-      $.dataset_definition,
-      $.stream_definition,
-      $.image_definition
-    ])
+    // ...combinations([
+    //   $.abl_statement,
+    //   $.variable_definition,
+    //   $.buffer_definition,
+    //   $.query_definition,
+    //   $.temp_table_definition,
+    //   $.workfile_definition,
+    //   $.property_definition,
+    //   $.data_source_definition,
+    //   $.event_definition,
+    //   $.dataset_definition,
+    //   $.stream_definition,
+    //   $.image_definition
+    // ])
   ],
 
   rules: {
@@ -461,20 +461,23 @@ module.exports = grammar({
 
     variable_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning)),
         choice(kw("VARIABLE"), kw("VAR")),
         field("name", $.identifier),
         $.type_tuning,
-        repeat(choice($.variable_tuning, $.view_as_phrase)),
-        // optional($.view_as_phrase),
+        repeat(
+          choice(
+            $.variable_tuning,
+            // $.view_as_phrase
+          )),
         $._terminator
       ),
 
     buffer_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning)),
         kw("BUFFER"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -492,8 +495,8 @@ module.exports = grammar({
     query_fields: ($) => seq("(", repeat($.identifier), ")"),
     query_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning)),
         kw("QUERY"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -722,11 +725,12 @@ module.exports = grammar({
         ":",
         repeat(
           choice(
-            $.property_definition,
-            $.temp_table_definition,
-            $.event_definition,
-            $.method_definition,
-            $.dataset_definition
+            // $.property_definition,
+            // $.temp_table_definition,
+            // $.event_definition,
+            $.method_statement,
+            $.definition,
+            // $.dataset_definition
           )
         )
       ),
@@ -778,15 +782,15 @@ module.exports = grammar({
 
     property_definition: ($) =>
       seq(
-        $._define,
-        repeat(
-          choice(
-            $.access_tuning,
-            $.scope_tuning,
-            $.property_type,
-            $.serialization_tuning
-          )
-        ),
+        // $._define,
+        // repeat(
+        //   choice(
+        //     $.access_tuning,
+        //     $.scope_tuning,
+        //     $.property_type,
+        //     $.serialization_tuning
+        //   )
+        // ),
         kw("PROPERTY"),
         field("name", $.identifier),
         $.type_tuning,
@@ -796,8 +800,8 @@ module.exports = grammar({
 
     event_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.access_tuning, $.scope_tuning, $.property_type)),
+        // $._define,
+        // repeat(choice($.access_tuning, $.scope_tuning, $.property_type)),
         kw("EVENT"),
         $.identifier,
         optional(kw("SIGNATURE")),
@@ -807,7 +811,7 @@ module.exports = grammar({
       ),
 
     method_tuning: ($) => choice(kw("ABSTRACT"), kw("OVERRIDE"), kw("FINAL")),
-    method_definition: ($) =>
+    method_statement: ($) =>
       seq(
         kw("METHOD"),
         repeat(choice($.access_tuning, $.scope_tuning, $.method_tuning)),
@@ -833,8 +837,8 @@ module.exports = grammar({
       ),
     dataset_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning)),
         kw("DATASET"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -856,24 +860,26 @@ module.exports = grammar({
         ":",
         repeat(
           choice(
-            $.property_definition,
-            $.temp_table_definition,
-            $.event_definition,
-            $.method_definition,
-            $.dataset_definition,
-            $.constructor_definition,
-            $.destructor_definition,
-            $.variable_definition,
-            $.query_definition,
-            $.buffer_definition,
-            $.data_source_definition,
-            $.stream_definition,
+            // $.property_definition,
+            // $.temp_table_definition,
+            // $.event_definition,
+            $.method_statement,
+            $.definition,
+            // $.dataset_definition,
+            $.constructor_statement,
+            $.destructor_statement,
+            // $._definition,
+            // $.variable_definition,
+            // $.query_definition,
+            // $.buffer_definition,
+            // $.data_source_definition,
+            // $.stream_definition,
             $.var_statement
           )
         )
       ),
 
-    constructor_definition: ($) =>
+    constructor_statement: ($) =>
       seq(
         kw("CONSTRUCTOR"),
         repeat(choice($.scope_tuning, $.access_tuning)),
@@ -885,7 +891,7 @@ module.exports = grammar({
         $._terminator
       ),
 
-    destructor_definition: ($) =>
+    destructor_statement: ($) =>
       seq(
         kw("DESTRUCTOR"),
         repeat($.access_tuning),
@@ -964,8 +970,8 @@ module.exports = grammar({
 
     stream_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning)),
         kw("STREAM"),
         field("name", $.identifier),
         $._terminator
@@ -1525,8 +1531,8 @@ module.exports = grammar({
     workfile_tuning: ($) => kw("NO-UNDO"),
     workfile_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.access_tuning, $.scope_tuning)),
+        // $._define,
+        // repeat(choice($.access_tuning, $.scope_tuning)),
         choice(kw("WORKFILE"), kw("WORK-TABLE")),
         field("name", $.identifier),
         repeat($.workfile_tuning),
@@ -1537,8 +1543,9 @@ module.exports = grammar({
 
     temp_table_definition: ($) =>
       seq(
-        $._define,
-        repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning, $.constant)),
+        // $._define,
+        // repeat(choice($.scope_tuning, $.access_tuning, $.serialization_tuning, $.constant)),
+        repeat(choice($.serialization_tuning, $.constant)),
         kw("TEMP-TABLE"),
         choice($.identifier, $.constant),
         repeat($.temp_table_tuning),
@@ -1614,20 +1621,16 @@ module.exports = grammar({
 
     data_source_definition: ($) =>
       seq(
-        $._define,
-        optional($.access_tuning),
-        optional($.scope_tuning),
+        // $._define,
+        // optional($.access_tuning),
+        // optional($.scope_tuning),
         kw("DATA-SOURCE"),
         $.identifier,
         alias($._for_keyword, "FOR"),
         optional(seq(kw("QUERY"), $.identifier)),
-        choice(
-          seq(
-            _list(choice($.identifier, $.qualified_name), ","),
-            $._terminator
-          ),
-          $._terminator
-        )
+        optional(
+          _list(choice($.identifier, $.qualified_name), ",")),
+        $._terminator
       ),
 
     prompt_for_statement: ($) =>
@@ -1710,15 +1713,15 @@ module.exports = grammar({
         $.size_phrase
       ),
 
-    button_definition: ($) =>
-      seq(
-        $._define,
-        optional($.access_tuning),
-        kw("BUTTON"),
-        field("name", $.identifier),
-        repeat($.button_tuning),
-        $._terminator
-      ),
+    // button_definition: ($) =>
+    //   seq(
+    //     $._define,
+    //     optional($.access_tuning),
+    //     kw("BUTTON"),
+    //     field("name", $.identifier),
+    //     repeat($.button_tuning),
+    //     $._terminator
+    //   ),
 
     image_tuning: ($) =>
       choice(
@@ -1732,14 +1735,19 @@ module.exports = grammar({
 
     image_definition: ($) =>
       seq(
-        $._define,
-        optional($.access_tuning),
+        // $._define,
+        // optional($.access_tuning),
         kw("IMAGE"),
         field("name", $.identifier),
         choice($.size_phrase, $.image_phrase, seq(kw("LIKE"), $.identifier)),
         repeat($.image_tuning),
         $._terminator
       ),
+
+    // form_item: ($) =>
+    //   choice(
+
+    //   ),
 
     // frame_definition: ($) =>
     //   seq(
@@ -1748,6 +1756,11 @@ module.exports = grammar({
     //     kw("FRAME"),
     //     field("name", $.identifier),
 
+    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
+    //     optional($.frame_phrase)
+
+
+    //     // form item
     //   ),
 
     run_tuning: ($) =>
@@ -1847,6 +1860,47 @@ module.exports = grammar({
         )
       ),
 
+    _tuning: ($) =>
+      choice(
+        $.access_tuning,
+        $.scope_tuning,
+        $.property_type
+      ),
+
+    button_definition: ($) =>
+      seq(
+        kw("BUTTON"),
+        field("name", $.identifier),
+        repeat($.button_tuning),
+      ),
+
+    definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        choice(
+          $.variable_definition,
+          $.buffer_definition,
+          $.query_definition,
+          $.temp_table_definition,
+          $.workfile_definition,
+          // $.property_definition,
+          $.data_source_definition,
+          $.event_definition,
+          // $.dataset_definition,
+          $.stream_definition,
+          // $.image_definition
+        )
+      ),
+
+    //   $.workfile_definition,
+    //   $.property_definition,
+    //   $.data_source_definition,
+    //   $.event_definition,
+    //   $.dataset_definition,
+    //   $.stream_definition,
+    //   $.image_definition
+
     // Supertypes
     _expression: ($) =>
       choice(
@@ -1912,17 +1966,19 @@ module.exports = grammar({
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
+        $.definition,
 
-        $.variable_definition,
-        $.buffer_definition,
-        $.query_definition,
-        $.stream_definition,
-        $.procedure_parameter_definition,
-        $.temp_table_definition,
-        $.workfile_definition,
-        $.dataset_definition,
-        $.button_definition,
-        $.image_definition,
+        // $.variable_definition,
+        // $.buffer_definition,
+        // $.query_definition,
+        // $.stream_definition,
+        // $.procedure_parameter_definition,
+        // $.temp_table_definition,
+
+        // $.workfile_definition,
+        // $.dataset_definition,
+        // $.button_definition,
+        // $.image_definition,
 
         $.variable_assignment,
         $.do_block,

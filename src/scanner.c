@@ -23,7 +23,7 @@ enum TokenType {
   FIELD_KEYWORD
 };
 
-void *tree_sitter_abl_external_scanner_create() {
+void * tree_sitter_abl_external_scanner_create() {
   return NULL;
 }
 
@@ -161,5 +161,3 @@ bool match_keyword(TSLexer *lexer, const char *keyword, TSSymbol symbol) {
   *lexer = checkpoint;
   return false;
 }
-
-

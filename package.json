@@ -2,6 +2,13 @@
   "name": "tree-sitter-abl",
   "version": "0.0.47",
   "description": "ABL grammar for tree-sitter",
+  "repository": "https://github.com/eglekaz/tree-sitter-abl",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "abl"
+  ],
   "main": "bindings/node",
   "scripts": {
     "generate": "tree-sitter generate",

@@ -1,0 +1,442 @@
+================================================================================
+BINARY (simple) operators
+================================================================================
+
+x = 2 + 2.
+y = (4 * 3) / 2.
+z = 2 > 4.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (additive_expression
+        (number_literal)
+        (number_literal))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (multiplicative_expression
+        (parenthesized_expression
+          (multiplicative_expression
+            (number_literal)
+            (number_literal)))
+        (number_literal))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (comparison_expression
+        (number_literal)
+        (number_literal)))))
+
+================================================================================
+UNARY (simple) operators
+================================================================================
+
+w = -(0).
+x = -f().
+y = -table.field.
+z = -obj:method().
+
+z = NOT y.
+y = NOT -x < -10 OR x = 10.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (parenthesized_expression
+          (number_literal)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (function_call
+          (identifier)
+          (arguments)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (qualified_name
+          (identifier)
+          (identifier)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (identifier))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (logical_expression
+        (unary_expression
+          (comparison_expression
+            (unary_expression
+              (identifier))
+            (unary_expression
+              (number_literal))))
+        (comparison_expression
+          (identifier)
+          (number_literal))))))
+
+================================================================================
+UNARY/BINARY operators
+================================================================================
+
+z = NOT y > 5.
+y = NOT 2 + 2.
+z = NOT 2 + 2 = 5.
+zr = NOT 5 = 2 + 2.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (comparison_expression
+          (identifier)
+          (number_literal)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (additive_expression
+          (number_literal)
+          (number_literal)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (comparison_expression
+          (additive_expression
+            (number_literal)
+            (number_literal))
+          (number_literal)))))
+  (variable_assignment
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (unary_expression
+        (comparison_expression
+          (number_literal)
+          (additive_expression
+            (number_literal)
+            (number_literal)))))))
+
+================================================================================
+LOGICAL expressions
+================================================================================
+
+w = YES.
+x = NO.
+y = TRUE.
+z = FALSE.
+IF YES AND TRUE THEN DISPLAY "yes".
+
+x = YES AND NO.
+x = YES OR NO.
+
+y = x < 10 OR x = 10.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (boolean_literal)))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (boolean_literal)))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (boolean_literal)))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (boolean_literal)))
+  (if_statement
+    condition: (logical_expression
+      (boolean_literal)
+      (boolean_literal))
+    (abl_statement
+      statement: (identifier)
+      (string_literal)))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (logical_expression
+        (boolean_literal)
+        (boolean_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (logical_expression
+        (boolean_literal)
+        (boolean_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (logical_expression
+        (comparison_expression
+          (identifier)
+          (number_literal))
+        (comparison_expression
+          (identifier)
+          (number_literal))))))
+
+================================================================================
+CAN-FIND function
+================================================================================
+
+w = CAN-FIND(LAST x OF y USING z1 AND FRAME f z2 WHERE z NO-LOCK).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (can_find_expression
+        table: (identifier)
+        (of
+          (identifier))
+        (query_tuning
+          (using
+            (using_field
+              field: (identifier))
+            (using_field
+              frame: (identifier)
+              field: (identifier))))
+        (where_clause
+          condition: (identifier))
+        (query_tuning)))))
+
+================================================================================
+TERNARY EXPRESSION statement
+================================================================================
+
+x = IF x > 10 THEN 10 ELSE x.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (ternary_expression
+        condition: (comparison_expression
+          (identifier)
+          (number_literal))
+        then: (number_literal)
+        else: (identifier)))))
+
+================================================================================
+TERNARY EXPRESSION (parenthesised) statement
+================================================================================
+
+x = (IF NOT x > 10 THEN 10 ELSE x).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (parenthesized_expression
+        (ternary_expression
+          condition: (unary_expression
+            (comparison_expression
+              (identifier)
+              (number_literal)))
+          then: (number_literal)
+          else: (identifier))))))
+
+
+================================================================================
+Keyword comparison operators
+================================================================================
+
+v = 9 GE 0 AND 0 LT 9.
+w = (9 + 10 LE 21) NE (9 + 10 > 21).
+x = (2 + 2 GT 0) EQ (2 + 2 > 0).
+y = "y" BEGINS "yes".
+z = "yes" MATCHES "y*".
+FIND foo WHERE bar CONTAINS "stuff" OR baz CONTAINS "what?".
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (logical_expression
+        (comparison_expression
+          (number_literal)
+          (number_literal))
+        (comparison_expression
+          (number_literal)
+          (number_literal)))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (comparison_expression
+        (parenthesized_expression
+          (comparison_expression
+            (additive_expression
+              (number_literal)
+              (number_literal))
+            (number_literal)))
+        (parenthesized_expression
+          (comparison_expression
+            (additive_expression
+              (number_literal)
+              (number_literal))
+            (number_literal))))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (comparison_expression
+        (parenthesized_expression
+          (comparison_expression
+            (additive_expression
+              (number_literal)
+              (number_literal))
+            (number_literal)))
+        (parenthesized_expression
+          (comparison_expression
+            (additive_expression
+              (number_literal)
+              (number_literal))
+            (number_literal))))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (comparison_expression
+        (string_literal)
+        (string_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (comparison_expression
+        (string_literal)
+        (string_literal))))
+  (find_statement
+    table: (identifier)
+    (where_clause
+      condition: (logical_expression
+        (comparison_expression
+          (identifier)
+          (string_literal))
+        (comparison_expression
+          (identifier)
+          (string_literal))))))
+
+================================================================================
+Miscellaneous unary expressions
+================================================================================
+
+FIND foo WHERE bar NO-ERROR.
+success = AVAILABLE foo AND NOT AMBIGUOUS foo.
+PROMPT-FOR bar FRAME y.
+baz = INPUT FRAME y bar.
+PROMPT-FOR qux.
+quux = INPUT qux.
+IF LOCKED foo THEN RETURN 'error'.
+FIND CURRENT x.
+IF CURRENT-CHANGED x THEN RETURN '!'.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (find_statement
+    table: (identifier)
+    (where_clause
+      condition: (identifier))
+    (query_tuning))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (logical_expression
+        (available_expression
+          (identifier))
+        (unary_expression
+          (ambiguous_expression
+            (identifier))))))
+  (prompt_for_statement
+    (identifier)
+    frame: (identifier))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (input_expression
+        frame: (identifier)
+        field: (identifier))))
+  (prompt_for_statement
+    (identifier))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (input_expression
+        field: (identifier))))
+  (if_statement
+    condition: (locked_expression
+      (identifier))
+    (return_statement
+      (string_literal)))
+  (find_statement
+    table: (identifier))
+  (if_statement
+    condition: (current_changed_expression
+      (identifier))
+    (return_statement
+      (string_literal))))

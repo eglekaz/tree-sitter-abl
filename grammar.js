@@ -1188,6 +1188,7 @@ module.exports = grammar({
         )
       ),
 
+
     buffer_definition: ($) =>
       seq(
         kw("BUFFER"),

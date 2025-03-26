@@ -2,7 +2,10 @@
 
 OpenEdge Advanced Business Language (ABL) grammar for tree-sitter.
 
-To see syntax tree output see `test/corpus`.
+Forked from [@usagi-coffee/tree-sitter-abl](https://github.com/usagi-coffee/tree-sitter-abl)
+
+
+To see syntax tree output see files in `test/corpus`.
 
 ## Usage
 

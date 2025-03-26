@@ -18,10 +18,12 @@ enum TokenType {
   OLD_KEYWORD,
   FOR_KEYWORD,
   DEF_KEYWORD,
-  VAR_KEYWORD
+  VAR_KEYWORD,
+  INDEX_KEYWORD,
+  FIELD_KEYWORD
 };
 
-void *tree_sitter_abl_external_scanner_create() {
+void * tree_sitter_abl_external_scanner_create() {
   return NULL;
 }
 
@@ -88,6 +90,8 @@ bool tree_sitter_abl_external_scanner_scan(
   if (valid_symbols[FOR_KEYWORD] && match_keyword(lexer, "FOR", FOR_KEYWORD)) return true;
   if (valid_symbols[DEF_KEYWORD] && match_keyword(lexer, "DEF", DEF_KEYWORD)) return true;
   if (valid_symbols[VAR_KEYWORD] && match_keyword(lexer, "VAR", VAR_KEYWORD)) return true;
+  if (valid_symbols[INDEX_KEYWORD] && match_keyword(lexer, "INDEX", INDEX_KEYWORD)) return true;
+  if (valid_symbols[FIELD_KEYWORD] && match_keyword(lexer, "FIELD", FIELD_KEYWORD)) return true;
 
   if (valid_symbols[AUGMENTED_ASSIGNMENT]) {
     while (!lexer->eof(lexer) && iswspace(lexer->lookahead)) {
@@ -157,5 +161,3 @@ bool match_keyword(TSLexer *lexer, const char *keyword, TSSymbol symbol) {
   *lexer = checkpoint;
   return false;
 }
-
-

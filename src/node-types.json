@@ -142,14 +142,6 @@
         "named": true
       },
       {
-        "type": "buffer_definition",
-        "named": true
-      },
-      {
-        "type": "button_definition",
-        "named": true
-      },
-      {
         "type": "case_statement",
         "named": true
       },
@@ -162,7 +154,7 @@
         "named": true
       },
       {
-        "type": "dataset_definition",
+        "type": "definition",
         "named": true
       },
       {
@@ -199,10 +191,6 @@
       },
       {
         "type": "if_statement",
-        "named": true
-      },
-      {
-        "type": "image_definition",
         "named": true
       },
       {
@@ -254,10 +242,6 @@
         "named": true
       },
       {
-        "type": "query_definition",
-        "named": true
-      },
-      {
         "type": "repeat_statement",
         "named": true
       },
@@ -267,14 +251,6 @@
       },
       {
         "type": "run_statement",
-        "named": true
-      },
-      {
-        "type": "stream_definition",
-        "named": true
-      },
-      {
-        "type": "temp_table_definition",
         "named": true
       },
       {
@@ -291,14 +267,6 @@
       },
       {
         "type": "variable_assignment",
-        "named": true
-      },
-      {
-        "type": "variable_definition",
-        "named": true
-      },
-      {
-        "type": "workfile_definition",
         "named": true
       }
     ]
@@ -631,15 +599,11 @@
           "named": true
         },
         {
-          "type": "constructor_definition",
+          "type": "constructor_statement",
           "named": true
         },
         {
-          "type": "data_source_definition",
-          "named": true
-        },
-        {
-          "type": "destructor_definition",
+          "type": "destructor_statement",
           "named": true
         },
         {
@@ -647,15 +611,7 @@
           "named": true
         },
         {
-          "type": "event_definition",
-          "named": true
-        },
-        {
-          "type": "method_definition",
-          "named": true
-        },
-        {
-          "type": "property_definition",
+          "type": "method_statement",
           "named": true
         }
       ]
@@ -694,50 +650,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "button_definition",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
-          "type": "button_tuning",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1038,6 +950,29 @@
     }
   },
   {
+    "type": "combo_box_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "comment",
     "named": true,
     "fields": {}
@@ -1073,7 +1008,7 @@
     }
   },
   {
-    "type": "constructor_definition",
+    "type": "constructor_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -1146,19 +1081,11 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
           "named": true
         }
       ]
@@ -1184,10 +1111,6 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "data_relation",
           "named": true
         },
@@ -1197,10 +1120,6 @@
         },
         {
           "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
           "named": true
         }
       ]
@@ -1222,7 +1141,74 @@
     }
   },
   {
-    "type": "destructor_definition",
+    "type": "definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "buffer_definition",
+          "named": true
+        },
+        {
+          "type": "data_source_definition",
+          "named": true
+        },
+        {
+          "type": "dataset_definition",
+          "named": true
+        },
+        {
+          "type": "event_definition",
+          "named": true
+        },
+        {
+          "type": "image_definition",
+          "named": true
+        },
+        {
+          "type": "property_definition",
+          "named": true
+        },
+        {
+          "type": "property_type",
+          "named": true
+        },
+        {
+          "type": "query_definition",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        },
+        {
+          "type": "stream_definition",
+          "named": true
+        },
+        {
+          "type": "temp_table_definition",
+          "named": true
+        },
+        {
+          "type": "variable_definition",
+          "named": true
+        },
+        {
+          "type": "workfile_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "destructor_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -1257,7 +1243,7 @@
           "named": true
         },
         {
-          "type": "do_tuning",
+          "type": "do_for_phrase",
           "named": true
         },
         {
@@ -1300,9 +1286,46 @@
     }
   },
   {
-    "type": "do_tuning",
+    "type": "do_for_phrase",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "editor_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "else_statement",
@@ -1403,24 +1426,15 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "body",
           "named": true
-        },
-        {
-          "type": "enum_tuning",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "enum_tuning",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "error_scope_statement",
@@ -1446,30 +1460,18 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "parameters",
           "named": true
-        },
-        {
-          "type": "property_type",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "field_definition",
+    "type": "field_clause",
     "named": true,
     "fields": {},
     "children": {
@@ -2097,10 +2099,6 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -2206,10 +2204,6 @@
       "required": true,
       "types": [
         {
-          "type": "constant",
-          "named": true
-        },
-        {
           "type": "file_name",
           "named": true
         },
@@ -2257,9 +2251,20 @@
     }
   },
   {
-    "type": "index_definition",
+    "type": "index_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "field": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -2273,7 +2278,7 @@
           "named": true
         },
         {
-          "type": "sort_column",
+          "type": "sort_order",
           "named": true
         }
       ]
@@ -2554,7 +2559,7 @@
     }
   },
   {
-    "type": "method_definition",
+    "type": "method_statement",
     "named": true,
     "fields": {
       "name": {
@@ -2737,6 +2742,25 @@
   {
     "type": "on_endkey_phrase",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "on_phrase_action",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "on_error_phrase",
+    "named": true,
     "fields": {
       "label": {
         "multiple": false,
@@ -2754,18 +2778,18 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "on_phrase_action",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "on_error_phrase",
+    "type": "on_phrase_action",
     "named": true,
     "fields": {
       "label": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -2789,24 +2813,17 @@
   {
     "type": "on_quit_phrase",
     "named": true,
-    "fields": {
-      "label": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "on_phrase_action",
           "named": true
         }
       ]
@@ -2877,7 +2894,7 @@
     "named": true,
     "fields": {
       "label": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -2886,6 +2903,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "on_phrase_action",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3154,27 +3181,11 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "getter",
           "named": true
         },
         {
           "type": "property_tuning",
-          "named": true
-        },
-        {
-          "type": "property_type",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
-          "named": true
-        },
-        {
-          "type": "serialization_tuning",
           "named": true
         },
         {
@@ -3243,10 +3254,6 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -3256,10 +3263,6 @@
         },
         {
           "type": "query_fields",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
           "named": true
         }
       ]
@@ -3309,6 +3312,42 @@
         },
         {
           "type": "using",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "radio_set_phrase",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_literal",
           "named": true
         }
       ]
@@ -3549,6 +3588,10 @@
         "required": true,
         "types": [
           {
+            "type": "file_name",
+            "named": true
+          },
+          {
             "type": "function_call",
             "named": true
           },
@@ -3601,6 +3644,29 @@
     "type": "scope_tuning",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "selection_list_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "serializable",
@@ -3659,6 +3725,29 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "slider_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3751,24 +3840,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
-          "named": true
-        },
-        {
-          "type": "serialization_tuning",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3800,15 +3871,11 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
           "type": "constant",
           "named": true
         },
         {
-          "type": "field_definition",
+          "type": "field_clause",
           "named": true
         },
         {
@@ -3820,11 +3887,7 @@
           "named": true
         },
         {
-          "type": "index_definition",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
+          "type": "index_clause",
           "named": true
         },
         {
@@ -4211,23 +4274,15 @@
       "required": true,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
-          "named": true
-        },
-        {
-          "type": "serialization_tuning",
-          "named": true
-        },
-        {
           "type": "type_tuning",
           "named": true
         },
         {
           "type": "variable_tuning",
+          "named": true
+        },
+        {
+          "type": "view_as_phrase",
           "named": true
         }
       ]
@@ -4243,6 +4298,45 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "view_as_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "combo_box_phrase",
+          "named": true
+        },
+        {
+          "type": "editor_phrase",
+          "named": true
+        },
+        {
+          "type": "radio_set_phrase",
+          "named": true
+        },
+        {
+          "type": "selection_list_phrase",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "slider_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         }
       ]
@@ -4330,15 +4424,7 @@
       "required": false,
       "types": [
         {
-          "type": "access_tuning",
-          "named": true
-        },
-        {
-          "type": "field_definition",
-          "named": true
-        },
-        {
-          "type": "scope_tuning",
+          "type": "field_clause",
           "named": true
         },
         {
@@ -4494,6 +4580,10 @@
     "named": false
   },
   {
+    "type": "AUTO-COMPLETION",
+    "named": false
+  },
+  {
     "type": "AUTO-ENDKEY",
     "named": false
   },
@@ -4538,6 +4628,14 @@
     "named": false
   },
   {
+    "type": "BOTH",
+    "named": false
+  },
+  {
+    "type": "BOTTOM",
+    "named": false
+  },
+  {
     "type": "BREAK",
     "named": false
   },
@@ -4547,6 +4645,14 @@
   },
   {
     "type": "BUFFER",
+    "named": false
+  },
+  {
+    "type": "BUFFER-CHARS",
+    "named": false
+  },
+  {
+    "type": "BUFFER-LINES",
     "named": false
   },
   {
@@ -4635,6 +4741,10 @@
   },
   {
     "type": "COM-HANDLE",
+    "named": false
+  },
+  {
+    "type": "COMBO-BOX",
     "named": false
   },
   {
@@ -4770,6 +4880,14 @@
     "named": false
   },
   {
+    "type": "DROP-DOWN",
+    "named": false
+  },
+  {
+    "type": "DROP-DOWN-LIST",
+    "named": false
+  },
+  {
     "type": "DROP-TARGET",
     "named": false
   },
@@ -4830,6 +4948,10 @@
     "named": false
   },
   {
+    "type": "EXPAND",
+    "named": false
+  },
+  {
     "type": "EXPORT",
     "named": false
   },
@@ -4855,6 +4977,10 @@
   },
   {
     "type": "FILE",
+    "named": false
+  },
+  {
+    "type": "FILL-IN",
     "named": false
   },
   {
@@ -4898,6 +5024,10 @@
     "named": false
   },
   {
+    "type": "FREQUENCY",
+    "named": false
+  },
+  {
     "type": "FROM",
     "named": false
   },
@@ -4927,6 +5057,10 @@
   },
   {
     "type": "HELP",
+    "named": false
+  },
+  {
+    "type": "HORIZONTAL",
     "named": false
   },
   {
@@ -4998,6 +5132,14 @@
     "named": false
   },
   {
+    "type": "INNER-CHARS",
+    "named": false
+  },
+  {
+    "type": "INNER-LINES",
+    "named": false
+  },
+  {
     "type": "INPUT",
     "named": false
   },
@@ -5046,6 +5188,14 @@
     "named": false
   },
   {
+    "type": "LARGE",
+    "named": false
+  },
+  {
+    "type": "LARGE-TO-SMALL",
+    "named": false
+  },
+  {
     "type": "LAST",
     "named": false
   },
@@ -5058,11 +5208,23 @@
     "named": false
   },
   {
+    "type": "LEFT",
+    "named": false
+  },
+  {
     "type": "LIKE",
     "named": false
   },
   {
     "type": "LIKE-SEQUENTIAL",
+    "named": false
+  },
+  {
+    "type": "LIST-ITEM-PAIRS",
+    "named": false
+  },
+  {
+    "type": "LIST-ITEMS",
     "named": false
   },
   {
@@ -5094,6 +5256,14 @@
     "named": false
   },
   {
+    "type": "MAX-CHARS",
+    "named": false
+  },
+  {
+    "type": "MAX-VALUE",
+    "named": false
+  },
+  {
     "type": "MAXIMUM",
     "named": false
   },
@@ -5114,6 +5284,10 @@
     "named": false
   },
   {
+    "type": "MIN-VALUE",
+    "named": false
+  },
+  {
     "type": "MINIMUM",
     "named": false
   },
@@ -5130,11 +5304,19 @@
     "named": false
   },
   {
+    "type": "MULTIPLE",
+    "named": false
+  },
+  {
     "type": "NAMESPACE-PREFIX",
     "named": false
   },
   {
     "type": "NAMESPACE-URI",
+    "named": false
+  },
+  {
+    "type": "NATIVE",
     "named": false
   },
   {
@@ -5171,6 +5353,14 @@
   },
   {
     "type": "NO-CONVERT-3D-COLORS",
+    "named": false
+  },
+  {
+    "type": "NO-CURRENT-VALUE",
+    "named": false
+  },
+  {
+    "type": "NO-DRAG",
     "named": false
   },
   {
@@ -5234,7 +5424,15 @@
     "named": false
   },
   {
+    "type": "NO-WORD-WRAP",
+    "named": false
+  },
+  {
     "type": "NON-SERIALIZABLE",
+    "named": false
+  },
+  {
+    "type": "NONE",
     "named": false
   },
   {
@@ -5374,6 +5572,14 @@
     "named": false
   },
   {
+    "type": "RADIO-BUTTONS",
+    "named": false
+  },
+  {
+    "type": "RADIO-SET",
+    "named": false
+  },
+  {
     "type": "RAW",
     "named": false
   },
@@ -5422,6 +5628,10 @@
     "named": false
   },
   {
+    "type": "RIGHT",
+    "named": false
+  },
+  {
     "type": "ROUTINE-LEVEL",
     "named": false
   },
@@ -5450,7 +5660,19 @@
     "named": false
   },
   {
+    "type": "SCROLLBAR-HORIZONTAL",
+    "named": false
+  },
+  {
+    "type": "SCROLLBAR-VERTICAL",
+    "named": false
+  },
+  {
     "type": "SCROLLING",
+    "named": false
+  },
+  {
+    "type": "SELECTION-LIST",
     "named": false
   },
   {
@@ -5490,6 +5712,14 @@
     "named": false
   },
   {
+    "type": "SIMPLE",
+    "named": false
+  },
+  {
+    "type": "SINGLE",
+    "named": false
+  },
+  {
     "type": "SINGLE-RUN",
     "named": false
   },
@@ -5507,6 +5737,14 @@
   },
   {
     "type": "SIZE-PIXELS",
+    "named": false
+  },
+  {
+    "type": "SLIDER",
+    "named": false
+  },
+  {
+    "type": "SORT",
     "named": false
   },
   {
@@ -5590,6 +5828,10 @@
     "named": false
   },
   {
+    "type": "TEXT",
+    "named": false
+  },
+  {
     "type": "THEN",
     "named": false
   },
@@ -5606,11 +5848,23 @@
     "named": false
   },
   {
+    "type": "TIC-MARKS",
+    "named": false
+  },
+  {
     "type": "TO",
     "named": false
   },
   {
+    "type": "TOGGLE-BOX",
+    "named": false
+  },
+  {
     "type": "TOOLTIP",
+    "named": false
+  },
+  {
+    "type": "TOP",
     "named": false
   },
   {
@@ -5651,6 +5905,10 @@
   },
   {
     "type": "UNIQUE",
+    "named": false
+  },
+  {
+    "type": "UNIQUE-MATCH",
     "named": false
   },
   {
@@ -5695,6 +5953,10 @@
   },
   {
     "type": "VARIABLE",
+    "named": false
+  },
+  {
+    "type": "VERTICAL",
     "named": false
   },
   {

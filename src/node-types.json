@@ -653,29 +653,6 @@
     }
   },
   {
-    "type": "button_tuning",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "image_phrase",
-          "named": true
-        },
-        {
-          "type": "size_phrase",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "can_find_expression",
     "named": true,
     "fields": {
@@ -3799,6 +3776,7 @@
   {
     "type": "source_code",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -4452,10 +4430,6 @@
     "named": false
   },
   {
-    "type": "'",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -4584,14 +4558,6 @@
     "named": false
   },
   {
-    "type": "AUTO-ENDKEY",
-    "named": false
-  },
-  {
-    "type": "AUTO-GO",
-    "named": false
-  },
-  {
     "type": "AVAIL",
     "named": false
   },
@@ -4653,10 +4619,6 @@
   },
   {
     "type": "BUFFER-LINES",
-    "named": false
-  },
-  {
-    "type": "BUTTON",
     "named": false
   },
   {
@@ -4840,10 +4802,6 @@
     "named": false
   },
   {
-    "type": "DEFAULT",
-    "named": false
-  },
-  {
     "type": "DEFAULT-BUTTON",
     "named": false
   },
@@ -5004,10 +4962,6 @@
     "named": false
   },
   {
-    "type": "FLAT-BUTTON",
-    "named": false
-  },
-  {
     "type": "FONT",
     "named": false
   },
@@ -5069,14 +5023,6 @@
   },
   {
     "type": "IMAGE",
-    "named": false
-  },
-  {
-    "type": "IMAGE-DOWN",
-    "named": false
-  },
-  {
-    "type": "IMAGE-INSENSITIVE",
     "named": false
   },
   {
@@ -5352,10 +5298,6 @@
     "named": false
   },
   {
-    "type": "NO-CONVERT-3D-COLORS",
-    "named": false
-  },
-  {
     "type": "NO-CURRENT-VALUE",
     "named": false
   },
@@ -5369,10 +5311,6 @@
   },
   {
     "type": "NO-ERROR",
-    "named": false
-  },
-  {
-    "type": "NO-FOCUS",
     "named": false
   },
   {

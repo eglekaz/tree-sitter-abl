@@ -1,0 +1,142 @@
+================================================================================
+Preprocessor Directives
+================================================================================
+
+&if DEFINED(is_Running) <> 0 &THEN
+  DEFINE VARIABLE cParm AS CHARACTER.
+&ELSE
+  DEFINE INPUT PARAMETER cParm AS CHARACTER.
+&ENDIF
+
+&Scoped-define OPEN-QUERY-DEFAULT-FRAME OPEN QUERY DEFAULT-FRAME FOR EACH ITEM ~
+      WHERE item.system_id = ipcItemSysid AND ~
+item.item = ipcItem NO-LOCK.
+&Scoped-define TABLES-IN-QUERY-DEFAULT-FRAME ITEM
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (preprocessor_directive)
+  (preprocessor_directive)
+  (preprocessor_directive))
+
+================================================================================
+INCLUDE
+================================================================================
+
+{include_file.i arg1 &arg2="test" arg3 "NEW" &ABC=variable}
+DISPLAY {&VAR1}.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (include
+    (file_name)
+    (include_argument
+      (identifier))
+    (include_argument
+      (identifier)
+      (string_literal))
+    (include_argument
+      (identifier))
+    (include_argument
+      (string_literal))
+    (include_argument
+      (identifier)
+      (identifier)))
+  (abl_statement
+    (identifier)
+    (constant
+      (identifier))))
+
+================================================================================
+COMMENT
+================================================================================
+
+/* comment */
+// comment
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (comment)
+  (comment))
+
+================================================================================
+COMMENT (long)
+================================================================================
+
+/********************
+ THIS
+ IS
+ MULTILINE
+ COMMENT
+********************/
+
+/*
+Some text
+Other text /* note */
+More text
+*/
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (comment)
+  (comment
+    (comment)))
+
+================================================================================
+ANNOTATION
+================================================================================
+
+@TestSuite(procedures="test.p").
+@TestSuite(classes="testcls.cls").
+CLASS testSuite:
+
+END CLASS.
+
+CLASS MyTestClass:
+  @Test(expected="ExceptionType").
+  METHOD PUBLIC VOID TestM1( ):
+
+  END METHOD.
+
+END CLASS.
+
+@BeforeAll.
+PROCEDURE TestP1:
+END PROCEDURE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (annotation
+    (annotation_argument
+      (identifier)
+      (string_literal)))
+  (annotation
+    (annotation_argument
+      (identifier)
+      (string_literal)))
+  (class_statement
+    name: (identifier)
+    (body))
+  (class_statement
+    name: (identifier)
+    (body
+      (annotation
+        (annotation_argument
+          (identifier)
+          (string_literal)))
+      (method_statement
+        (access_tuning)
+        (return_type
+          (primitive_type))
+        name: (identifier)
+        (parameters)
+        (body))))
+  (annotation)
+  (procedure_statement
+    (identifier)
+    (body)))

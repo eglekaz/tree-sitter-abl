@@ -57,7 +57,7 @@ module.exports = grammar({
           choice(
             $.definition,
             $.var_statement,
-            $.method_statement,
+            seq(optional($.annotation), $.method_statement),
             $.constructor_statement,
             $.destructor_statement
           )
@@ -146,6 +146,25 @@ module.exports = grammar({
       choice(
         seq("//", /.*/),
         seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
+      ),
+
+    annotation: ($) =>
+      seq(
+        "@",
+        choice(
+          seq(kw("TEST"), optional($.annotation_argument)),
+          seq(kw("TESTSUITE"), optional($.annotation_argument)),
+          kw("BEFORE"),
+          kw("BEFOREALL"),
+          kw("BEFOREEACH"),
+          kw("SETUP"),
+          kw("AFTEREACH"),
+          kw("TEARDOWN"),
+          kw("AFTERALL"),
+          kw("AFTER"),
+          kw("IGNORE")
+        ),
+        $._terminator
       ),
 
     preprocessor_directive: ($) =>
@@ -655,6 +674,15 @@ module.exports = grammar({
       seq(
         "(",
         optional(_list(alias($.function_call_argument, $.argument), ",")),
+        ")"
+      ),
+
+    annotation_argument: ($) =>
+      seq(
+        "(",
+        $.identifier,
+        "=",
+        $.string_literal,
         ")"
       ),
 
@@ -1256,8 +1284,6 @@ module.exports = grammar({
 
       // frame_definition: ($) =>
     //   seq(
-    //     $._define,
-    //     optional($.access_tuning),
     //     kw("FRAME"),
     //     field("name", $.identifier),
 
@@ -1974,7 +2000,8 @@ module.exports = grammar({
         $.variable_assignment,
         $.do_block,
         $.preprocessor_directive,
-        $.include
+        $.include,
+        $.annotation
       )
   }
 });

@@ -55,7 +55,7 @@ module.exports = grammar({
         ":",
         repeat(
           choice(
-            $.definition,
+            $._definition,
             $.var_statement,
             seq(optional($.annotation), $.method_statement),
             $.constructor_statement,
@@ -69,7 +69,7 @@ module.exports = grammar({
         ":",
         repeat(
           choice(
-            $.definition,
+            $._definition,
             $.method_statement
           )
         )
@@ -315,23 +315,23 @@ module.exports = grammar({
       choice(
         seq(kw("AUTO-GO"), optional(kw("AUTO-ENDKEY"))),
         kw("DEFAULT"),
-        seq(kw("BGCOLOR"), $._expression),
-        seq(kw("CONTEXT-HELP-ID"), $._expression),
-        seq(kw("DCOLOR"), $._expression),
+        $._bgcolor,
+        $._context_help_id,
+        $._dcolor,
         kw("DROP-TARGET"),
-        seq(kw("FGCOLOR"), $._expression),
-        seq(kw("FONT"), $.number_literal),
+        $._fgcolor,
+        $._font,
         seq(kw("IMAGE-DOWN"), $.image_phrase),
         seq(kw("IMAGE"), $.image_phrase),
         seq(kw("IMAGE-UP"), $.image_phrase),
         seq(kw("IMAGE-INSENSITIVE"), $.image_phrase),
-        seq(kw("MOUSE-POINTER"), $.identifier),
-        seq(kw("LABEL"), $.string_literal),
+        $._mouse_pointer,
+        $._label,
         seq(kw("LIKE"), $.identifier),
-        seq(kw("PFCOLOR"), $._expression),
+        $._pfcolor,
         seq(kw("NO-FOCUS"), optional(kw("FLAT-BUTTON"))),
         kw("NO-CONVERT-3D-COLORS"),
-        seq(kw("TOOLTIP"), $.string_literal),
+        $._tooltip,
         $.size_phrase
       ),
 
@@ -345,23 +345,21 @@ module.exports = grammar({
         $.serializable
       ),
 
-    enum_tuning: ($) => kw("FLAGS"),
-
     field_option: ($) =>
       choice(
-        seq(kw("BGCOLOR"), $._expression),
-        seq(kw("COLUMN-LABEL"), $.string_literal),
-        seq(kw("DCOLOR"), $._expression),
-        seq(kw("LABEL"), $.string_literal, repeat(seq(",", $.string_literal))),
-        seq(kw("FORMAT"), $.string_literal),
-        seq(kw("DECIMALS"), $.number_literal),
-        seq(kw("EXTENT"), $.number_literal),
-        seq(kw("FONT"), $._expression),
-        seq(kw("FGCOLOR"), $._expression),
-        seq(kw("PFCOLOR"), $._expression),
-        seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
+        $._bgcolor,
+        $._column_label,
+        $._dcolor,
+        $._label,
+        $._format,
+        $._decimals,
+        $._extent,
+        $._font,
+        $._fgcolor,
+        $._pfcolor,
+        $._initial,
         kw("SERIALIZE-HIDDEN"),
-        seq(kw("SERIALIZE-NAME"), $.string_literal),
+        $._serialize_name,
         seq(kw("XML-DATA-TYPE"), $.string_literal),
         seq(kw("XML-NODE-TYPE"), $.string_literal),
         seq(kw("XML-NODE-NAME"), $.string_literal),
@@ -385,10 +383,10 @@ module.exports = grammar({
 
     image_tuning: ($) =>
       choice(
-        seq(kw("BGCOLOR"), $._expression),
-        seq(kw("FGCOLOR"), $._expression),
+        $._bgcolor,
+        $._fgcolor,
         kw("CONVERT-3D-COLORS"),
-        seq(kw("TOOLTIP"), $.identifier),
+        $._tooltip,
         seq(kw("STRETCH-TO-FIT"), optional(kw("RETAIN-SHAPE"))),
         kw("TRANSPARENT")
       ),
@@ -453,9 +451,9 @@ module.exports = grammar({
 
     property_tuning: ($) =>
       choice(
-        seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
-        seq(kw("DECIMALS"), $._expression),
-        seq(kw("EXTENT"), $.number_literal),
+        $._initial,
+        $._decimals,
+        $._extent,
         kw("NO-UNDO")
       ),
 
@@ -478,9 +476,7 @@ module.exports = grammar({
         $.using
       ),
 
-    repeat_tuning: ($) => choice(seq(kw("WITH"), kw("FRAME"), $.identifier)),
-
-    return_tuning: ($) => seq(kw("EXTENT"), $.number_literal),
+    repeat_tuning: ($) => choice(seq(kw("WITH"), $._frame)),
 
     run_tuning: ($) =>
       choice(
@@ -509,7 +505,7 @@ module.exports = grammar({
         seq(kw("NAMESPACE-URI"), $.string_literal),
         seq(kw("NAMESPACE-PREFIX"), $.string_literal),
         seq(kw("XML-NODE-NAME"), $.string_literal),
-        seq(kw("SERIALIZE-NAME"), $.string_literal),
+        $._serialize_name,
         kw("REFERENCE-ONLY"),
         $.like_phrase,
         kw("RCODE-INFORMATION"),
@@ -532,20 +528,20 @@ module.exports = grammar({
     variable_tuning: ($) =>
       seq(
         choice(
-          seq(kw("SERIALIZE-NAME"), $.string_literal),
-          seq(kw("BGCOLOR"), $._expression),
-          seq(kw("FGCOLOR"), $._expression),
-          seq(kw("PFCOLOR"), $._expression),
-          seq(kw("DCOLOR"), $._expression),
-          seq(kw("CONTEXT-HELP-ID"), $._expression),
-          seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
-          seq(kw("FORMAT"), $._expression),
-          seq(kw("FONT"), $._expression),
-          seq(kw("LABEL"), $._expression),
+          $._serialize_name,
+          $._bgcolor,
+          $._fgcolor,
+          $._pfcolor,
+          $._dcolor,
+          $._context_help_id,
+          $._initial,
+          $._format,
+          $._font,
+          $._label,
           seq(kw("MOUSE-POINTER"), $._expression),
-          seq(kw("COLUMN-LABEL"), $._expression),
-          seq(kw("DECIMALS"), $.number_literal),
-          seq(kw("EXTENT"), $.number_literal),
+          $._column_label,
+          $._decimals,
+          $._extent,
           kw("DROP-TARGET"),
           kw("NO-UNDO"),
           seq(optional(kw("NOT")), kw("CASE-SENSITIVE"))
@@ -752,7 +748,7 @@ module.exports = grammar({
 
     using_field: ($) =>
       seq(
-        optional(seq(kw("FRAME"), field("frame", $.identifier))),
+        optional($._frame),
         field("field", $._name)
       ),
 
@@ -851,15 +847,15 @@ module.exports = grammar({
         kw("COMBO-BOX"),
         repeat(
           choice(
-            seq(choice(kw("LIST-ITEMS"), kw("LIST-ITEM-PAIRS")), $.string_literal, repeat(seq(",", $.string_literal))),
-            seq(kw("INNER-LINES"), $.number_literal),
+            $._list_items,
+            $._inner_lines,
             $.size_phrase,
             kw("SORT"),
-            seq(kw("TOOLTIP"), $.string_literal),
+            $._tooltip,
             kw("SIMPLE"),
             kw("DROP-DOWN"),
             kw("DROP-DOWN-LIST"),
-            seq(kw("MAX-CHARS"), $.number_literal),
+            $._max_chars,
             seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
           )
         )
@@ -867,18 +863,18 @@ module.exports = grammar({
 
     editor_phrase: ($) =>
       seq(
-        choice($.size_phrase, seq(kw("INNER-CHARS"), $.number_literal, kw("INNER-LINES"), $.number_literal)),
+        choice($.size_phrase, seq($._inner_chars, $._inner_lines)),
         repeat(
           choice(
             seq(kw("BUFFER-CHARS"), $.number_literal),
             seq(kw("BUFFER-LINES"), $.number_literal),
             kw("LARGE"),
-            seq(kw("MAX-CHARS"), $.number_literal),
+            $._max_chars,
             kw("NO-BOX"),
             kw("NO-WORD-WRAP"),
             kw("SCROLLBAR-HORIZONTAL"),
             kw("SCROLLBAR-VERTICAL"),
-            seq(kw("TOOLTIP"), $.string_literal)
+            $._tooltip
           )
         )
       ),
@@ -892,7 +888,7 @@ module.exports = grammar({
           field("label", $.identifier), ",", field("value", $.identifier),
           repeat(seq(",", field("label", $.identifier), ",", field("value", $.identifier)))
         ),
-        optional(seq(kw("TOOLTIP"), $.string_literal))
+        optional($._tooltip)
       ),
 
     selection_list_phrase: ($) =>
@@ -903,13 +899,13 @@ module.exports = grammar({
             kw("SINGLE"),
             kw("MULTIPLE"),
             kw("NO-DRAG"),
-            seq(choice(kw("LIST-ITEMS"), kw("LIST-ITEM-PAIRS")), $.string_literal, repeat(seq(",", $.string_literal))),
+            $._list_items,
             kw("SCROLLBAR-HORIZONTAL"),
             kw("SCROLLBAR-VERTICAL"),
             $.size_phrase,
-            seq(kw("INNER-CHARS"), $.number_literal, kw("INNER-LINES"), $.number_literal),
+            seq($._inner_chars, $._inner_lines),
             kw("SORT"),
-            seq(kw("TOOLTIP"), $.string_literal)
+            $._tooltip
           )
         ),
       ),
@@ -929,7 +925,7 @@ module.exports = grammar({
               choice(kw("NONE"), kw("TOP"), kw("BOTTOM"), kw("LEFT"), kw("RIGHT"), kw("BOTH")),
               optional(seq(kw("FREQUENCY"), $.number_literal))
             ),
-            seq(kw("TOOLTIP"), $.string_literal),
+            $._tooltip,
             $.size_phrase
           )
         )
@@ -941,12 +937,12 @@ module.exports = grammar({
         choice(
           $.combo_box_phrase,
           $.editor_phrase,
-          seq(kw("FILL-IN"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
+          seq(kw("FILL-IN"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
           $.radio_set_phrase,
           $.selection_list_phrase,
           $.slider_phrase,
-          seq(kw("TEXT"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
-          seq(kw("TOGGLE-BOX"), repeat(choice(kw("NATIVE"), $.size_phrase, seq(kw("TOOLTIP"), $.string_literal)))),
+          seq(kw("TEXT"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
+          seq(kw("TOGGLE-BOX"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
         )
       ),
 
@@ -998,20 +994,20 @@ module.exports = grammar({
           choice(
             seq(kw("ACCUM"), optional($._expression)),
             // $.at_phrase, // TODO
-            seq(kw("CANCEL-BUTTON"), $.identifier),
+            $._cancel_button,
             kw("CENTERED"),
             // color specification
-            seq(kw("COLUMN"), $._expression),
-            seq($.number_literal, kw("COLUMNS")),
+            $._column,
+            $._columns,
             kw("CONTEXT-HELP"),
-            seq(kw("CONTEXT-HELP-FILE"), $.identifier),
-            seq(kw("DEFAULT-BUTTON"), $.identifier),
+            $._context_help_file,
+            $._default_button,
             kw("DROP-TARGET"),
-            seq(optional($._expression), kw("DOWN")),
+            $._down,
             kw("EXPORT"),
-            seq(kw("WIDGET-ID"), $.number_literal),
-            seq(kw("FONT"), $._expression),
-            seq(kw("FRAME"), $.identifier),
+            $._widget_id,
+            $._font,
+            $._frame,
             kw("INHERIT-BGCOLOR"),
             kw("NO-INHERIT-BGCOLOR"),
             kw("INHERIT-FGCOLOR"),
@@ -1028,11 +1024,11 @@ module.exports = grammar({
             kw("OVERLAY"),
             kw("PAGE-BOTTOM"),
             kw("PAGE-TOP"),
-            seq(kw("RETAIN"), $.number_literal),
-            seq(kw("ROW"), $._expression),
+            $._retain,
+            $._row,
             kw("SCREEN-IO"),
             kw("STREAM-IO"),
-            seq(kw("SCROLL"), $.number_literal),
+            $._scroll,
             kw("SCROLLABLE"),
             kw("SIDE-LABELS"),
             $.size_phrase,
@@ -1044,8 +1040,8 @@ module.exports = grammar({
             kw("USE-TEXT"),
             seq(kw("V6FRAME"), optional(choice(kw("USE-REVVIDEO"), kw("USE-UNDERLINE")))),
             seq(kw("VIEW-AS"), kw("DIALOG-BOX")),
-            seq(kw("WIDTH"), $.number_literal),
-            seq(kw("IN-WINDOW"), $.identifier)
+            $._width,
+            $._in_window
           )
         )
       ),
@@ -1061,8 +1057,8 @@ module.exports = grammar({
 
       widget_phrase: ($) =>
         choice(
-          seq(kw("FRAME"), $.identifier),
-          seq(optional(alias($._field_keyword, "FIELD")), $.identifier, optional(seq(kw("IN"), kw("FRAME"), $.identifier))),
+          $._frame,
+          seq(optional(alias($._field_keyword, "FIELD")), $.identifier, optional(seq(kw("IN"), $._frame))),
           seq($.identifier, optional(seq(kw("IN"), kw("BROWSE"), $.identifier))),
           seq(choice(kw("MENU"), kw("SUB-MENU")), $.identifier),
           seq(kw("MENU-ITEM"), $.identifier, optional(seq(kw("IN"), kw("MENU"), $.identifier))),
@@ -1194,30 +1190,103 @@ module.exports = grammar({
           optional(seq(kw("USE-INDEX"), $.identifier, optional(seq(kw("AS"), kw("PRIMARY")))))
         ),
 
+    // OPTIONAL SEQUENCES
+
+    _bgcolor: ($) => seq(kw("BGCOLOR"), $._expression),
+
+    _cancel_button: ($) => seq(kw("CANCEL-BUTTON"), $.identifier),
+
+    _column: ($) => seq(kw("COLUMN"), $._expression),
+
+    _column_label: ($) => seq(kw("COLUMN-LABEL"), $._expression),
+
+    _columns: ($) => seq($.number_literal, kw("COLUMNS")),
+
+    _context_help_file: ($) => seq(kw("CONTEXT-HELP-FILE"), $.identifier),
+
+    _context_help_id: ($) => seq(kw("CONTEXT-HELP-ID"), $._expression),
+
+    _dcolor: ($) => seq(kw("DCOLOR"), $._expression),
+
+    _decimals: ($) => seq(kw("DECIMALS"), $.number_literal),
+
+    _default_button: ($) => seq(kw("DEFAULT-BUTTON"), $.identifier),
+
+    _down: ($) => seq(optional($._expression), kw("DOWN")),
+
+    _extent: ($) => seq(kw("EXTENT"), $.number_literal),
+
+    _fgcolor: ($) => seq(kw("FGCOLOR"), $._expression),
+
+    _font: ($) => seq(kw("FONT"), $._expression),
+
+    _format: ($) => seq(kw("FORMAT"), $.string_literal),
+
+    _frame: ($) => seq(kw("FRAME"), field("frame", $.identifier)),
+
+    _in_window: ($) => seq(kw("IN-WINDOW"), $.identifier),
+
+    _initial: ($) => seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
+
+    _inner_chars: ($) => seq(kw("INNER-CHARS"), $.number_literal),
+
+    _inner_lines: ($) => seq(kw("INNER-LINES"), $.number_literal),
+
+    _label: ($) => seq(kw("LABEL"), $.string_literal, repeat(seq(",", $.string_literal))),
+
+    _list_items: ($) =>
+      seq(
+        choice(
+          kw("LIST-ITEMS"),
+          kw("LIST-ITEM-PAIRS")),
+        $.string_literal,
+        repeat(seq(",", $.string_literal))
+      ),
+
+    _max_chars: ($) => seq(kw("MAX-CHARS"), $.number_literal),
+
+    _mouse_pointer: ($) => seq(kw("MOUSE-POINTER"), $.identifier),
+
+    _pfcolor: ($) => seq(kw("PFCOLOR"), $._expression),
+
+    _retain: ($) => seq(kw("RETAIN"), $.number_literal),
+
+    _row: ($) => seq(kw("ROW"), $._expression), // TODO: check if really expression
+
+    _scroll: ($) => seq(kw("SCROLL"), $.number_literal),
+
+    _serialize_name: ($) => seq(kw("SERIALIZE-NAME"), $.string_literal),
+
+    _tooltip: ($) => seq(kw("TOOLTIP"), $.string_literal),
+
+    _widget_id: ($) => seq(kw("WIDGET-ID"), $.number_literal),
+
+    _width: ($) => seq(kw("WIDTH"), $.number_literal),
+
+
+
 
     // DEFINITIONS
 
-    definition: ($) =>
-      seq(
-        $._define,
-        repeat($._tuning),
-        choice(
-          $.variable_definition,
-          $.buffer_definition,
-          $.query_definition,
-          $.temp_table_definition,
-          $.workfile_definition,
-          $.property_definition,
-          $.data_source_definition,
-          $.event_definition,
-          $.dataset_definition,
-          $.stream_definition,
-          $.image_definition
-        )
+    _definition: ($) =>
+      choice(
+        $.variable_definition,
+        $.buffer_definition,
+        $.query_definition,
+        $.temp_table_definition,
+        $.workfile_definition,
+        $.property_definition,
+        $.data_source_definition,
+        $.event_definition,
+        $.dataset_definition,
+        $.stream_definition,
+        $.image_definition
       ),
 
     buffer_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("BUFFER"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -1228,23 +1297,17 @@ module.exports = grammar({
 
     button_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("BUTTON"),
         field("name", $.identifier),
         repeat($.button_tuning),
       ),
 
-       // button_definition: ($) =>
-    //   seq(
-    //     $._define,
-    //     optional($.access_tuning),
-    //     kw("BUTTON"),
-    //     field("name", $.identifier),
-    //     repeat($.button_tuning),
-    //     $._terminator
-    //   ),
-
     dataset_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("DATASET"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -1255,6 +1318,8 @@ module.exports = grammar({
 
     data_source_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("DATA-SOURCE"),
         $.identifier,
         alias($._for_keyword, "FOR"),
@@ -1274,6 +1339,8 @@ module.exports = grammar({
 
     event_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("EVENT"),
         $.identifier,
         optional(kw("SIGNATURE")),
@@ -1282,20 +1349,22 @@ module.exports = grammar({
         $._terminator
       ),
 
-      // frame_definition: ($) =>
-    //   seq(
-    //     kw("FRAME"),
-    //     field("name", $.identifier),
+    frame_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("FRAME"),
+        field("name", $.identifier),
+        // form item
+        seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
+        optional($.frame_phrase)
 
-    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
-
-    //     // form item
-    //   ),
+      ),
 
     image_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("IMAGE"),
         field("name", $.identifier),
         choice($.size_phrase, $.image_phrase, seq(kw("LIKE"), $.identifier)),
@@ -1331,6 +1400,8 @@ module.exports = grammar({
 
     property_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("PROPERTY"),
         field("name", $.identifier),
         $.type_tuning,
@@ -1340,6 +1411,8 @@ module.exports = grammar({
 
     query_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("QUERY"),
         field("name", $.identifier),
         alias($._for_keyword, "FOR"),
@@ -1352,6 +1425,8 @@ module.exports = grammar({
 
     stream_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         kw("STREAM"),
         field("name", $.identifier),
         $._terminator
@@ -1359,6 +1434,8 @@ module.exports = grammar({
 
     temp_table_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         repeat(choice($.serialization_tuning, $.constant)),
         kw("TEMP-TABLE"),
         choice($.identifier, $.constant),
@@ -1369,6 +1446,8 @@ module.exports = grammar({
 
     variable_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         choice(kw("VARIABLE"), kw("VAR")),
         field("name", $.identifier),
         $.type_tuning,
@@ -1382,6 +1461,8 @@ module.exports = grammar({
 
     workfile_definition: ($) =>
       seq(
+        $._define,
+        repeat($._tuning),
         choice(kw("WORKFILE"), kw("WORK-TABLE")),
         field("name", $.identifier),
         repeat($.workfile_tuning),
@@ -1445,7 +1526,7 @@ module.exports = grammar({
         kw("METHOD"),
         repeat(choice($.access_tuning, $.scope_tuning, $.method_tuning)),
         alias($._type, $.return_type),
-        optional($.return_tuning),
+        optional($._extent),
         field("name", $.identifier),
         alias($.function_parameters, $.parameters),
         optional(seq($.body, kw("END"), optional(kw("METHOD")))),
@@ -1501,7 +1582,7 @@ module.exports = grammar({
         kw("FUNCTION"),
         field("name", $.identifier),
         $.return_type,
-        optional($.return_tuning),
+        optional($._extent),
         optional(alias($.function_parameters, $.parameters)),
         optional(alias($.dot_body, $.body)),
         $._block_terminator
@@ -1710,7 +1791,7 @@ module.exports = grammar({
       seq(
         kw("PROMPT-FOR"),
         $._name,
-        optional(seq(kw("FRAME"), field("frame", $.identifier))),
+        optional($._frame),
         choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
       ),
 
@@ -1855,7 +1936,7 @@ module.exports = grammar({
     input_expression: ($) =>
       seq(
         alias($._input_keyword, "INPUT"),
-        optional(seq(kw("FRAME"), field("frame", $.identifier))),
+        optional($._frame),
         field("field", $._name)
       ),
 
@@ -1994,7 +2075,7 @@ module.exports = grammar({
         $.enum_statement,
         $.abl_statement,
 
-        $.definition,
+        $._definition,
         $.procedure_parameter_definition,
 
         $.variable_assignment,

@@ -15,11 +15,10 @@ variable /= 3.
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
   (variable_assignment
     (assignment
       (identifier)
@@ -655,10 +654,9 @@ END.
   (for_statement
     table: (identifier)
     (query_tuning)
-    (for_phrase
-      table: (identifier)
-      (of
-        (identifier)))
+    table: (identifier)
+    (of
+      (identifier))
     (body
       (abl_statement
         statement: (identifier)
@@ -1003,26 +1001,22 @@ END CLASS.
       (implements
         (identifier)))
     (body
-      (definition
-        (variable_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))))))
+      (variable_definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type)))))
   (class_statement
     name: (identifier)
     (class_tuning
       (inherits
         (identifier)))
-    (class_tuning
-      (final))
-    (class_tuning
-      (serializable))
+    (class_tuning)
+    (class_tuning)
     (body
-      (definition
-        (variable_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))))))
+      (variable_definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type)))))
   (variable_assignment
     (assignment
       name: (identifier)
@@ -1036,34 +1030,31 @@ END CLASS.
       (identifier)))
   (class_statement
     name: (identifier)
-    (class_tuning
-      (final))
+    (class_tuning)
     (body
       (comment)
-      (definition
+      (property_definition
         (access_tuning)
-        (property_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))
-          (property_tuning
-            (number_literal))
-          (property_tuning)
-          (getter)
-          (setter
-            (access_tuning))))
-      (definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))
+        (property_tuning
+          (number_literal))
+        (property_tuning)
+        (getter)
+        (setter
+          (access_tuning)))
+      (property_definition
         (access_tuning)
-        (property_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))
-          (property_tuning
-            (null_expression))
-          (property_tuning)
-          (getter)
-          (setter
-            (access_tuning))))))
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))
+        (property_tuning
+          (null_expression))
+        (property_tuning)
+        (getter)
+        (setter
+          (access_tuning)))))
   (class_statement
     name: (identifier)
     (body
@@ -1110,9 +1101,7 @@ END CASE.
                 (number_literal))))))
       (case_when_branch
         (case_condition
-          (logical_expression
-            (string_literal)
-            (identifier)))
+          (string_literal))
         (case_condition
           (string_literal))
         (variable_assignment
@@ -1200,64 +1189,58 @@ END INTERFACE.
     (identifier)
     (body
       (comment)
-      (definition
+      (property_definition
         (access_tuning)
-        (property_definition
-          (identifier)
-          (type_tuning
-            (primitive_type))
-          (property_tuning)
-          (getter)
-          (setter)))
-      (definition
+        (identifier)
+        (type_tuning
+          (primitive_type))
+        (property_tuning)
+        (getter)
+        (setter))
+      (property_definition
         (access_tuning)
-        (property_definition
-          (identifier)
-          (type_tuning
-            (primitive_type))
-          (property_tuning)
-          (getter)
-          (setter)))
+        (identifier)
+        (type_tuning
+          (primitive_type))
+        (property_tuning)
+        (getter)
+        (setter))
       (comment)
-      (definition
+      (event_definition
         (access_tuning)
-        (event_definition
-          (identifier)
-          (parameters
-            (function_parameter
-              (identifier)
-              (type_tuning
-                (primitive_type))))))
-      (comment)
-      (definition
-        (temp_table_definition
-          (identifier)
-          (temp_table_tuning)
-          (temp_table_tuning
-            (like_phrase
-              (identifier)))))
-      (definition
-        (temp_table_definition
-          (identifier)
-          (temp_table_tuning)
-          (temp_table_tuning
-            (like_phrase
-              (identifier)))))
-      (comment)
-      (definition
-        (dataset_definition
-          (identifier)
-          (identifier)
-          (identifier)
-          (data_relation
+        (identifier)
+        (parameters
+          (function_parameter
             (identifier)
+            (type_tuning
+              (primitive_type)))))
+      (comment)
+      (temp_table_definition
+        (identifier)
+        (temp_table_tuning)
+        (temp_table_tuning
+          (like_phrase
+            (identifier))))
+      (temp_table_definition
+        (identifier)
+        (temp_table_tuning)
+        (temp_table_tuning
+          (like_phrase
+            (identifier))))
+      (comment)
+      (dataset_definition
+        (identifier)
+        (identifier)
+        (identifier)
+        (data_relation
+          (identifier)
+          (identifier)
+          (qualified_name
             (identifier)
-            (qualified_name
-              (identifier)
-              (identifier))
-            (qualified_name
-              (identifier)
-              (identifier)))))
+            (identifier))
+          (qualified_name
+            (identifier)
+            (identifier))))
       (comment)
       (method_statement
         (access_tuning)
@@ -1892,12 +1875,12 @@ ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
     (identifier)
     (of_phrase
       (widget_phrase
-        (identifier)))
+        frame: (identifier)))
     (identifier)
     (of_phrase
       (widget_phrase
         (identifier)
-        (identifier)))
+        frame: (identifier)))
     (run_statement
       procedure: (file_name))))
 

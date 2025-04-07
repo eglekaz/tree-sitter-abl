@@ -240,8 +240,7 @@ module.exports = grammar({
       ),
 
     // TODO: Should this be here???
-    // TODO: Refactor
-    range_notation: ($) => seq($._expression, alias($._for_keyword, "FOR"), $._expression),
+    range_notation: ($) => seq(choice($.identifier, $._integer_literal), alias($._for_keyword, "FOR"), $._integer_literal),
 
     single_quoted_string: ($) =>
       seq("'", repeat(choice(/[^'\\]+/, /\\./, $._special_character)), "'"),
@@ -335,7 +334,7 @@ module.exports = grammar({
       choice(
         seq(kw("AUTO-GO"), optional(kw("AUTO-ENDKEY"))),
         kw("DEFAULT"),
-        $._bgcolor,
+        // $._bgcolor,
         $._context_help_id,
         $._dcolor,
         kw("DROP-TARGET"),
@@ -345,7 +344,7 @@ module.exports = grammar({
         seq(kw("IMAGE"), $.image_phrase),
         seq(kw("IMAGE-UP"), $.image_phrase),
         seq(kw("IMAGE-INSENSITIVE"), $.image_phrase),
-        $._mouse_pointer,
+        seq(kw("MOUSE-POINTER"), $.identifier),
         $._label,
         seq(kw("LIKE"), $.identifier),
         $._pfcolor,
@@ -367,7 +366,7 @@ module.exports = grammar({
 
     field_option: ($) =>
       choice(
-        $._bgcolor,
+        // $._bgcolor,
         $._column_label,
         $._dcolor,
         $._label,
@@ -385,7 +384,7 @@ module.exports = grammar({
         seq(kw("XML-NODE-NAME"), $.string_literal),
         seq(kw("HELP"), $.string_literal),
         seq(optional(kw("NOT")), kw("CASE-SENSITIVE")),
-        seq(kw("MOUSE-POINTER"), $._expression),
+        seq(kw("MOUSE-POINTER"), $.identifier),
         kw("TTCODEPAGE"),
         seq(kw("COLUMN-CODEPAGE"), $.string_literal)
       ),
@@ -403,7 +402,7 @@ module.exports = grammar({
 
     image_tuning: ($) =>
       choice(
-        $._bgcolor,
+        // $._bgcolor,
         $._fgcolor,
         kw("CONVERT-3D-COLORS"),
         $._tooltip,
@@ -423,7 +422,7 @@ module.exports = grammar({
 
     input_stream_tuning: ($) =>
       choice(
-        seq(kw("LOB-DIR"), $._expression),
+        seq(kw("LOB-DIR"), $.string_literal),
         kw("BINARY"),
         kw("ECHO"),
         kw("NO-ECHO"),
@@ -446,8 +445,8 @@ module.exports = grammar({
 
     output_stream_tuning: ($) =>
       choice(
-        seq(kw("LOB-DIR"), $._expression),
-        seq(kw("NUM-COPIES"), $._expression),
+        seq(kw("LOB-DIR"), $.string_literal),
+        seq(kw("NUM-COPIES"), $._integer_literal),
         kw("COLLATE"),
         kw("BINARY"),
         choice(kw("LANDSCAPE"), kw("PORTRAIT")),
@@ -457,7 +456,7 @@ module.exports = grammar({
         kw("KEEP-MESSAGES"),
         choice(seq(kw("MAP"), $._expression), kw("NO-MAP")),
         kw("PAGED"),
-        seq(kw("PAGE-SIZE"), $._expression),
+        seq(kw("PAGE-SIZE"), $._integer_literal),
         kw("UNBUFFERED"),
         kw("NO-CONVERT"),
         seq(
@@ -559,7 +558,7 @@ module.exports = grammar({
       seq(
         choice(
           $._serialize_name,
-          $._bgcolor,
+          // $._bgcolor,
           $._fgcolor,
           $._pfcolor,
           $._dcolor,
@@ -568,7 +567,7 @@ module.exports = grammar({
           $._format,
           $._font,
           $._label,
-          seq(kw("MOUSE-POINTER"), $._expression),
+          seq(kw("MOUSE-POINTER"), $.identifier),
           $._column_label,
           $._decimals,
           $._extent,
@@ -775,7 +774,7 @@ module.exports = grammar({
     where_clause: ($) => seq(kw("WHERE"), field("condition", $._expression)),
 
     sort_column: ($) =>
-      seq(field("column", $._expression), optional($.sort_order)),
+      seq(field("column", choice($._name, $.function_call)), optional($.sort_order)),
 
     sort_clause: ($) =>
       seq(optional(kw("BREAK")), seq(kw("BY"), repeat1($.sort_column))),
@@ -1036,18 +1035,18 @@ module.exports = grammar({
           choice(
             seq(kw("ACCUM"), optional($._expression)),
             // $.at_phrase, // TODO
-            $._cancel_button,
+            seq(kw("CANCEL-BUTTON"), $.identifier),
             kw("CENTERED"),
             // color specification
             $._column,
-            $._columns,
+            seq($.number_literal, kw("COLUMNS")),
             kw("CONTEXT-HELP"),
-            $._context_help_file,
-            $._default_button,
+            seq(kw("CONTEXT-HELP-FILE"), $.identifier),
+            seq(kw("DEFAULT-BUTTON"), $.identifier),
             kw("DROP-TARGET"),
-            $._down,
+            seq(optional($._expression), kw("DOWN")),
             kw("EXPORT"),
-            $._widget_id,
+            seq(kw("WIDGET-ID"), $.number_literal),
             $._font,
             $._frame,
             kw("INHERIT-BGCOLOR"),
@@ -1066,11 +1065,11 @@ module.exports = grammar({
             kw("OVERLAY"),
             kw("PAGE-BOTTOM"),
             kw("PAGE-TOP"),
-            $._retain,
-            $._row,
+            seq(kw("RETAIN"), $.number_literal),
+            seq(kw("ROW"), $._expression),
             kw("SCREEN-IO"),
             kw("STREAM-IO"),
-            $._scroll,
+            seq(kw("SCROLL"), $.number_literal),
             kw("SCROLLABLE"),
             kw("SIDE-LABELS"),
             $.size_phrase,
@@ -1082,8 +1081,8 @@ module.exports = grammar({
             kw("USE-TEXT"),
             seq(kw("V6FRAME"), optional(choice(kw("USE-REVVIDEO"), kw("USE-UNDERLINE")))),
             seq(kw("VIEW-AS"), kw("DIALOG-BOX")),
-            $._width,
-            $._in_window
+            seq(kw("WIDTH"), $.number_literal),
+            seq(kw("IN-WINDOW"), $.identifier)
           )
         )
       ),
@@ -1232,41 +1231,29 @@ module.exports = grammar({
 
     // OPTIONAL SEQUENCES
 
-    _bgcolor: ($) => seq(kw("BGCOLOR"), $._expression),
+    // _bgcolor: ($) => seq(kw("BGCOLOR"), $._expression), // TODO
 
-    _cancel_button: ($) => seq(kw("CANCEL-BUTTON"), $.identifier),
+    _column: ($) => seq(kw("COLUMN"), $._expression), // TODO
 
-    _column: ($) => seq(kw("COLUMN"), $._expression),
+    _column_label: ($) => seq(kw("COLUMN-LABEL"), $._expression), // TODO
 
-    _column_label: ($) => seq(kw("COLUMN-LABEL"), $._expression),
+    _context_help_id: ($) => seq(kw("CONTEXT-HELP-ID"), $._expression), // TODO
 
-    _columns: ($) => seq($.number_literal, kw("COLUMNS")),
-
-    _context_help_file: ($) => seq(kw("CONTEXT-HELP-FILE"), $.identifier),
-
-    _context_help_id: ($) => seq(kw("CONTEXT-HELP-ID"), $._expression),
-
-    _dcolor: ($) => seq(kw("DCOLOR"), $._expression),
+    _dcolor: ($) => seq(kw("DCOLOR"), $._expression), // TODO
 
     _decimals: ($) => seq(kw("DECIMALS"), $.number_literal),
 
-    _default_button: ($) => seq(kw("DEFAULT-BUTTON"), $.identifier),
-
-    _down: ($) => seq(optional($._expression), kw("DOWN")),
-
     _extent: ($) => seq(kw("EXTENT"), $.number_literal),
 
-    _fgcolor: ($) => seq(kw("FGCOLOR"), $._expression),
+    _fgcolor: ($) => seq(kw("FGCOLOR"), $._expression), // TODO
 
-    _font: ($) => seq(kw("FONT"), $._expression),
+    _font: ($) => seq(kw("FONT"), $._expression), // TODO
 
     _format: ($) => seq(kw("FORMAT"), $.string_literal),
 
     _frame: ($) => seq(kw("FRAME"), field("frame", $.identifier)),
 
-    _in_window: ($) => seq(kw("IN-WINDOW"), $.identifier),
-
-    _initial: ($) => seq(choice(kw("INITIAL"), kw("INIT")), $._expression),
+    _initial: ($) => seq(choice(kw("INITIAL"), kw("INIT")), $._expression), // TODO
 
     _inner_chars: ($) => seq(kw("INNER-CHARS"), $.number_literal),
 
@@ -1285,23 +1272,11 @@ module.exports = grammar({
 
     _max_chars: ($) => seq(kw("MAX-CHARS"), $.number_literal),
 
-    _mouse_pointer: ($) => seq(kw("MOUSE-POINTER"), $.identifier),
-
-    _pfcolor: ($) => seq(kw("PFCOLOR"), $._expression),
-
-    _retain: ($) => seq(kw("RETAIN"), $.number_literal),
-
-    _row: ($) => seq(kw("ROW"), $._expression), // TODO: check if really expression
-
-    _scroll: ($) => seq(kw("SCROLL"), $.number_literal),
+    _pfcolor: ($) => seq(kw("PFCOLOR"), $._expression), // TODO
 
     _serialize_name: ($) => seq(kw("SERIALIZE-NAME"), $.string_literal),
 
     _tooltip: ($) => seq(kw("TOOLTIP"), $.string_literal),
-
-    _widget_id: ($) => seq(kw("WIDGET-ID"), $.number_literal),
-
-    _width: ($) => seq(kw("WIDTH"), $.number_literal),
 
     // DEFINITIONS
 

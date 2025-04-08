@@ -133,31 +133,30 @@ bool tree_sitter_abl_external_scanner_scan(
   return false;
 }
 
+bool is_boundary_char(int32_t c) {
+  return iswspace(c) || c == '(' || c == '.' || c == ':' || c == ',' || c == ';' || c == '\0';
+}
+
 bool match_keyword(TSLexer *lexer, const char *keyword, TSSymbol symbol) {
   while (!lexer->eof(lexer) && iswspace(lexer->lookahead)) {
       lexer->advance(lexer, true);
   }
 
   const char *k = keyword;
-  TSLexer checkpoint = *lexer;
 
   while (*k) {
       if (lexer->eof(lexer) || !insensitive_equals(lexer->lookahead, *k)) {
-          *lexer = checkpoint;
           return false;
       }
       lexer->advance(lexer, false);
       k++;
   }
 
-  if (lexer->eof(lexer) || iswspace(lexer->lookahead) ||
-      lexer->lookahead == '(' || lexer->lookahead == '.' || lexer->lookahead == ':' ||
-      lexer->lookahead == ',') {
+  if (lexer->eof(lexer) || is_boundary_char(lexer->lookahead)) {
 
       lexer->result_symbol = symbol;
       return true;
   }
 
-  *lexer = checkpoint;
   return false;
 }

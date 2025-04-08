@@ -24,7 +24,7 @@ item.item = ipcItem NO-LOCK.
 INCLUDE
 ================================================================================
 
-{include_file.i arg1 &arg2="test" arg3 "NEW" &ABC=variable}
+{include_file.i arg1 &arg2="test" arg3 "NEW" &ABC="variable"}
 DISPLAY {&VAR1}.
 
 --------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ DISPLAY {&VAR1}.
       (string_literal))
     (include_argument
       (identifier)
-      (identifier)))
+      (string_literal)))
   (abl_statement
     (identifier)
     (constant

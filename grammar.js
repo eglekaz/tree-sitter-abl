@@ -57,7 +57,9 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
-            seq(optional($.annotation), $.method_statement),
+            seq(
+              // optional($.annotation),
+              $.method_statement),
             $.constructor_statement,
             $.destructor_statement
           )
@@ -148,24 +150,24 @@ module.exports = grammar({
         seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
       ),
 
-    annotation: ($) =>
-      seq(
-        "@",
-        choice(
-          seq(kw("TEST"), optional($.annotation_argument)),
-          seq(kw("TESTSUITE"), optional($.annotation_argument)),
-          kw("BEFORE"),
-          kw("BEFOREALL"),
-          kw("BEFOREEACH"),
-          kw("SETUP"),
-          kw("AFTEREACH"),
-          kw("TEARDOWN"),
-          kw("AFTERALL"),
-          kw("AFTER"),
-          kw("IGNORE")
-        ),
-        $._terminator
-      ),
+    // annotation: ($) =>
+    //   seq(
+    //     "@",
+    //     choice(
+    //       seq(kw("TEST"), optional($.annotation_argument)),
+    //       seq(kw("TESTSUITE"), optional($.annotation_argument)),
+    //       kw("BEFORE"),
+    //       kw("BEFOREALL"),
+    //       kw("BEFOREEACH"),
+    //       kw("SETUP"),
+    //       kw("AFTEREACH"),
+    //       kw("TEARDOWN"),
+    //       kw("AFTERALL"),
+    //       kw("AFTER"),
+    //       kw("IGNORE")
+    //     ),
+    //     $._terminator
+    //   ),
 
     preprocessor_directive: ($) =>
       seq(
@@ -236,10 +238,12 @@ module.exports = grammar({
         $.string_literal,
         $.boolean_literal,
         $.function_call,
-        $.additive_expression
+        $.array_literal,
+        $.array_access,
+        $.identifier,
+        $._binary_expression
       ),
 
-    // TODO: Should this be here???
     range_notation: ($) => seq(choice($.identifier, $._integer_literal), alias($._for_keyword, "FOR"), $._integer_literal),
 
     single_quoted_string: ($) =>
@@ -259,7 +263,7 @@ module.exports = grammar({
           "&",
           field("name", $.identifier),
           "=",
-          field("value", $._expression)
+          field("value", $.string_literal)
         ),
         field("name", $.identifier),
         field("value", $.string_literal),
@@ -301,7 +305,7 @@ module.exports = grammar({
         $.property_type
       ),
 
-    // HACK: progress spaghetti allows to define tuning order before where clause
+    // TODO: Fix! HACK: progress spaghetti allows to define tuning order before where clause
     _pre_tuning: ($) => prec.right(1, $.query_tuning),
 
     access_tuning: ($) =>
@@ -330,29 +334,29 @@ module.exports = grammar({
     argument_tuning: ($) =>
       choice(kw("BY-VALUE"), kw("BY-REFERENCE"), kw("BIND"), kw("APPEND")),
 
-    button_tuning: ($) =>
-      choice(
-        seq(kw("AUTO-GO"), optional(kw("AUTO-ENDKEY"))),
-        kw("DEFAULT"),
-        // $._bgcolor,
-        $._context_help_id,
-        $._dcolor,
-        kw("DROP-TARGET"),
-        $._fgcolor,
-        $._font,
-        seq(kw("IMAGE-DOWN"), $.image_phrase),
-        seq(kw("IMAGE"), $.image_phrase),
-        seq(kw("IMAGE-UP"), $.image_phrase),
-        seq(kw("IMAGE-INSENSITIVE"), $.image_phrase),
-        seq(kw("MOUSE-POINTER"), $.identifier),
-        $._label,
-        seq(kw("LIKE"), $.identifier),
-        $._pfcolor,
-        seq(kw("NO-FOCUS"), optional(kw("FLAT-BUTTON"))),
-        kw("NO-CONVERT-3D-COLORS"),
-        $._tooltip,
-        $.size_phrase
-      ),
+    // button_tuning: ($) =>
+    //   choice(
+    //     seq(kw("AUTO-GO"), optional(kw("AUTO-ENDKEY"))),
+    //     kw("DEFAULT"),
+    //     $._bgcolor,
+    //     $._context_help_id,
+    //     $._dcolor,
+    //     kw("DROP-TARGET"),
+    //     $._fgcolor,
+    //     $._font,
+    //     seq(kw("IMAGE-DOWN"), $.image_phrase),
+    //     seq(kw("IMAGE"), $.image_phrase),
+    //     seq(kw("IMAGE-UP"), $.image_phrase),
+    //     seq(kw("IMAGE-INSENSITIVE"), $.image_phrase),
+    //     seq(kw("MOUSE-POINTER"), $.identifier),
+    //     $._label,
+    //     seq(kw("LIKE"), $.identifier),
+    //     $._pfcolor,
+    //     seq(kw("NO-FOCUS"), optional(kw("FLAT-BUTTON"))),
+    //     kw("NO-CONVERT-3D-COLORS"),
+    //     $._tooltip,
+    //     $.size_phrase
+    //   ),
 
     class_tuning: ($) =>
       choice(
@@ -366,16 +370,16 @@ module.exports = grammar({
 
     field_option: ($) =>
       choice(
-        // $._bgcolor,
+        $._bgcolor,
         $._column_label,
         $._dcolor,
         $._label,
         $._format,
         $._decimals,
         $._extent,
-        $._font,
-        $._fgcolor,
-        $._pfcolor,
+        // $._font,
+        // $._fgcolor,
+        // $._pfcolor,
         $._initial,
         kw("SERIALIZE-HIDDEN"),
         $._serialize_name,
@@ -400,15 +404,15 @@ module.exports = grammar({
     function_parameters: ($) =>
       seq("(", optional(_list($.function_parameter, ",")), ")"),
 
-    image_tuning: ($) =>
-      choice(
-        // $._bgcolor,
-        $._fgcolor,
-        kw("CONVERT-3D-COLORS"),
-        $._tooltip,
-        seq(kw("STRETCH-TO-FIT"), optional(kw("RETAIN-SHAPE"))),
-        kw("TRANSPARENT")
-      ),
+    // image_tuning: ($) =>
+    //   choice(
+    //     $._bgcolor,
+    //     $._fgcolor,
+    //     kw("CONVERT-3D-COLORS"),
+    //     $._tooltip,
+    //     seq(kw("STRETCH-TO-FIT"), optional(kw("RETAIN-SHAPE"))),
+    //     kw("TRANSPARENT")
+    //   ),
 
     index_tuning: ($) =>
       seq(
@@ -426,18 +430,18 @@ module.exports = grammar({
         kw("BINARY"),
         kw("ECHO"),
         kw("NO-ECHO"),
-        choice(seq(kw("MAP"), $._expression), kw("NO-MAP")),
+        choice(seq(kw("MAP"), $.identifier), kw("NO-MAP")),
         kw("UNBUFFERED"),
         kw("NO-CONVERT"),
         seq(
           kw("CONVERT"),
-          optional(seq(kw("TARGET"), $._expression)),
-          optional(seq(kw("SOURCE"), $._expression))
+          optional(seq(kw("TARGET"), $.string_literal)),
+          optional(seq(kw("SOURCE"), $.string_literal))
         )
       ),
 
       // TODO: Refactor and check
-    interface_tuning: ($) => choice($.inherits),
+    interface_tuning: ($) => $.inherits,
 
     method_tuning: ($) => choice(kw("ABSTRACT"), kw("OVERRIDE"), kw("FINAL")),
 
@@ -454,15 +458,15 @@ module.exports = grammar({
         kw("ECHO"),
         kw("NO-ECHO"),
         kw("KEEP-MESSAGES"),
-        choice(seq(kw("MAP"), $._expression), kw("NO-MAP")),
+        choice(seq(kw("MAP"), $.identifier), kw("NO-MAP")),
         kw("PAGED"),
         seq(kw("PAGE-SIZE"), $._integer_literal),
         kw("UNBUFFERED"),
         kw("NO-CONVERT"),
         seq(
           kw("CONVERT"),
-          optional(seq(kw("TARGET"), $._expression)),
-          optional(seq(kw("SOURCE"), $._expression))
+          optional(seq(kw("TARGET"), $.string_literal)),
+          optional(seq(kw("SOURCE"), $.string_literal))
         )
       ),
 
@@ -505,7 +509,7 @@ module.exports = grammar({
         $.field_clause
       ),
 
-    repeat_tuning: ($) => choice(seq(kw("WITH"), $._frame)),
+    repeat_tuning: ($) => seq(kw("WITH"), $._frame),
 
     run_tuning: ($) =>
       choice(
@@ -531,9 +535,9 @@ module.exports = grammar({
     temp_table_tuning: ($) =>
       choice(
         kw("NO-UNDO"),
-        seq(kw("NAMESPACE-URI"), $.string_literal),
-        seq(kw("NAMESPACE-PREFIX"), $.string_literal),
-        seq(kw("XML-NODE-NAME"), $.string_literal),
+        // seq(kw("NAMESPACE-URI"), $.string_literal),
+        // seq(kw("NAMESPACE-PREFIX"), $.string_literal),
+        // seq(kw("XML-NODE-NAME"), $.string_literal),
         $._serialize_name,
         kw("REFERENCE-ONLY"),
         $.like_phrase,
@@ -559,13 +563,13 @@ module.exports = grammar({
         choice(
           $._serialize_name,
           // $._bgcolor,
-          $._fgcolor,
-          $._pfcolor,
-          $._dcolor,
-          $._context_help_id,
+          // $._fgcolor,
+          // $._pfcolor,
+          // $._dcolor,
+          // $._context_help_id,
           $._initial,
           $._format,
-          $._font,
+          // $._font,
           $._label,
           seq(kw("MOUSE-POINTER"), $.identifier),
           $._column_label,
@@ -646,6 +650,9 @@ module.exports = grammar({
           kw("INPUT-OUTPUT"),
           kw("DATA-SOURCE"))
       ),
+
+
+
       // TODO: Refactor
     function_call_argument: ($) =>
       prec.right(
@@ -660,30 +667,29 @@ module.exports = grammar({
             seq(
               optional(
                 choice(
-                  kw("TABLE"),
-                  kw("TABLE-HANDLE"),
-                  kw("DATASET"),
-                  kw("DATASET-HANDLE")
+                  seq(kw("TABLE"), optional(token.immediate(kw("-HANDLE")))),
+                  seq(kw("DATASET"), optional(token.immediate(kw("-HANDLE"))))
                 )
               ),
-              $._expression
-            )
+              $._name
+            ),
+            $.input_expression,
+            $.array_access,
+            $.string_literal,
+            $.number_literal,
+            $.null_expression,
+            $._binary_expression
           ),
           optional($.argument_tuning)
         )
       ),
 
-      // TODO: Refactor
     function_parameter: ($) =>
       choice(
         seq(
           repeat(choice(
-            kw("TABLE-HANDLE"),
             $.function_parameter_mode,
-            kw("TABLE "), // TODO: Fix
-            kw("TABLE-HANDLE"),
-            kw("DATASET-HANDLE"),
-            kw("DATASET ")
+            $._table_option
           )),
           field("name", $.identifier),
           optional($.type_tuning),
@@ -705,14 +711,14 @@ module.exports = grammar({
         ")"
       ),
 
-    annotation_argument: ($) =>
-      seq(
-        "(",
-        $.identifier,
-        "=",
-        $.string_literal,
-        ")"
-      ),
+    // annotation_argument: ($) =>
+    //   seq(
+    //     "(",
+    //     $.identifier,
+    //     "=",
+    //     $.string_literal,
+    //     ")"
+    //   ),
 
     inherits: ($) =>
       seq(
@@ -762,9 +768,8 @@ module.exports = grammar({
     _case_branch_body: ($) =>
       prec(1, choice($.do_block, field("statement", $._statement))),
 
-    // TODO: Refactor
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $._binary_expression)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat($.case_condition), kw("THEN"), $._case_branch_body),
@@ -774,7 +779,7 @@ module.exports = grammar({
     where_clause: ($) => seq(kw("WHERE"), field("condition", $._expression)),
 
     sort_column: ($) =>
-      seq(field("column", choice($._name, $.function_call)), optional($.sort_order)),
+      seq(field("column", choice($._name, $.function_call, $.ternary_expression)), optional($.sort_order)),
 
     sort_clause: ($) =>
       seq(optional(kw("BREAK")), seq(kw("BY"), repeat1($.sort_column))),
@@ -833,23 +838,33 @@ module.exports = grammar({
         optional($.access_tuning),
         kw("GET"),
         optional(
-          seq(
-            optional(alias($.function_parameters, $.parameters)),
-            $.body,
-            kw("END"),
-            optional(kw("GET"))
-          )
+          $._getter_body
         ),
         $._terminator
+      ),
+
+    _getter_body: ($) =>
+      seq(
+        optional(alias($.function_parameters, $.parameters)),
+        $.body,
+        kw("END"),
+        optional(kw("GET"))
       ),
 
     setter: ($) =>
       seq(
         optional($.access_tuning),
         kw("SET"),
-        optional(alias($.function_parameters, $.parameters)),
-        optional(seq($.body, kw("END"), optional(kw("SET")))),
+        optional($._setter_body),
         $._terminator
+      ),
+
+    _setter_body: ($) =>
+      seq(
+        optional(alias($.function_parameters, $.parameters)),
+        $.body,
+        kw("END"),
+        optional(kw("SET"))
       ),
 
     _on_phrase: ($) =>
@@ -883,54 +898,56 @@ module.exports = grammar({
         optional(seq(kw("BY"), $.number_literal))
       ),
 
-    combo_box_phrase: ($) =>
-      seq(
-        kw("COMBO-BOX"),
-        repeat(
-          choice(
-            $._list_items,
-            $._inner_lines,
-            $.size_phrase,
-            kw("SORT"),
-            $._tooltip,
-            kw("SIMPLE"),
-            kw("DROP-DOWN"),
-            kw("DROP-DOWN-LIST"),
-            $._max_chars,
-            seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
-          )
-        )
-      ),
+    // combo_box_phrase: ($) =>
+    //   seq(
+    //     kw("COMBO-BOX"),
+    //     repeat(
+    //       choice(
+    //         $._list_items,
+    //         $._inner_lines,
+    //         $.size_phrase,
+    //         kw("SORT"),
+    //         $._tooltip,
+    //         kw("SIMPLE"),
+    //         kw("DROP-DOWN"),
+    //         kw("DROP-DOWN-LIST"),
+    //         $._max_chars,
+    //         seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
+    //       )
+    //     )
+    //   ),
 
-    editor_phrase: ($) =>
-      seq(
-        choice($.size_phrase, seq($._inner_chars, $._inner_lines)),
-        repeat(
-          choice(
-            seq(kw("BUFFER-CHARS"), $.number_literal),
-            seq(kw("BUFFER-LINES"), $.number_literal),
-            kw("LARGE"),
-            $._max_chars,
-            kw("NO-BOX"),
-            kw("NO-WORD-WRAP"),
-            kw("SCROLLBAR-HORIZONTAL"),
-            kw("SCROLLBAR-VERTICAL"),
-            $._tooltip
-          )
-        )
-      ),
+    // editor_phrase: ($) =>
+    //   seq(
+    //     choice($.size_phrase,
+    //       // seq($._inner_chars, $._inner_lines)
+    //     ),
+    //     repeat(
+    //       choice(
+    //         seq(kw("BUFFER-CHARS"), $.number_literal),
+    //         seq(kw("BUFFER-LINES"), $.number_literal),
+    //         kw("LARGE"),
+    //         // $._max_chars,
+    //         kw("NO-BOX"),
+    //         kw("NO-WORD-WRAP"),
+    //         kw("SCROLLBAR-HORIZONTAL"),
+    //         kw("SCROLLBAR-VERTICAL"),
+    //         // $._tooltip
+    //       )
+    //     )
+    //   ),
 
-    radio_set_phrase: ($) =>
-      seq(
-        kw("RADIO-SET"),
-        optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
-        seq(
-          kw("RADIO-BUTTONS"),
-          field("label", $.identifier), ",", field("value", $.identifier),
-          repeat(seq(",", field("label", $.identifier), ",", field("value", $.identifier)))
-        ),
-        optional($._tooltip)
-      ),
+    // radio_set_phrase: ($) =>
+    //   seq(
+    //     kw("RADIO-SET"),
+    //     optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
+    //     seq(
+    //       kw("RADIO-BUTTONS"),
+    //       field("label", $.identifier), ",", field("value", $.identifier),
+    //       repeat(seq(",", field("label", $.identifier), ",", field("value", $.identifier)))
+    //     ),
+    //     optional($._tooltip)
+    //   ),
 
     selection_list_phrase: ($) =>
       seq(
@@ -944,48 +961,50 @@ module.exports = grammar({
             kw("SCROLLBAR-HORIZONTAL"),
             kw("SCROLLBAR-VERTICAL"),
             $.size_phrase,
-            seq($._inner_chars, $._inner_lines),
+            // seq($._inner_chars, $._inner_lines),
             kw("SORT"),
-            $._tooltip
+            // $._tooltip
           )
         ),
       ),
 
-    slider_phrase: ($) =>
-      seq(
-        kw("SLIDER"),
-        seq(kw("MAX-VALUE"), $.number_literal, kw("MIN-VALUE"), $.number_literal),
-        repeat(
-          choice(
-            kw("HORIZONTAL"),
-            kw("VERTICAL"),
-            kw("NO-CURRENT-VALUE"),
-            kw("LARGE-TO-SMALL"),
-            seq(
-              kw("TIC-MARKS"),
-              choice(kw("NONE"), kw("TOP"), kw("BOTTOM"), kw("LEFT"), kw("RIGHT"), kw("BOTH")),
-              optional(seq(kw("FREQUENCY"), $.number_literal))
-            ),
-            $._tooltip,
-            $.size_phrase
-          )
-        )
-      ),
+    // slider_phrase: ($) =>
+    //   seq(
+    //     kw("SLIDER"),
+    //     seq(kw("MAX-VALUE"), $.number_literal, kw("MIN-VALUE"), $.number_literal),
+    //     repeat(
+    //       choice(
+    //         kw("HORIZONTAL"),
+    //         kw("VERTICAL"),
+    //         kw("NO-CURRENT-VALUE"),
+    //         kw("LARGE-TO-SMALL"),
+    //         seq(
+    //           kw("TIC-MARKS"),
+    //           choice(kw("NONE"), kw("TOP"), kw("BOTTOM"), kw("LEFT"), kw("RIGHT"), kw("BOTH")),
+    //           optional(seq(kw("FREQUENCY"), $.number_literal))
+    //         ),
+    //         $._tooltip,
+    //         $.size_phrase
+    //       )
+    //     )
+    //   ),
 
-    view_as_phrase: ($) =>
-      seq(
-        kw("VIEW-AS"),
-        choice(
-          $.combo_box_phrase,
-          $.editor_phrase,
-          seq(kw("FILL-IN"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
-          $.radio_set_phrase,
-          $.selection_list_phrase,
-          $.slider_phrase,
-          seq(kw("TEXT"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
-          seq(kw("TOGGLE-BOX"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
-        )
-      ),
+    // view_as_phrase: ($) =>
+    //   seq(
+    //     kw("VIEW-AS"),
+    //     choice(
+    //       // $.combo_box_phrase,
+    //       $.editor_phrase,
+    //       seq(kw("FILL-IN"), repeat(choice(kw("NATIVE"), $.size_phrase,
+    //       // $._tooltip
+    //     ))),
+    //       // $.radio_set_phrase,
+    //       $.selection_list_phrase,
+    //       // $.slider_phrase,
+    //       // seq(kw("TEXT"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
+    //       // seq(kw("TOGGLE-BOX"), repeat(choice(kw("NATIVE"), $.size_phrase, $._tooltip))),
+    //     )
+    //   ),
 
     on_error_phrase: ($) =>
       seq(
@@ -1038,7 +1057,7 @@ module.exports = grammar({
             seq(kw("CANCEL-BUTTON"), $.identifier),
             kw("CENTERED"),
             // color specification
-            $._column,
+            seq(kw("COLUMN"), choice($._name, $._integer_literal)),
             seq($.number_literal, kw("COLUMNS")),
             kw("CONTEXT-HELP"),
             seq(kw("CONTEXT-HELP-FILE"), $.identifier),
@@ -1073,8 +1092,8 @@ module.exports = grammar({
             kw("SCROLLABLE"),
             kw("SIDE-LABELS"),
             $.size_phrase,
-            seq(kw("STREAM"), field("stream", $.identifier)), // TODO: Refactor as reusable rule
-            seq(kw("STREAM-HANDLE"), field("stream_handle", $.identifier)), // TODO: Refactor as reusable rule
+            seq(kw("STREAM"), field("stream", $.identifier)),
+            seq(kw("STREAM-HANDLE"), field("stream_handle", $.identifier)),
             kw("THREE-D"),
             // title phrase
             kw("TOP-ONLY"),
@@ -1099,7 +1118,9 @@ module.exports = grammar({
       widget_phrase: ($) =>
         choice(
           $._frame,
-          seq(optional(alias($._field_keyword, "FIELD")), $.identifier, optional(seq(kw("IN"), $._frame))),
+          seq(optional(alias($._field_keyword, "FIELD")), $.identifier,
+          optional(seq(kw("IN"), $._frame))
+        ),
           seq($.identifier, optional(seq(kw("IN"), kw("BROWSE"), $.identifier))),
           seq(choice(kw("MENU"), kw("SUB-MENU")), $.identifier),
           seq(kw("MENU-ITEM"), $.identifier, optional(seq(kw("IN"), kw("MENU"), $.identifier))),
@@ -1136,20 +1157,20 @@ module.exports = grammar({
           choice($.do_block, prec(2, $._statement), kw("REVERT"))
         )),
 
-      _on_statement_widget_phrase: ($) =>
-        prec(2, seq(
-          _list(choice($.identifier, $.constant), ","),
-          $.of_phrase,
-          repeat(
-            seq(
-              kw("OR"),
-              _list(choice($.identifier, $.constant), ","),
-              $.of_phrase
-            )
-          ),
-          optional(kw("ANYWHERE")),
-          choice($.do_block, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
-        )),
+      // _on_statement_widget_phrase: ($) =>
+      //   prec(2, seq(
+      //     _list(choice($.identifier, $.constant), ","),
+      //     $.of_phrase,
+      //     repeat(
+      //       seq(
+      //         kw("OR"),
+      //         _list(choice($.identifier, $.constant), ","),
+      //         $.of_phrase
+      //       )
+      //     ),
+      //     optional(kw("ANYWHERE")),
+      //     choice($.do_block, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
+      //   )),
 
         // TODO: Refactor
       image_phrase: ($) =>
@@ -1231,29 +1252,37 @@ module.exports = grammar({
 
     // OPTIONAL SEQUENCES
 
-    // _bgcolor: ($) => seq(kw("BGCOLOR"), $._expression), // TODO
+    _bgcolor: ($) => seq(kw("BGCOLOR"), $._integer_literal),
 
-    _column: ($) => seq(kw("COLUMN"), $._expression), // TODO
+    _column_label: ($) => seq(kw("COLUMN-LABEL"), $.string_literal),
 
-    _column_label: ($) => seq(kw("COLUMN-LABEL"), $._expression), // TODO
+    _context_help_id: ($) => seq(kw("CONTEXT-HELP-ID"), $._integer_literal),
 
-    _context_help_id: ($) => seq(kw("CONTEXT-HELP-ID"), $._expression), // TODO
-
-    _dcolor: ($) => seq(kw("DCOLOR"), $._expression), // TODO
+    _dcolor: ($) => seq(kw("DCOLOR"), $._integer_literal),
 
     _decimals: ($) => seq(kw("DECIMALS"), $.number_literal),
 
     _extent: ($) => seq(kw("EXTENT"), $.number_literal),
 
-    _fgcolor: ($) => seq(kw("FGCOLOR"), $._expression), // TODO
+    _fgcolor: ($) => seq(kw("FGCOLOR"), $._integer_literal),
 
-    _font: ($) => seq(kw("FONT"), $._expression), // TODO
+    _font: ($) => seq(kw("FONT"), $._integer_literal),
 
     _format: ($) => seq(kw("FORMAT"), $.string_literal),
 
     _frame: ($) => seq(kw("FRAME"), field("frame", $.identifier)),
 
-    _initial: ($) => seq(choice(kw("INITIAL"), kw("INIT")), $._expression), // TODO
+    _initial: ($) =>
+      seq(
+        choice(kw("INITIAL"), kw("INIT")),
+        choice(
+          $._literal,
+          $.array_literal,
+          $.boolean_literal,
+          $.null_expression,
+          $.identifier,
+          $.object_access
+        )),
 
     _inner_chars: ($) => seq(kw("INNER-CHARS"), $.number_literal),
 
@@ -1272,7 +1301,7 @@ module.exports = grammar({
 
     _max_chars: ($) => seq(kw("MAX-CHARS"), $.number_literal),
 
-    _pfcolor: ($) => seq(kw("PFCOLOR"), $._expression), // TODO
+    _pfcolor: ($) => seq(kw("PFCOLOR"), $._integer_literal),
 
     _serialize_name: ($) => seq(kw("SERIALIZE-NAME"), $.string_literal),
 
@@ -1284,6 +1313,7 @@ module.exports = grammar({
       choice(
         $.variable_definition,
         $.buffer_definition,
+        // $.button_definition,
         $.query_definition,
         $.temp_table_definition,
         $.workfile_definition,
@@ -1292,7 +1322,8 @@ module.exports = grammar({
         $.event_definition,
         $.dataset_definition,
         $.stream_definition,
-        $.image_definition,
+        // $.image_definition,
+        // $.frame_definition,
         $.procedure_parameter_definition
       ),
 
@@ -1308,14 +1339,14 @@ module.exports = grammar({
         $._terminator
       ),
 
-    button_definition: ($) =>
-      seq(
-        $._define,
-        repeat($._tuning),
-        kw("BUTTON"),
-        field("name", $.identifier),
-        repeat($.button_tuning),
-      ),
+    // button_definition: ($) =>
+    //   seq(
+    //     $._define,
+    //     repeat($._tuning),
+    //     kw("BUTTON"),
+    //     field("name", $.identifier),
+    //     repeat($.button_tuning),
+    //   ),
 
     dataset_definition: ($) =>
       seq(
@@ -1366,35 +1397,35 @@ module.exports = grammar({
         $._terminator
       ),
 
-    frame_definition: ($) =>
-      seq(
-        $._define,
-        repeat($._tuning),
-        kw("FRAME"),
-        field("name", $.identifier),
-        // form item
-        seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-        optional($.frame_phrase)
+    // frame_definition: ($) =>
+    //   seq(
+    //     $._define,
+    //     repeat($._tuning),
+    //     kw("FRAME"),
+    //     field("name", $.identifier),
+    //     // form item
+    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
+    //     optional($.frame_phrase)
 
-      ),
+    //   ),
 
-    image_definition: ($) =>
-      seq(
-        $._define,
-        repeat($._tuning),
-        kw("IMAGE"),
-        field("name", $.identifier),
-        $._image_definition_option,
-        repeat($.image_tuning),
-        $._terminator
-      ),
+    // image_definition: ($) =>
+    //   seq(
+    //     $._define,
+    //     repeat($._tuning),
+    //     kw("IMAGE"),
+    //     field("name", $.identifier),
+    //     $._image_definition_option,
+    //     repeat($.image_tuning),
+    //     $._terminator
+    //   ),
 
-    _image_definition_option: ($) =>
-      choice(
-        $.size_phrase,
-        $.image_phrase,
-        seq(kw("LIKE"), $.identifier)
-      ),
+    // _image_definition_option: ($) =>
+    //   choice(
+    //     $.size_phrase,
+    //     $.image_phrase,
+    //     seq(kw("LIKE"), $.identifier)
+    //   ),
 
     procedure_parameter_definition: ($) =>
       seq(
@@ -1409,6 +1440,14 @@ module.exports = grammar({
           repeat($.procedure_parameter_tuning)
         ),
         $._terminator
+      ),
+
+    _table_option: ($) =>
+      choice(
+        kw("TABLE "),
+        kw("TABLE-HANDLE"),
+        kw("DATASET-HANDLE"),
+        kw("DATASET ")
       ),
 
     _procedure_parameter_definition_option: ($) =>
@@ -1488,7 +1527,7 @@ module.exports = grammar({
         repeat(
           choice(
             $.variable_tuning,
-            $.view_as_phrase
+            // $.view_as_phrase
           )),
         $._terminator
       ),
@@ -1502,11 +1541,6 @@ module.exports = grammar({
         repeat($.workfile_tuning),
         $._terminator
       ),
-
-    // _workfile_definition_option: ($) =>
-    //   choice(
-    //     $.workfile_tuning,
-    //   ),
 
     // STATEMENTS
 
@@ -1558,7 +1592,6 @@ module.exports = grammar({
         $._block_terminator
       ),
 
-      // TODO: Refactor probably
     method_statement: ($) =>
       seq(
         kw("METHOD"),
@@ -1615,7 +1648,6 @@ module.exports = grammar({
 
     function_call_statement: ($) => seq($.function_call, $._terminator),
 
-    // TODO: Refactor
     function_statement: ($) =>
       seq(
         kw("FUNCTION"),
@@ -1657,11 +1689,11 @@ module.exports = grammar({
         optional(
           seq(
             choice(kw("STREAM"), kw("STREAM-HANDLE")),
-            field("source", $.identifier)
+            field("name", $.identifier)
           )
         ),
         kw("FROM"),
-        field("target", $._expression),
+        field("source", $.function_call),
         repeat($.input_stream_tuning),
         $._terminator
       ),
@@ -1676,7 +1708,7 @@ module.exports = grammar({
           )
         ),
         kw("TO"),
-        field("target", $._expression),
+        field("target", choice($.function_call, $.string_literal)),
         repeat($.output_stream_tuning),
         $._terminator
       ),
@@ -1770,7 +1802,7 @@ module.exports = grammar({
     accumulate_statement: ($) =>
       seq(
         kw("ACCUMULATE"),
-        choice($._expression, $.identifier),
+        choice($._name, $._binary_expression),
         seq(
           "(",
           seq($.accumulate_aggregate, repeat(seq(" ", $.accumulate_aggregate))),
@@ -1789,7 +1821,7 @@ module.exports = grammar({
           seq(kw("NEXT"), field("label", optional($.identifier))),
           seq(kw("RETRY"), field("label", optional($.identifier))),
           seq(kw("RETURN"), choice(seq(kw("ERROR")), kw("NO-APPLY"))),
-          seq(kw("THROW"), $._expression)
+          seq(kw("THROW"), choice($.new_expression, $.identifier))
         ),
         $._terminator
       ),
@@ -1805,22 +1837,21 @@ module.exports = grammar({
       seq(
         kw("ON"),
         choice(
-          $._on_statement_widget_phrase,
+          // $._on_statement_widget_phrase,
           $._on_statement_database_phrase,
           seq(field("label", $.identifier), field("function", $.identifier), $._terminator),
           seq(alias("\"WEB-NOTIFY\"", $.string_literal), kw("ANYWHERE"), choice($.do_block, prec(2, $._statement)))
         )
       ),
 
-    prompt_for_statement: ($) =>
-      seq(
-        kw("PROMPT-FOR"),
-        $._name,
-        optional($._frame),
-        choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
-      ),
+    // prompt_for_statement: ($) =>
+    //   seq(
+    //     kw("PROMPT-FOR"),
+    //     $._name,
+    //     optional($._frame),
+    //     choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
+    //   ),
 
-    // TODO: Refactor probably
     var_statement: ($) =>
       seq(
         alias($._var_keyword, "VAR"),
@@ -1829,7 +1860,7 @@ module.exports = grammar({
         ),
         alias(choice($._type, $.string_literal), $.type_tuning),
         optional(field("size", $.array_literal)),
-        repeat(seq($.variable, optional(","))),
+        _list($.variable, ","),
         $._terminator
       ),
 
@@ -1914,14 +1945,6 @@ module.exports = grammar({
         seq($._expression, $._logical_operator, $._expression)
       ),
 
-    // _logical_expression_member: ($) =>
-    //   choice(
-    //     $.comparison_expression,
-    //     $.available_expression,
-    //     $.boolean_literal,
-    //     // $.unary_expression
-    //   ),
-
     _unary_minus_expression: ($) =>
       choice(
         $.identifier,
@@ -1945,15 +1968,14 @@ module.exports = grammar({
         )
       ),
 
-    ambiguous_expression: ($) => seq(kw("AMBIGUOUS"), $._expression),
+    ambiguous_expression: ($) => seq(kw("AMBIGUOUS"), $._name),
 
     temp_table_expression: ($) =>
       seq(kw("TEMP-TABLE"), field("table", choice($._expression))),
 
-    current_changed_expression: ($) =>
-      seq(kw("CURRENT-CHANGED"), $._expression),
+    current_changed_expression: ($) => seq(kw("CURRENT-CHANGED"), $._name),
 
-    locked_expression: ($) => seq(kw("LOCKED"), $._expression),
+    locked_expression: ($) => seq(kw("LOCKED"), $._name),
 
     dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._expression),
 
@@ -1972,14 +1994,6 @@ module.exports = grammar({
         PREC.ADD,
         choice(seq($._expression, $._additive_operator, $._expression))
       ),
-
-    // _arithmetic_expression_member: ($) =>
-    //   choice(
-    //     $._literal,
-    //     $._name,
-    //     $.parenthesized_expression,
-    //     $.unary_expression
-    //   ),
 
     multiplicative_expression: ($) =>
       prec.left(
@@ -2013,12 +2027,12 @@ module.exports = grammar({
       seq(
         optional(choice(kw("FIRST"), kw("LAST"))),
         field("table", $._name),
-        optional(field("constant", $._expression)),
+        optional(field("constant", $._literal)),
         repeat(choice($.query_tuning, $.of, $.where_clause)),
       ),
 
     accumulate_expression: ($) =>
-      seq(kw("ACCUM"), $.accumulate_aggregate, prec.left($._expression)),
+      seq(kw("ACCUM"), $.accumulate_aggregate, $._expression),
 
     available_expression: ($) =>
       seq(
@@ -2036,7 +2050,6 @@ module.exports = grammar({
         )
       ),
 
-      // TODO: Refactor
     ternary_expression: ($) =>
       prec.right(
         seq(
@@ -2110,7 +2123,7 @@ module.exports = grammar({
         $.class_statement,
         $.interface_statement,
         $.on_statement,
-        $.prompt_for_statement,
+        // $.prompt_for_statement,
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
@@ -2121,7 +2134,7 @@ module.exports = grammar({
         $.do_block,
         $.preprocessor_directive,
         $.include,
-        $.annotation
+        // $.annotation
       )
   }
 });

@@ -864,7 +864,7 @@ OUTPUT CLOSE.
 
 (source_code
   (input_stream_statement
-    target: (function_call
+    source: (function_call
       function: (identifier)
       (arguments
         (argument
@@ -878,16 +878,16 @@ OUTPUT CLOSE.
   (output_close_statement)
   (input_close_statement)
   (input_stream_statement
-    source: (identifier)
-    target: (function_call
+    name: (identifier)
+    source: (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
   (input_close_statement)
   (input_stream_statement
-    source: (identifier)
-    target: (function_call
+    name: (identifier)
+    source: (function_call
       function: (identifier)
       (arguments
         (argument

@@ -144,11 +144,9 @@ module.exports = grammar({
 
     file_name: ($) => /[A-z-_|0-9|\/]+\.[ip]/i,
 
+    // TODO: FIX: Comments inside comments caused memory leak
     comment: ($) =>
-      choice(
-        seq("//", /.*/),
-        seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
-      ),
+      choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
 
     // annotation: ($) =>
     //   seq(

@@ -95,7 +95,7 @@ DO block
 ================================================================================
 
 DO ON ERROR UNDO, THROW:
-  UNDO, THROW NEW Progress.Lang.AppError("Rethrow me :)").
+  UNDO, THROW NEW Progress.Lang.AppError("Rethrow me").
 END.
 
 DO ON QUIT UNDO, RETURN ERROR:

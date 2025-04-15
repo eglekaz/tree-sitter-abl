@@ -58,7 +58,7 @@ module.exports = grammar({
             $._definition,
             $.var_statement,
             seq(
-              // optional($.annotation),
+              optional($.annotation),
               $.method_statement),
             $.constructor_statement,
             $.destructor_statement
@@ -148,24 +148,24 @@ module.exports = grammar({
     comment: ($) =>
       choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
 
-    // annotation: ($) =>
-    //   seq(
-    //     "@",
-    //     choice(
-    //       seq(kw("TEST"), optional($.annotation_argument)),
-    //       seq(kw("TESTSUITE"), optional($.annotation_argument)),
-    //       kw("BEFORE"),
-    //       kw("BEFOREALL"),
-    //       kw("BEFOREEACH"),
-    //       kw("SETUP"),
-    //       kw("AFTEREACH"),
-    //       kw("TEARDOWN"),
-    //       kw("AFTERALL"),
-    //       kw("AFTER"),
-    //       kw("IGNORE")
-    //     ),
-    //     $._terminator
-    //   ),
+    annotation: ($) =>
+      seq(
+        "@",
+        choice(
+          seq(kw("TEST"), optional($.annotation_argument)),
+          seq(kw("TESTSUITE"), optional($.annotation_argument)),
+          kw("BEFORE"),
+          kw("BEFOREALL"),
+          kw("BEFOREEACH"),
+          kw("SETUP"),
+          kw("AFTEREACH"),
+          kw("TEARDOWN"),
+          kw("AFTERALL"),
+          kw("AFTER"),
+          kw("IGNORE")
+        ),
+        $._terminator
+      ),
 
     preprocessor_directive: ($) =>
       seq(
@@ -420,18 +420,6 @@ module.exports = grammar({
         )
       ),
 
-    convert_option: ($) =>
-      seq(
-        kw("CONVERT"),
-        optional(seq(kw("TARGET"), $.string_literal)),
-        optional(seq(kw("SOURCE"), $.string_literal))
-      ),
-
-      // TODO: Refactor and check
-    interface_tuning: ($) => $.inherits,
-
-    // method_tuning: ($) => choice(kw("ABSTRACT"), kw("OVERRIDE"), kw("FINAL")),
-
     of: ($) => seq(kw("OF"), $._name),
 
     stream_tuning: ($) =>
@@ -451,8 +439,12 @@ module.exports = grammar({
         kw("PAGED"),
         seq(kw("PAGE-SIZE"), $._integer_literal),
         kw("UNBUFFERED"),
-        kw("NO-CONVERT"),
-        $.convert_option
+        seq(
+          kw("CONVERT"),
+          optional(seq(kw("TARGET"), $.string_literal)),
+          optional(seq(kw("SOURCE"), $.string_literal))
+        ),
+        kw("NO-CONVERT")
       ),
 
     property_tuning: ($) =>
@@ -633,8 +625,6 @@ module.exports = grammar({
           kw("DATA-SOURCE"))
       ),
 
-
-
       // TODO: Refactor
     function_call_argument: ($) =>
       prec.right(
@@ -695,14 +685,14 @@ module.exports = grammar({
         ")"
       ),
 
-    // annotation_argument: ($) =>
-    //   seq(
-    //     "(",
-    //     $.identifier,
-    //     "=",
-    //     $.string_literal,
-    //     ")"
-    //   ),
+    annotation_argument: ($) =>
+      seq(
+        "(",
+        $.identifier,
+        "=",
+        $.string_literal,
+        ")"
+      ),
 
     inherits: ($) =>
       seq(
@@ -753,7 +743,7 @@ module.exports = grammar({
       prec(1, choice($.do_block, field("statement", $._statement))),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $._binary_expression)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat($.case_condition), kw("THEN"), $._case_branch_body),
@@ -869,9 +859,9 @@ module.exports = grammar({
 
     _return_action: ($) =>
       choice(
-        kw("ERROR"),
+        seq(kw("ERROR"), optional($.identifier)),
         kw("NO-APPLY"),
-        $.string_literal
+        $._expression
       ),
 
     // PHRASES
@@ -882,6 +872,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
+        choice($.function_call, $._integer_literal),
         $._integer_literal,
         optional(seq(kw("BY"), $._integer_literal))
       ),
@@ -1187,20 +1178,20 @@ module.exports = grammar({
       //   )),
 
         // TODO: Refactor
-      image_phrase: ($) =>
-        seq(
-          choice(kw("IMAGE"), kw("IMAGE-UP"), kw("IMAGE-DOWN"), kw("IMAGE-INSENSITIVE")),
-          seq(kw("FILE"), $.string_literal),
-          optional(
-            $.size_phrase
-          ),
-          optional(
-            seq(
-              kw("FROM"),
-              repeat1($._position)
-            )
-          )
-        ),
+      // image_phrase: ($) =>
+      //   seq(
+      //     choice(kw("IMAGE"), kw("IMAGE-UP"), kw("IMAGE-DOWN"), kw("IMAGE-INSENSITIVE")),
+      //     seq(kw("FILE"), $.string_literal),
+      //     optional(
+      //       $.size_phrase
+      //     ),
+      //     optional(
+      //       seq(
+      //         kw("FROM"),
+      //         repeat1($._position)
+      //       )
+      //     )
+      //   ),
 
       _position: ($) =>
         seq(
@@ -1575,7 +1566,7 @@ module.exports = grammar({
       seq(
         kw("INTERFACE"),
         field("name", choice($.string_literal, $._name)),
-        repeat($.interface_tuning),
+        optional($.inherits),
         alias($.interface_body, $.body),
         $._block_terminator
       ),
@@ -1695,34 +1686,47 @@ module.exports = grammar({
       ),
 
     return_statement: ($) =>
-      seq(kw("RETURN"), optional($._expression), $._terminator),
+      seq(
+        kw("RETURN"),
+        optional($._return_action),
+        $._terminator),
 
     stream_statement: ($) =>
       seq(
         choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT")),
-        optional(
-          seq(
-            choice(kw("STREAM"), kw("STREAM-HANDLE")),
-            field("name", $.identifier)
-          )
-        ),
+        choice(kw("STREAM"), kw("STREAM-HANDLE")),
+        field("name", $.identifier),
         choice(kw("FROM"), kw("TO")),
-        field("source", $.function_call),
-        repeat($.stream_tuning),
+        field("source", choice($.string_literal, $.function_call)),
+        // repeat($.stream_tuning),
         $._terminator
       ),
 
-    input_output_close_statement: ($) =>
+    input_output_statement: ($) =>
       seq(
         choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT")),
-        optional(
-          seq(
-            choice(kw("STREAM"), kw("STREAM-HANDLE")),
-            field("name", $.identifier)
-          )
-        ),
-        kw("CLOSE"),
+        $._input_output_statement_option,
         $._terminator
+      ),
+
+    _input_output_statement_option: ($) =>
+      choice(
+        seq(
+          optional(
+            seq(
+              choice(kw("STREAM"), kw("STREAM-HANDLE")),
+              field("name", $.identifier)
+            )
+          ),
+          kw("CLOSE")
+        ),
+        seq(
+          choice(
+            kw("FROM"),
+            kw("TO")
+          ),
+          $.function_call
+        )
       ),
 
     for_statement: ($) =>
@@ -1827,13 +1831,13 @@ module.exports = grammar({
         )
       ),
 
-    // prompt_for_statement: ($) =>
-    //   seq(
-    //     kw("PROMPT-FOR"),
-    //     $._name,
-    //     optional($._frame),
-    //     choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
-    //   ),
+    prompt_for_statement: ($) =>
+      seq(
+        kw("PROMPT-FOR"),
+        $._name,
+        optional($._frame),
+        choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
+      ),
 
     var_statement: ($) =>
       seq(
@@ -2094,7 +2098,7 @@ module.exports = grammar({
         $.find_statement,
         $.stream_statement,
         $.case_statement,
-        $.input_output_close_statement,
+        $.input_output_statement,
         $.assign_statement,
         $.catch_statement,
         $.finally_statement,
@@ -2105,7 +2109,7 @@ module.exports = grammar({
         $.class_statement,
         $.interface_statement,
         $.on_statement,
-        // $.prompt_for_statement,
+        $.prompt_for_statement,
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
@@ -2116,7 +2120,7 @@ module.exports = grammar({
         $.do_block,
         $.preprocessor_directive,
         $.include,
-        // $.annotation
+        $.annotation
       )
   }
 });
@@ -2144,21 +2148,4 @@ function createCaseInsensitiveRegex(word) {
       .map((letter) => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
       .join("")
   );
-}
-
-function combinations(arr) {
-  let result = [];
-
-  // Helper function to generate combinations
-  function generateCombination(start, combination) {
-    for (let i = start; i < arr.length; i++) {
-      combination.push(arr[i]);
-      result.push([...combination]);
-      generateCombination(i + 1, combination);
-      combination.pop();
-    }
-  }
-
-  generateCombination(0, []);
-  return result;
 }

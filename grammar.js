@@ -28,27 +28,25 @@ module.exports = grammar({
     $._def_keyword,
     $._var_keyword,
     $._index_keyword,
-    $._field_keyword,
-    $._special_character
+    $._field_keyword
   ],
   extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   word: ($) => $.identifier,
   supertypes: ($) => [$._expression, $._statement],
   conflicts: ($) => [
-    [$.record_phrase],
     [$.sort_clause],
     [$.string_literal],
-    [$.if_statement],
-    [$._statement, $.if_statement],
-    [$._statement, $.on_statement]
+    [$.if_statement]
   ],
 
   rules: {
-    source_code: ($) => repeat($._statement),
+    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
 
-    body: ($) => seq(":", repeat($._statement)),
+    body: ($) => seq(":", repeat(choice($._statement, $._definition))),
 
-    dot_body: ($) => seq(choice(":", "."), repeat($._statement)),
+    _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
+
+    dot_body: ($) => seq(choice(":", "."), repeat(choice($._statement, $._definition))),
 
     class_body: ($) =>
       seq(
@@ -80,11 +78,11 @@ module.exports = grammar({
     case_body: ($) =>
       seq(":", repeat1($.case_when_branch), optional($.case_otherwise_branch)),
 
-    enum_body: ($) => seq(":", repeat($.enum_definition)),
+    enum_body: ($) => seq(":", repeat1($.enum_definition)),
 
     label: ($) => seq($.identifier, ":"),
 
-    _terminator: ($) => /\s*\./i,
+    _terminator: ($) => /\s*\./,
 
     _block_terminator: ($) =>
       seq(
@@ -247,10 +245,12 @@ module.exports = grammar({
         $._binary_expression
       ),
 
-    range_notation: ($) => seq(choice($.identifier, $._integer_literal), alias($._for_keyword, "FOR"), $._integer_literal),
-
-    single_quoted_string: ($) =>
-      seq("'", repeat(choice(/[^'\\]+/, /\\./, $._special_character)), "'"),
+    range_notation: ($) =>
+      seq(
+        choice($.identifier, $._integer_literal),
+        alias($._for_keyword, "FOR"),
+        $._integer_literal
+      ),
 
     _define: ($) =>
       choice(
@@ -273,14 +273,11 @@ module.exports = grammar({
         $.constant
       ),
 
-    _include_arguments: ($) =>
-      seq($.include_argument, repeat(seq(" ", $.include_argument))),
-
     include: ($) =>
       seq(
         "{",
         $.file_name,
-        optional($._include_arguments),
+        repeat($.include_argument),
         "}"
       ),
 
@@ -614,7 +611,7 @@ module.exports = grammar({
 
     generic_parameter: ($) => seq($.identifier, $.type_tuning),
 
-    query_fields: ($) => seq("(", repeat($.identifier), ")"),
+    query_fields: ($) => seq("(", repeat1($.identifier), ")"),
 
     argument_mode: ($) =>
       prec.right(
@@ -661,7 +658,7 @@ module.exports = grammar({
         seq(
           repeat(
             choice(
-              $.function_parameter_mode,
+              $.argument_mode,
               $._table_option
             )
           ),
@@ -706,18 +703,19 @@ module.exports = grammar({
         _list(choice($.string_literal, $._name), ",")
       ),
 
-    function_parameter_mode: ($) =>
-      choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT")),
+    // function_parameter_mode: ($) =>
+    //   choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT")),
 
     data_relation: ($) =>
       seq(
         kw("DATA-RELATION"),
+        optional($.identifier),
         alias($._for_keyword, "FOR"),
         _list($._name, ","),
         kw("RELATION-FIELDS"),
         seq(
           "(",
-          optional(_list($._name, ",")),
+          _list($._name, ","),
           ")"
         )
       ),
@@ -739,16 +737,13 @@ module.exports = grammar({
         )
       ),
 
-    _case_branch_body: ($) =>
-      prec(1, choice($.do_block, field("statement", $._statement))),
-
     case_condition: ($) =>
       seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal)),
 
     case_when_branch: ($) =>
-      seq(kw("WHEN"), repeat($.case_condition), kw("THEN"), $._case_branch_body),
+      seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
 
-    case_otherwise_branch: ($) => seq(kw("OTHERWISE"), $._case_branch_body),
+    case_otherwise_branch: ($) => seq(kw("OTHERWISE"), $._statement_body),
 
     where_clause: ($) => seq(kw("WHERE"), field("condition", $._expression)),
 
@@ -772,7 +767,7 @@ module.exports = grammar({
         alias($._index_keyword, "INDEX"),
         $.identifier,
         repeat($.index_tuning),
-        repeat(seq(field("field", $.identifier), optional($.sort_order)))
+        repeat1(seq(field("field", $.identifier), optional($.sort_order)))
       ),
 
     variable: ($) => choice(field("name", $.identifier), $.assignment),
@@ -785,7 +780,7 @@ module.exports = grammar({
           optional(
             seq(
               kw("="),
-              _list(choice($.identifier, $.number_literal, $.string_literal),",")
+              _list(choice($.identifier, $._literal),",")
             )
           )
         )
@@ -808,9 +803,7 @@ module.exports = grammar({
       seq(
         optional($.access_tuning),
         kw("GET"),
-        optional(
-          $._getter_body
-        ),
+        optional($._getter_body),
         $._terminator
       ),
 
@@ -873,7 +866,6 @@ module.exports = grammar({
         $.assignment,
         kw("TO"),
         choice($.function_call, $._integer_literal),
-        $._integer_literal,
         optional(seq(kw("BY"), $._integer_literal))
       ),
 
@@ -931,7 +923,7 @@ module.exports = grammar({
     selection_list_phrase: ($) =>
       seq(
         kw("SELECTION-LIST"),
-        repeat(
+        repeat1(
           choice(
             kw("SINGLE"),
             kw("MULTIPLE"),
@@ -990,7 +982,7 @@ module.exports = grammar({
         kw("ON"),
         kw("ERROR"),
         kw("UNDO"),
-        field("label", optional($.identifier)),
+        optional(field("label", $.identifier)),
         ",",
         choice(
           $.action_phrase,
@@ -1029,7 +1021,7 @@ module.exports = grammar({
     frame_phrase: ($) =>
       seq(
         kw("WITH"),
-        repeat(
+        repeat1(
           choice(
             seq(kw("ACCUM"), optional($._integer_literal)),
             // $.at_phrase, // TODO
@@ -1111,8 +1103,7 @@ module.exports = grammar({
     do_for_phrase: ($) =>
       seq(
         kw("FOR"),
-        $._name,
-        repeat(seq(",", $._name))
+        _list($._name, ",")
       ),
 
       widget_phrase: ($) =>
@@ -1219,24 +1210,10 @@ module.exports = grammar({
           field("height", $.number_literal)
         ),
 
-      record_phrase: ($) =>
-        seq(
-          optional(field("type", choice(kw("EACH"), kw("FIRST"), kw("LAST")))),
-          _list($._name, ","),
-          optional($.of)
-        ),
-
       preselect_phrase: ($) =>
         seq(
           kw("PRESELECT"),
-          _list($.record_phrase, ","),
-          repeat(
-            choice(
-              $.query_tuning,
-              $.where_clause,
-              $.sort_clause
-            )
-          )
+          _list($._for_phrase, ","),
         ),
 
       _for_phrase: ($) =>
@@ -1299,7 +1276,7 @@ module.exports = grammar({
 
     _inner_lines: ($) => seq(kw("INNER-LINES"), $.number_literal),
 
-    _label: ($) => seq(kw("LABEL"), $.string_literal, repeat(seq(",", $.string_literal))),
+    _label: ($) => seq(kw("LABEL"), _list($.string_literal, ",")),
 
     _list_items: ($) =>
       seq(
@@ -1482,7 +1459,7 @@ module.exports = grammar({
         field("name", $.identifier),
         $.type_tuning,
         repeat($.property_tuning),
-        choice(repeat1(choice($.getter, $.setter)), $._terminator)
+        choice(seq($.getter, $.setter), $._terminator)
       ),
 
     query_definition: ($) =>
@@ -1510,9 +1487,9 @@ module.exports = grammar({
       seq(
         $._define,
         repeat($._tuning),
-        repeat(choice($.serialization_tuning, $.constant)),
+        optional($.serialization_tuning),
         kw("TEMP-TABLE"),
-        choice($.identifier, $.constant),
+        field("name", $.identifier),
         repeat($.temp_table_tuning),
         repeat($._temp_table_member),
         $._terminator
@@ -1593,7 +1570,7 @@ module.exports = grammar({
     destructor_statement: ($) =>
       seq(
         kw("DESTRUCTOR"),
-        repeat($.access_tuning),
+        optional(kw("PUBLIC")),
         $.identifier,
         seq("(", ")"),
         $.body,
@@ -1617,7 +1594,7 @@ module.exports = grammar({
         kw("PROCEDURE"),
         $.identifier,
         optional(kw("PRIVATE")),
-        optional(alias($.dot_body, $.body)),
+        optional($.body),
         $._block_terminator
       ),
 
@@ -1674,7 +1651,7 @@ module.exports = grammar({
         repeat($._repeat_phrase),
         optional($.preselect_phrase),
         optional($.while_phrase),
-        repeat($._on_phrase),
+        optional($._on_phrase),
         $.body,
         $._block_terminator
       ),
@@ -1764,7 +1741,7 @@ module.exports = grammar({
     assign_statement: ($) =>
       seq(
         kw("ASSIGN"),
-        repeat($.assignment),
+        repeat1($.assignment),
         optional(kw("NO-ERROR")),
         $._terminator
       ),
@@ -1795,7 +1772,7 @@ module.exports = grammar({
         choice($._name, $._binary_expression),
         seq(
           "(",
-          seq($.accumulate_aggregate, repeat(seq(" ", $.accumulate_aggregate))),
+          repeat1($.accumulate_aggregate),
           ")"
         ),
         $._terminator
@@ -1827,7 +1804,7 @@ module.exports = grammar({
           // $._on_statement_widget_phrase,
           $._on_statement_database_phrase,
           seq(field("label", $.identifier), field("function", $.identifier), $._terminator),
-          seq(alias("\"WEB-NOTIFY\"", $.string_literal), kw("ANYWHERE"), choice($.do_block, prec(2, $._statement)))
+          seq(alias("\"WEB-NOTIFY\"", $.string_literal), kw("ANYWHERE"), $._statement_body)
         )
       ),
 
@@ -1877,28 +1854,34 @@ module.exports = grammar({
       seq(
         optional($.label),
         kw("DO"),
-        repeat(
-          choice(
-            $.do_for_phrase,
-            $.preselect_phrase,
-            $.to_phrase,
-            $.while_phrase,
-            $.stop_after_phrase,
-            kw("TRANSACTION")
-          )
-        ),
-        repeat($._on_phrase),
-        alias($.dot_body, $.body),
+        repeat($._do_tuning),
+        optional($._on_phrase),
+        $.body,
         $._block_terminator
+      ),
+
+    _do_tuning: ($) =>
+      choice(
+        $.do_for_phrase,
+        $.preselect_phrase,
+        $.to_phrase,
+        $.while_phrase,
+        $.stop_after_phrase,
+        kw("TRANSACTION")
       ),
 
     if_statement: ($) =>
       seq(
+        $._if_phrase,
+        $._statement_body,
+        repeat($.else_statement)
+      ),
+
+    _if_phrase: ($) =>
+      seq(
         kw("IF"),
         field("condition", $._expression),
-        kw("THEN"),
-        choice($.do_block, prec(2, $._statement)),
-        repeat($.else_statement)
+        kw("THEN")
       ),
 
     else_statement: ($) =>
@@ -1906,10 +1889,8 @@ module.exports = grammar({
         1,
         seq(
           kw("ELSE"),
-          optional(
-            seq(kw("IF"), field("condition", $._expression), kw("THEN"))
-          ),
-          choice($.do_block, $._statement)
+          optional($._if_phrase),
+          $._statement_body
         )
       ),
 
@@ -2106,21 +2087,21 @@ module.exports = grammar({
         $.undo_statement,
         $.error_scope_statement,
         $.using_statement,
-        $.class_statement,
-        $.interface_statement,
+        // $.class_statement,
+        // $.interface_statement,
         $.on_statement,
         $.prompt_for_statement,
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
 
-        $._definition,
+        // $._definition,
 
         $.variable_assignment,
-        $.do_block,
+        // $.do_block,
         $.preprocessor_directive,
         $.include,
-        $.annotation
+        $.annotation //TODO: Check should it be in supertype
       )
   }
 });

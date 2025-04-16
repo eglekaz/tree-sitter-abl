@@ -316,15 +316,13 @@ END.
           (number_literal)))))
   (repeat_statement
     (preselect_phrase
-      (record_phrase
-        (identifier)
-        (identifier)
-        (of
-          (identifier)))
-      (record_phrase
-        (identifier)
-        (of
-          (identifier))))
+      (identifier)
+      (identifier)
+      (of
+        (identifier))
+      (identifier)
+      (of
+        (identifier)))
     (body)))
 
 ================================================================================
@@ -359,8 +357,7 @@ END.
       (assignment
         (identifier)
         (assignment_operator)
-        (number_literal))
-      (number_literal))
+        (number_literal)))
     (body
       (variable_assignment
         (assignment
@@ -402,16 +399,14 @@ END.
       (assignment
         (identifier)
         (assignment_operator)
-        (number_literal))
-      (number_literal))
+        (number_literal)))
     (body
       (abl_statement
         (identifier)
         (identifier))))
   (do_block
     (preselect_phrase
-      (record_phrase
-        (identifier))
+      (identifier)
       (query_tuning)
       (where_clause
         (comparison_expression
@@ -439,7 +434,7 @@ END.
   (procedure_statement
     (identifier)
     (body
-      (procedure_parameter_definition
+      (parameter_definition
         (identifier)
         (type_tuning
           (primitive_type))
@@ -544,7 +539,7 @@ PersonData:GetById(id, output table ttPerson by-reference).
         (argument
           (argument_mode)
           (identifier)
-          (argument_tuning))))))
+          (parameter_tuning))))))
 
 ================================================================================
 DO TRANSACTION statement
@@ -863,44 +858,44 @@ OUTPUT CLOSE.
 --------------------------------------------------------------------------------
 
 (source_code
-  (input_stream_statement
-    source: (function_call
+  (input_output_statement
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (output_stream_statement
-    target: (function_call
+  (input_output_statement
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (output_close_statement)
-  (input_close_statement)
-  (input_stream_statement
+  (input_output_statement)
+  (input_output_statement)
+  (stream_statement
     name: (identifier)
     source: (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (input_close_statement)
-  (input_stream_statement
+  (input_output_statement)
+  (stream_statement
     name: (identifier)
     source: (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (input_close_statement)
-  (output_stream_statement
-    source: (identifier)
-    target: (string_literal))
-  (output_close_statement)
-  (output_stream_statement
-    source: (identifier)
-    target: (string_literal))
-  (output_close_statement))
+  (input_output_statement)
+  (stream_statement
+    name: (identifier)
+    source: (string_literal))
+  (input_output_statement)
+  (stream_statement
+    name: (identifier)
+    source: (string_literal))
+  (input_output_statement))
 
 ================================================================================
 CATCH and FINALLY statements
@@ -1251,7 +1246,7 @@ END INTERFACE.
           (function_parameter
             (function_parameter_mode)
             (identifier)
-            (function_parameter_tuning))))
+            (parameter_tuning))))
       (comment)
       (method_statement
         (access_tuning)

@@ -128,7 +128,7 @@ END.
               (string_literal)))))))
   (do_block
     (on_quit_phrase
-    (on_phrase_action))
+    (action_phrase))
     (body
       (abl_statement
         (identifier))))
@@ -137,7 +137,7 @@ END.
       (identifier))
     (on_stop_phrase
       (identifier)
-      (on_phrase_action
+      (action_phrase
         (identifier)))
     (body
       (abl_statement
@@ -145,8 +145,7 @@ END.
   (do_block
     (do_for_phrase
       (identifier))
-    (stop_after_phrase
-      (number_literal))
+    (stop_after_phrase)
     (on_error_phrase)
     (body
       (variable_assignment
@@ -180,7 +179,8 @@ END.
   (repeat_statement
     (on_error_phrase)
     (body
-      (undo_statement)))
+      (undo_statement
+        (action_phrase))))
   (for_statement
     (identifier)
     (where_clause
@@ -189,7 +189,7 @@ END.
         (number_literal)))
     (query_tuning)
     (on_quit_phrase
-      (on_phrase_action))
+      (action_phrase))
     (body
       (abl_statement
         (identifier)))))

@@ -332,52 +332,52 @@ DEFINE INPUT PARAMETER DATASET FOR field.
 --------------------------------------------------------------------------------
 
 (source_code
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning)
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning)
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)))

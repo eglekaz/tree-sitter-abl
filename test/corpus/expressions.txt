@@ -383,9 +383,7 @@ Miscellaneous unary expressions
 
 FIND foo WHERE bar NO-ERROR.
 success = AVAILABLE foo AND NOT AMBIGUOUS foo.
-PROMPT-FOR bar FRAME y.
 baz = INPUT FRAME y bar.
-PROMPT-FOR qux.
 quux = INPUT qux.
 IF LOCKED foo THEN RETURN 'error'.
 FIND CURRENT x.
@@ -409,9 +407,6 @@ IF CURRENT-CHANGED x THEN RETURN '!'.
         (unary_expression
           (ambiguous_expression
             (identifier))))))
-  (prompt_for_statement
-    (identifier)
-    frame: (identifier))
   (variable_assignment
     (assignment
       name: (identifier)
@@ -419,8 +414,6 @@ IF CURRENT-CHANGED x THEN RETURN '!'.
       (input_expression
         frame: (identifier)
         field: (identifier))))
-  (prompt_for_statement
-    (identifier))
   (variable_assignment
     (assignment
       name: (identifier)

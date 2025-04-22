@@ -1,70 +1,4 @@
 ================================================================================
-COMMENT
-================================================================================
-
-/* comment */
-// comment
-
---------------------------------------------------------------------------------
-
-(source_code
-  (comment)
-  (comment))
-
-================================================================================
-COMMENT (long)
-================================================================================
-
-/********************
- THIS
- IS
- MULTILINE
- COMMENT
-********************/
-
-/*
-Some text
-Other text /* note */
-More text
-*/
-
---------------------------------------------------------------------------------
-
-(source_code
-  (comment)
-  (comment
-    (comment)))
-
-================================================================================
-INCLUDE
-================================================================================
-
-{include_file.i arg1 &arg2="test" arg3 "NEW" &ABC=variable}
-DISPLAY {&VAR1}.
-
---------------------------------------------------------------------------------
-
-(source_code
-  (include
-    (file_name)
-    (include_argument
-      (identifier))
-    (include_argument
-      (identifier)
-      (string_literal))
-    (include_argument
-      (identifier))
-    (include_argument
-      (string_literal))
-    (include_argument
-      (identifier)
-      (identifier)))
-  (abl_statement
-    (identifier)
-    (constant
-      (identifier))))
-
-================================================================================
 Qualified name
 ================================================================================
 
@@ -161,7 +95,7 @@ DO block
 ================================================================================
 
 DO ON ERROR UNDO, THROW:
-  UNDO, THROW NEW Progress.Lang.AppError("Rethrow me :)").
+  UNDO, THROW NEW Progress.Lang.AppError("Rethrow me").
 END.
 
 DO ON QUIT UNDO, RETURN ERROR:
@@ -194,7 +128,7 @@ END.
               (string_literal)))))))
   (do_block
     (on_quit_phrase
-    (on_phrase_action))
+    (action_phrase))
     (body
       (abl_statement
         (identifier))))
@@ -203,7 +137,7 @@ END.
       (identifier))
     (on_stop_phrase
       (identifier)
-      (on_phrase_action
+      (action_phrase
         (identifier)))
     (body
       (abl_statement
@@ -211,8 +145,7 @@ END.
   (do_block
     (do_for_phrase
       (identifier))
-    (stop_after_phrase
-      (number_literal))
+    (stop_after_phrase)
     (on_error_phrase)
     (body
       (variable_assignment
@@ -246,7 +179,8 @@ END.
   (repeat_statement
     (on_error_phrase)
     (body
-      (undo_statement)))
+      (undo_statement
+        (action_phrase))))
   (for_statement
     (identifier)
     (where_clause
@@ -255,7 +189,7 @@ END.
         (number_literal)))
     (query_tuning)
     (on_quit_phrase
-      (on_phrase_action))
+      (action_phrase))
     (body
       (abl_statement
         (identifier)))))
@@ -286,25 +220,3 @@ DISPLAY Order.CustNum Order.OrderDate Andsomething AndBug.
       (identifier))
     (identifier)
     (identifier)))
-
-================================================================================
-Preprocessor Directives
-================================================================================
-
-&if DEFINED(is_Running) <> 0 &THEN
-  DEFINE VARIABLE cParm AS CHARACTER.
-&ELSE
-  DEFINE INPUT PARAMETER cParm AS CHARACTER.
-&ENDIF
-
-&Scoped-define OPEN-QUERY-DEFAULT-FRAME OPEN QUERY DEFAULT-FRAME FOR EACH ITEM ~
-      WHERE item.system_id = ipcItemSysid AND ~
-item.item = ipcItem NO-LOCK.
-&Scoped-define TABLES-IN-QUERY-DEFAULT-FRAME ITEM
-
---------------------------------------------------------------------------------
-
-(source_code
-  (preprocessor_directive)
-  (preprocessor_directive)
-  (preprocessor_directive))

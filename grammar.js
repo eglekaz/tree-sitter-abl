@@ -423,6 +423,16 @@ module.exports = grammar({
       choice(
         seq(kw("LOB-DIR"), $.string_literal),
         seq(kw("NUM-COPIES"), $._integer_literal),
+        seq(kw("MAP"), $.identifier),
+        seq(
+          kw("CONVERT"),
+          optional(seq(kw("TARGET"), $.string_literal)),
+          optional(seq(kw("SOURCE"), $.string_literal))
+        ),
+      ),
+
+    stream_flag: ($) =>
+      choice(
         kw("COLLATE"),
         kw("BINARY"),
         kw("LANDSCAPE"),
@@ -431,16 +441,9 @@ module.exports = grammar({
         kw("ECHO"),
         kw("NO-ECHO"),
         kw("KEEP-MESSAGES"),
-        seq(kw("MAP"), $.identifier),
         kw("NO-MAP"),
         kw("PAGED"),
-        seq(kw("PAGE-SIZE"), $._integer_literal),
         kw("UNBUFFERED"),
-        seq(
-          kw("CONVERT"),
-          optional(seq(kw("TARGET"), $.string_literal)),
-          optional(seq(kw("SOURCE"), $.string_literal))
-        ),
         kw("NO-CONVERT")
       ),
 
@@ -767,7 +770,7 @@ module.exports = grammar({
         alias($._index_keyword, "INDEX"),
         $.identifier,
         repeat($.index_tuning),
-        repeat1(seq(field("field", $.identifier), optional($.sort_order)))
+        repeat(seq(field("field", $.identifier), optional($.sort_order)))
       ),
 
     variable: ($) => choice(field("name", $.identifier), $.assignment),
@@ -1666,43 +1669,30 @@ module.exports = grammar({
       seq(
         kw("RETURN"),
         optional($._return_action),
-        $._terminator),
-
-    stream_statement: ($) =>
-      seq(
-        choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT")),
-        choice(kw("STREAM"), kw("STREAM-HANDLE")),
-        field("name", $.identifier),
-        choice(kw("FROM"), kw("TO")),
-        field("source", choice($.string_literal, $.function_call)),
-        // repeat($.stream_tuning),
         $._terminator
       ),
 
     input_output_statement: ($) =>
       seq(
         choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT")),
-        $._input_output_statement_option,
+        optional(
+          seq(
+            choice(kw("STREAM"), kw("STREAM-HANDLE")),
+            field("name", $.identifier)
+          ),
+        ),
+        $._input_output_option,
+        repeat($.stream_tuning),
+        // repeat($.stream_flag),
         $._terminator
       ),
 
-    _input_output_statement_option: ($) =>
+    _input_output_option: ($) =>
       choice(
+        kw("CLOSE"),
         seq(
-          optional(
-            seq(
-              choice(kw("STREAM"), kw("STREAM-HANDLE")),
-              field("name", $.identifier)
-            )
-          ),
-          kw("CLOSE")
-        ),
-        seq(
-          choice(
-            kw("FROM"),
-            kw("TO")
-          ),
-          $.function_call
+          choice(kw("FROM"), kw("TO")),
+          choice($.string_literal, $.function_call)
         )
       ),
 
@@ -2077,7 +2067,6 @@ module.exports = grammar({
         $.for_statement,
         $.repeat_statement,
         $.find_statement,
-        $.stream_statement,
         $.case_statement,
         $.input_output_statement,
         $.assign_statement,

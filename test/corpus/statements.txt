@@ -475,12 +475,12 @@ PersonData:GetById(id, output table ttPerson by-reference).
       type: (primitive_type))
     (parameters
       (function_parameter
-        (function_parameter_mode)
+        (argument_mode)
         name: (identifier)
         (type_tuning
           type: (primitive_type)))
       (function_parameter
-        (function_parameter_mode)
+        (argument_mode)
         name: (identifier)
         (type_tuning
           type: (primitive_type))))
@@ -872,29 +872,29 @@ OUTPUT CLOSE.
           (identifier)))))
   (input_output_statement)
   (input_output_statement)
-  (stream_statement
+  (input_output_statement
     name: (identifier)
-    source: (function_call
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
   (input_output_statement)
-  (stream_statement
+  (input_output_statement
     name: (identifier)
-    source: (function_call
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
   (input_output_statement)
-  (stream_statement
+  (input_output_statement
     name: (identifier)
-    source: (string_literal))
+    (string_literal))
   (input_output_statement)
-  (stream_statement
+  (input_output_statement
     name: (identifier)
-    source: (string_literal))
+    (string_literal))
   (input_output_statement))
 
 ================================================================================
@@ -1033,9 +1033,7 @@ END CLASS.
         name: (identifier)
         (type_tuning
           type: (primitive_type))
-        (property_tuning
-          (number_literal))
-        (property_tuning)
+        (number_literal)
         (getter)
         (setter
           (access_tuning)))
@@ -1044,9 +1042,7 @@ END CLASS.
         name: (identifier)
         (type_tuning
           type: (primitive_type))
-        (property_tuning
-          (null_expression))
-        (property_tuning)
+        (null_expression)
         (getter)
         (setter
           (access_tuning)))))
@@ -1189,7 +1185,6 @@ END INTERFACE.
         (identifier)
         (type_tuning
           (primitive_type))
-        (property_tuning)
         (getter)
         (setter))
       (property_definition
@@ -1197,7 +1192,6 @@ END INTERFACE.
         (identifier)
         (type_tuning
           (primitive_type))
-        (property_tuning)
         (getter)
         (setter))
       (comment)
@@ -1244,7 +1238,7 @@ END INTERFACE.
         (identifier)
         (parameters
           (function_parameter
-            (function_parameter_mode)
+            (argument_mode)
             (identifier)
             (parameter_tuning))))
       (comment)
@@ -1800,21 +1794,6 @@ ON WRITE OF Customer NEW new-cust OLD old-cust DO:
   a = 3.
 END.
 
-ON "WEB-NOTIFY" ANYWHERE DO:
-  a = 3.
-END.
-
-ON CHOOSE OF b_next, b_prev DO:
-  FIND PREV Customer NO-LOCK.
-END.
-
-ON {&SEARCH-KEYBOARD},{&SEARCH-MOUSE} OF particular_fill-in_Field DO:
-  display Messages.
-END.
-
-ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
-  RUN adehelp.p.
-
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1832,50 +1811,5 @@ ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
           (assignment
             name: (identifier)
             (assignment_operator)
-            (number_literal))))))
-  (on_statement
-    (string_literal)
-    (do_block
-      (body
-        (variable_assignment
-          (assignment
-            name: (identifier)
-            (assignment_operator)
-            (number_literal))))))
-  (on_statement
-        (identifier)
-        (of_phrase
-          (widget_phrase
-            (identifier)
-            (identifier)))
-        (do_block
-          (body
-            (find_statement
-              table: (identifier)
-              (query_tuning)))))
-  (on_statement
-    (constant
-      (identifier))
-    (constant
-      (identifier))
-    (of_phrase
-      (widget_phrase
-      (identifier)))
-    (do_block
-      (body
-        (abl_statement
-          statement: (identifier)
-          (identifier)))))
-  (on_statement
-    (identifier)
-    (of_phrase
-      (widget_phrase
-        frame: (identifier)))
-    (identifier)
-    (of_phrase
-      (widget_phrase
-        (identifier)
-        frame: (identifier)))
-    (run_statement
-      procedure: (file_name))))
+            (number_literal)))))))
 

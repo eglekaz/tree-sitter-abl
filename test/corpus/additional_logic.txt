@@ -75,7 +75,7 @@ COMMENT (long)
 
 /*
 Some text
-Other text /* note */
+Other text
 More text
 */
 
@@ -83,8 +83,7 @@ More text
 
 (source_code
   (comment)
-  (comment
-    (comment)))
+  (comment))
 
 ================================================================================
 ANNOTATION

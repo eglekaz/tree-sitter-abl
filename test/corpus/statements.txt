@@ -15,11 +15,10 @@ variable /= 3.
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
   (variable_assignment
     (assignment
       (identifier)
@@ -317,15 +316,13 @@ END.
           (number_literal)))))
   (repeat_statement
     (preselect_phrase
-      (record_phrase
-        (identifier)
-        (identifier)
-        (of
-          (identifier)))
-      (record_phrase
-        (identifier)
-        (of
-          (identifier))))
+      (identifier)
+      (identifier)
+      (of
+        (identifier))
+      (identifier)
+      (of
+        (identifier)))
     (body)))
 
 ================================================================================
@@ -360,8 +357,7 @@ END.
       (assignment
         (identifier)
         (assignment_operator)
-        (number_literal))
-      (number_literal))
+        (number_literal)))
     (body
       (variable_assignment
         (assignment
@@ -403,16 +399,14 @@ END.
       (assignment
         (identifier)
         (assignment_operator)
-        (number_literal))
-      (number_literal))
+        (number_literal)))
     (body
       (abl_statement
         (identifier)
         (identifier))))
   (do_block
     (preselect_phrase
-      (record_phrase
-        (identifier))
+      (identifier)
       (query_tuning)
       (where_clause
         (comparison_expression
@@ -440,7 +434,7 @@ END.
   (procedure_statement
     (identifier)
     (body
-      (procedure_parameter_definition
+      (parameter_definition
         (identifier)
         (type_tuning
           (primitive_type))
@@ -481,12 +475,12 @@ PersonData:GetById(id, output table ttPerson by-reference).
       type: (primitive_type))
     (parameters
       (function_parameter
-        (function_parameter_mode)
+        (argument_mode)
         name: (identifier)
         (type_tuning
           type: (primitive_type)))
       (function_parameter
-        (function_parameter_mode)
+        (argument_mode)
         name: (identifier)
         (type_tuning
           type: (primitive_type))))
@@ -545,7 +539,7 @@ PersonData:GetById(id, output table ttPerson by-reference).
         (argument
           (argument_mode)
           (identifier)
-          (argument_tuning))))))
+          (parameter_tuning))))))
 
 ================================================================================
 DO TRANSACTION statement
@@ -655,10 +649,9 @@ END.
   (for_statement
     table: (identifier)
     (query_tuning)
-    (for_phrase
-      table: (identifier)
-      (of
-        (identifier)))
+    table: (identifier)
+    (of
+      (identifier))
     (body
       (abl_statement
         statement: (identifier)
@@ -865,44 +858,44 @@ OUTPUT CLOSE.
 --------------------------------------------------------------------------------
 
 (source_code
-  (input_stream_statement
-    target: (function_call
+  (input_output_statement
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (output_stream_statement
-    target: (function_call
+  (input_output_statement
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (output_close_statement)
-  (input_close_statement)
-  (input_stream_statement
-    source: (identifier)
-    target: (function_call
+  (input_output_statement)
+  (input_output_statement)
+  (input_output_statement
+    name: (identifier)
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (input_close_statement)
-  (input_stream_statement
-    source: (identifier)
-    target: (function_call
+  (input_output_statement)
+  (input_output_statement
+    name: (identifier)
+    (function_call
       function: (identifier)
       (arguments
         (argument
           (identifier)))))
-  (input_close_statement)
-  (output_stream_statement
-    source: (identifier)
-    target: (string_literal))
-  (output_close_statement)
-  (output_stream_statement
-    source: (identifier)
-    target: (string_literal))
-  (output_close_statement))
+  (input_output_statement)
+  (input_output_statement
+    name: (identifier)
+    (string_literal))
+  (input_output_statement)
+  (input_output_statement
+    name: (identifier)
+    (string_literal))
+  (input_output_statement))
 
 ================================================================================
 CATCH and FINALLY statements
@@ -1003,26 +996,22 @@ END CLASS.
       (implements
         (identifier)))
     (body
-      (definition
-        (variable_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))))))
+      (variable_definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type)))))
   (class_statement
     name: (identifier)
     (class_tuning
       (inherits
         (identifier)))
-    (class_tuning
-      (final))
-    (class_tuning
-      (serializable))
+    (class_tuning)
+    (class_tuning)
     (body
-      (definition
-        (variable_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))))))
+      (variable_definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type)))))
   (variable_assignment
     (assignment
       name: (identifier)
@@ -1036,34 +1025,27 @@ END CLASS.
       (identifier)))
   (class_statement
     name: (identifier)
-    (class_tuning
-      (final))
+    (class_tuning)
     (body
       (comment)
-      (definition
+      (property_definition
         (access_tuning)
-        (property_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))
-          (property_tuning
-            (number_literal))
-          (property_tuning)
-          (getter)
-          (setter
-            (access_tuning))))
-      (definition
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))
+        (number_literal)
+        (getter)
+        (setter
+          (access_tuning)))
+      (property_definition
         (access_tuning)
-        (property_definition
-          name: (identifier)
-          (type_tuning
-            type: (primitive_type))
-          (property_tuning
-            (null_expression))
-          (property_tuning)
-          (getter)
-          (setter
-            (access_tuning))))))
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))
+        (null_expression)
+        (getter)
+        (setter
+          (access_tuning)))))
   (class_statement
     name: (identifier)
     (body
@@ -1110,9 +1092,7 @@ END CASE.
                 (number_literal))))))
       (case_when_branch
         (case_condition
-          (logical_expression
-            (string_literal)
-            (identifier)))
+          (string_literal))
         (case_condition
           (string_literal))
         (variable_assignment
@@ -1200,64 +1180,56 @@ END INTERFACE.
     (identifier)
     (body
       (comment)
-      (definition
+      (property_definition
         (access_tuning)
-        (property_definition
-          (identifier)
-          (type_tuning
-            (primitive_type))
-          (property_tuning)
-          (getter)
-          (setter)))
-      (definition
+        (identifier)
+        (type_tuning
+          (primitive_type))
+        (getter)
+        (setter))
+      (property_definition
         (access_tuning)
-        (property_definition
-          (identifier)
-          (type_tuning
-            (primitive_type))
-          (property_tuning)
-          (getter)
-          (setter)))
+        (identifier)
+        (type_tuning
+          (primitive_type))
+        (getter)
+        (setter))
       (comment)
-      (definition
+      (event_definition
         (access_tuning)
-        (event_definition
-          (identifier)
-          (parameters
-            (function_parameter
-              (identifier)
-              (type_tuning
-                (primitive_type))))))
-      (comment)
-      (definition
-        (temp_table_definition
-          (identifier)
-          (temp_table_tuning)
-          (temp_table_tuning
-            (like_phrase
-              (identifier)))))
-      (definition
-        (temp_table_definition
-          (identifier)
-          (temp_table_tuning)
-          (temp_table_tuning
-            (like_phrase
-              (identifier)))))
-      (comment)
-      (definition
-        (dataset_definition
-          (identifier)
-          (identifier)
-          (identifier)
-          (data_relation
+        (identifier)
+        (parameters
+          (function_parameter
             (identifier)
+            (type_tuning
+              (primitive_type)))))
+      (comment)
+      (temp_table_definition
+        (identifier)
+        (temp_table_tuning)
+        (temp_table_tuning
+          (like_phrase
+            (identifier))))
+      (temp_table_definition
+        (identifier)
+        (temp_table_tuning)
+        (temp_table_tuning
+          (like_phrase
+            (identifier))))
+      (comment)
+      (dataset_definition
+        (identifier)
+        (identifier)
+        (identifier)
+        (data_relation
+          (identifier)
+          (identifier)
+          (qualified_name
             (identifier)
-            (qualified_name
-              (identifier)
-              (identifier))
-            (qualified_name
-              (identifier)
-              (identifier)))))
+            (identifier))
+          (qualified_name
+            (identifier)
+            (identifier))))
       (comment)
       (method_statement
         (access_tuning)
@@ -1266,9 +1238,9 @@ END INTERFACE.
         (identifier)
         (parameters
           (function_parameter
-            (function_parameter_mode)
+            (argument_mode)
             (identifier)
-            (function_parameter_tuning))))
+            (parameter_tuning))))
       (comment)
       (method_statement
         (access_tuning)
@@ -1822,21 +1794,6 @@ ON WRITE OF Customer NEW new-cust OLD old-cust DO:
   a = 3.
 END.
 
-ON "WEB-NOTIFY" ANYWHERE DO:
-  a = 3.
-END.
-
-ON CHOOSE OF b_next, b_prev DO:
-  FIND PREV Customer NO-LOCK.
-END.
-
-ON {&SEARCH-KEYBOARD},{&SEARCH-MOUSE} OF particular_fill-in_Field DO:
-  display Messages.
-END.
-
-ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
-  RUN adehelp.p.
-
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1854,50 +1811,5 @@ ON HELP OF FRAME someArea OR CHOOSE OF helpButton IN FRAME someArea
           (assignment
             name: (identifier)
             (assignment_operator)
-            (number_literal))))))
-  (on_statement
-    (string_literal)
-    (do_block
-      (body
-        (variable_assignment
-          (assignment
-            name: (identifier)
-            (assignment_operator)
-            (number_literal))))))
-  (on_statement
-        (identifier)
-        (of_phrase
-          (widget_phrase
-            (identifier)
-            (identifier)))
-        (do_block
-          (body
-            (find_statement
-              table: (identifier)
-              (query_tuning)))))
-  (on_statement
-    (constant
-      (identifier))
-    (constant
-      (identifier))
-    (of_phrase
-      (widget_phrase
-      (identifier)))
-    (do_block
-      (body
-        (abl_statement
-          statement: (identifier)
-          (identifier)))))
-  (on_statement
-    (identifier)
-    (of_phrase
-      (widget_phrase
-        (identifier)))
-    (identifier)
-    (of_phrase
-      (widget_phrase
-        (identifier)
-        (identifier)))
-    (run_statement
-      procedure: (file_name))))
+            (number_literal)))))))
 

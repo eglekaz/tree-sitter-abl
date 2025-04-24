@@ -24,113 +24,83 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
   INITIAL ["Add","Delete","Update"].
 
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
-  VIEW-AS SELECTION-LIST SIZE 20 BY 5 MULTIPLE SCROLLBAR-VERTICAL NO-DRAG
-    LIST-ITEMS "One Iron", "Two Iron", "Three Iron", "Four Iron",
-               "Five Iron", "Six Iron", "Seven Iron", "Eight Iron",
-               "Nine Iron", "Pitching Wedge"
-  LABEL "Golf Clubs Available".
+  VIEW-AS TEXT LABEL "Golf Clubs Available".
 
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))))
-    (definition
-      (variable_definition
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning
+      (null_expression)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (identifier)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (qualified_name
         (identifier)
-        (type_tuning
-          (primitive_type))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))
-      (variable_tuning)))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))
-      (variable_tuning
-        (null_expression))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
+        (identifier)
+        (identifier)
+        (identifier)))
+    (variable_tuning))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (class_type
         (identifier))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (qualified_name
-          (identifier)
-          (identifier)
-          (identifier)
-          (identifier)))
-      (variable_tuning)))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (class_type
-          (identifier)))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))
-      (variable_tuning)
-      (variable_tuning
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (string_literal)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (number_literal))
+    (variable_tuning
+      (array_literal
+        (string_literal)
+        (string_literal)
         (string_literal))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))
-      (variable_tuning)
-      (variable_tuning
-        (number_literal))
-      (variable_tuning
-        (array_literal
-          (string_literal)
-          (string_literal)
-          (string_literal)))))
-  (definition
-    (variable_definition
-      (identifier)
-      (type_tuning
-        (primitive_type))
-      (variable_tuning)
-      (view_as_phrase
-        (selection_list_phrase
-          (size_phrase
-            (number_literal)
-            (number_literal))
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)
-          (string_literal)))
-      (variable_tuning
-        (string_literal)))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (view_as_phrase)
+    (variable_tuning
+      (string_literal))))
 
 ================================================================================
 BUFFER DEFINITION statement
@@ -141,27 +111,9 @@ DEFINE BUFFER x-table FOR table.
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
-    (buffer_definition
-      (identifier)
-      (identifier))))
-
-================================================================================
-IMAGE DEFINITION statement
-================================================================================
-
-DEFINE IMAGE myImage SIZE 5 BY 5 CONVERT-3D-COLORS.
-
---------------------------------------------------------------------------------
-
-(source_code
-  (definition
-    (image_definition
-      name: (identifier)
-      (size_phrase
-        width: (number_literal)
-        height: (number_literal))
-      (image_tuning))))
+  (buffer_definition
+    (identifier)
+    (identifier)))
 
 ================================================================================
 QUERY DEFINITION statement
@@ -172,18 +124,19 @@ DEFINE QUERY q1 FOR tr_hist FIELDS (name balance) EXCEPT (something else lol) SC
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
-    (query_definition
-      (identifier)
-      (identifier)
+  (query_definition
+    (identifier)
+    (identifier)
+    (query_definition_tuning
       (query_fields
         (identifier)
-        (identifier))
+        (identifier)))
+    (query_definition_tuning
       (query_fields
         (identifier)
         (identifier)
-        (identifier))
-      (query_definition_tuning))))
+        (identifier)))
+    (query_definition_tuning)))
 
 ================================================================================
 STREAM DEFINITION statement
@@ -196,16 +149,14 @@ DEFINE NEW SHARED STREAM o.
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
+  (stream_definition
     (scope_tuning)
     (scope_tuning)
-    (stream_definition
-      name: (identifier)))
-  (definition
+    name: (identifier))
+  (stream_definition
     (scope_tuning)
     (scope_tuning)
-    (stream_definition
-      name: (identifier))))
+    name: (identifier)))
 
 ================================================================================
 TEMP-TABLE DEFINITION statement
@@ -234,93 +185,90 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
 --------------------------------------------------------------------------------
 
 (source_code
-  (definition
+  (temp_table_definition
     (scope_tuning)
     (scope_tuning)
     (access_tuning)
-    (temp_table_definition
-      (serialization_tuning)
+    (serialization_tuning)
+    (identifier)
+    (temp_table_tuning)
+    (temp_table_tuning)
+    (field_clause
       (identifier)
-      (temp_table_tuning)
-      (temp_table_tuning)
-      (field_clause
-        (identifier)
-        (type_tuning
-          (qualified_name
-            (identifier)
-            (identifier))))
-      (field_clause
-        (identifier)
-        (type_tuning
-          (qualified_name
-            (identifier)
-            (identifier)))
-        (field_option
-          (string_literal)))
-      (index_clause
-        (identifier)
-        (index_tuning)
-        (identifier)
-        (sort_order))
-      (index_clause
-        (identifier)
-        (identifier)
-        (sort_order))))
-  (definition
-    (temp_table_definition
+      (type_tuning
+        (qualified_name
+          (identifier)
+          (identifier))))
+    (field_clause
       (identifier)
-      (field_clause
-        (identifier)
-        (type_tuning
-          (primitive_type)))
-      (field_clause
-        (identifier)
-        (type_tuning
-          (primitive_type)))
-      (field_clause
-        (identifier)
-        (type_tuning
-          (primitive_type)))
-      (index_clause
-        (identifier)
-        (identifier)
-        (sort_order)
-        (identifier)
-        (sort_order)
-        (identifier)
-        (sort_order))))
-  (definition
-    (temp_table_definition
+      (type_tuning
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (field_option
+        (string_literal)))
+    (index_clause
       (identifier)
-      (temp_table_tuning)
-      (temp_table_tuning
-        (string_literal))
-      (temp_table_tuning
-        (constant))
-      (field_clause
-        (identifier)
-        (type_tuning
-          (qualified_name
-            (identifier)
-            (identifier))))
-      (field_clause
-        (identifier)
-        (type_tuning
-          (qualified_name
-            (identifier)
-            (identifier)))
-        (field_option))
-      (include
-        (file_name))
-      (index_clause
-        (identifier)
-        (index_tuning)
-        (identifier)
-        (sort_order))
-      (index_clause
-        (identifier)
-        (identifier)
-        (sort_order)))))
+      (index_tuning)
+      (identifier)
+      (sort_order))
+    (index_clause
+      (identifier)
+      (identifier)
+      (sort_order)))
+  (temp_table_definition
+    (identifier)
+    (field_clause
+      (identifier)
+      (type_tuning
+        (primitive_type)))
+    (field_clause
+      (identifier)
+      (type_tuning
+        (primitive_type)))
+    (field_clause
+      (identifier)
+      (type_tuning
+        (primitive_type)))
+    (index_clause
+      (identifier)
+      (identifier)
+      (sort_order)
+      (identifier)
+      (sort_order)
+      (identifier)
+      (sort_order)))
+  (temp_table_definition
+    (identifier)
+    (temp_table_tuning)
+    (temp_table_tuning
+      (string_literal))
+    (temp_table_tuning
+      (constant))
+    (field_clause
+      (identifier)
+      (type_tuning
+        (qualified_name
+          (identifier)
+          (identifier))))
+    (field_clause
+      (identifier)
+      (type_tuning
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (field_option))
+    (include
+      (file_name))
+    (index_clause
+      (identifier)
+      (index_tuning)
+      (identifier)
+      (sort_order))
+    (index_clause
+      (identifier)
+      (identifier)
+      (sort_order))))
 
 ================================================================================
 PROCEDURE PARAMETER DEFINITION statement
@@ -350,52 +298,52 @@ DEFINE INPUT PARAMETER DATASET FOR field.
 --------------------------------------------------------------------------------
 
 (source_code
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning)
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
-    (procedure_parameter_tuning)
-    (procedure_parameter_tuning))
-  (procedure_parameter_definition
+    (parameter_tuning)
+    (parameter_tuning))
+  (parameter_definition
     (identifier)
     (identifier))
-  (procedure_parameter_definition
+  (parameter_definition
     (identifier)))

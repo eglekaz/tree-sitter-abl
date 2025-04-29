@@ -347,3 +347,33 @@ DEFINE INPUT PARAMETER DATASET FOR field.
     (identifier))
   (parameter_definition
     (identifier)))
+
+================================================================================
+EVENT DELEGATE STYLE
+================================================================================
+
+DEFINE EVENT design DELEGATE designs.Events.
+
+--------------------------------------------------------------------------------
+    
+    (source_code
+      (event_definition
+        (identifier)
+        (qualified_name
+          (identifier)
+          (identifier))))
+
+================================================================================
+EVENT SIGNATURELESS PUBLIC STYLE
+================================================================================
+
+DEFINE PUBLIC EVENT NewCustomer.
+
+--------------------------------------------------------------------------------
+
+    (source_code
+      (event_definition
+        (access_tuning)
+        (identifier)))
+
+

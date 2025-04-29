@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "abl",
   "word": "identifier",
   "rules": {
@@ -734,7 +735,8 @@
     },
     "file_name": {
       "type": "PATTERN",
-      "value": "[A-z-_|0-9|\\/]+\\.[ip]"
+      "value": "[A-z-_|0-9|\\/]+\\.[ip]",
+      "flags": "i"
     },
     "comment": {
       "type": "CHOICE",
@@ -1605,7 +1607,8 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Z|a-z|\\-|\\\\_]{1}[A-Z|a-z|\\-|\\\\_|0-9]*"
+      "value": "[A-Z|a-z|\\-|\\\\_]{1}[A-Z|a-z|\\-|\\\\_|0-9]*",
+      "flags": "i"
     },
     "constant": {
       "type": "SEQ",
@@ -8782,57 +8785,136 @@
           "value": "EVENT"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[sS][iI][gG][nN][aA][tT][uU][rR][eE]"
-                  }
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": 1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "[sS][iI][gG][nN][aA][tT][uU][rR][eE]"
+                              }
+                            }
+                          },
+                          "named": false,
+                          "value": "SIGNATURE"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "TOKEN",
+                        "content": {
+                          "type": "PREC",
+                          "value": 1,
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[vV][oO][iI][dD]"
+                          }
+                        }
+                      },
+                      "named": false,
+                      "value": "VOID"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "function_parameters"
+                      },
+                      "named": true,
+                      "value": "parameters"
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": 1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "[dD][eE][lL][eE][gG][aA][tT][eE]"
+                              }
+                            }
+                          },
+                          "named": false,
+                          "value": "DELEGATE"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": 1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "[cC][lL][aA][sS][sS]"
+                              }
+                            }
+                          },
+                          "named": false,
+                          "value": "CLASS"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_name"
+                    }
+                  ]
                 }
-              },
-              "named": false,
-              "value": "SIGNATURE"
+              ]
             },
             {
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[vV][oO][iI][dD]"
-              }
-            }
-          },
-          "named": false,
-          "value": "VOID"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "function_parameters"
-          },
-          "named": true,
-          "value": "parameters"
         },
         {
           "type": "SYMBOL",
@@ -13101,6 +13183,6 @@
   "supertypes": [
     "_expression",
     "_statement"
-  ]
+  ],
+  "reserved": {}
 }
-

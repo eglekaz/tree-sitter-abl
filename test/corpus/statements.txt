@@ -466,6 +466,8 @@ fn-no-mode(somerpar) NO-ERROR.
 
 PersonData:GetById(id, output table ttPerson by-reference).
 
+function getData returns integer (pcFile as char) in ContextHandle.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -539,7 +541,17 @@ PersonData:GetById(id, output table ttPerson by-reference).
         (argument
           (argument_mode)
           (identifier)
-          (parameter_tuning))))))
+          (parameter_tuning)))))
+  (function_statement
+    name: (identifier)
+    (return_type
+      type: (primitive_type))
+    (parameters
+      (function_parameter
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))))
+    (identifier)))
 
 ================================================================================
 DO TRANSACTION statement
@@ -1092,7 +1104,9 @@ END CASE.
                 (number_literal))))))
       (case_when_branch
         (case_condition
-          (string_literal))
+          (logical_expression
+            (string_literal)
+            (identifier)))
         (case_condition
           (string_literal))
         (variable_assignment

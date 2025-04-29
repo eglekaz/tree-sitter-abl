@@ -42,7 +42,7 @@ module.exports = grammar({
   rules: {
     source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
 
-    body: ($) => seq(":", repeat(choice($._statement, $._definition))),
+    body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block))),
 
     _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
 
@@ -57,7 +57,8 @@ module.exports = grammar({
             $.var_statement,
             seq(
               optional($.annotation),
-              $.method_statement),
+              $.method_statement
+            ),
             $.constructor_statement,
             $.destructor_statement
           )
@@ -533,23 +534,21 @@ module.exports = grammar({
       ),
 
     variable_tuning: ($) =>
-      seq(
-        choice(
-          $._serialize_name,
-          // $._bgcolor,
-          // $._fgcolor,
-          // $._pfcolor,
-          // $._dcolor,
-          // $._context_help_id,
-          $._value_tuning,
-          $._format,
-          $._font,
-          $._label,
-          seq(kw("MOUSE-POINTER"), $.identifier),
-          $._column_label,
-          // kw("DROP-TARGET"),
-          seq(optional(kw("NOT")), kw("CASE-SENSITIVE")),
-        )
+      choice(
+        $._serialize_name,
+        // $._bgcolor,
+        // $._fgcolor,
+        // $._pfcolor,
+        // $._dcolor,
+        // $._context_help_id,
+        $._value_tuning,
+        $._format,
+        $._font,
+        $._label,
+        seq(kw("MOUSE-POINTER"), $.identifier),
+        $._column_label,
+        // kw("DROP-TARGET"),
+        seq(optional(kw("NOT")), kw("CASE-SENSITIVE")),
       ),
 
     // TYPES
@@ -649,9 +648,9 @@ module.exports = grammar({
             $.number_literal,
             $.null_expression,
             $._binary_expression,
-
+            $.function_call
           ),
-          optional($.parameter_tuning)
+          repeat($.parameter_tuning)
         )
       ),
 
@@ -740,7 +739,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -1432,7 +1431,9 @@ module.exports = grammar({
         optional(
           choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT"), kw("RETURN"))
         ),
-        $._parameter_definition_option,
+        choice(kw("PARAMETER"), kw("PARAM")),
+        optional($._parameter_definition_option),
+        optional(alias($._for_keyword, "FOR")),
         field("name", $.identifier),
         choice(
           seq($.type_tuning, repeat($.variable_tuning)),
@@ -1450,17 +1451,11 @@ module.exports = grammar({
       ),
 
     _parameter_definition_option: ($) =>
-      seq(
-        choice(kw("PARAMETER"), kw("PARAM")),
-        optional(
-          choice(
-            seq(kw("BUFFER"), field("buffer", $.identifier)),
-            kw("TABLE"),
-            kw("TABLE-HANDLE"),
-            seq(kw("DATASET"), optional(token.immediate(kw("-HANDLE"))))
-          )
-        ),
-        optional(alias($._for_keyword, "FOR")),
+      choice(
+        seq(kw("BUFFER"), field("buffer", $.identifier)),
+        kw("TABLE"),
+        kw("TABLE-HANDLE"),
+        seq(kw("DATASET"), optional(token.immediate(kw("-HANDLE"))))
       ),
 
     property_definition: ($) =>
@@ -1471,7 +1466,7 @@ module.exports = grammar({
         field("name", $.identifier),
         $.type_tuning,
         repeat($._value_tuning),
-        choice(seq($.getter, $.setter), $._terminator)
+        choice(repeat1(choice($.getter, $.setter)), $._terminator)
       ),
 
     query_definition: ($) =>
@@ -1652,8 +1647,15 @@ module.exports = grammar({
         $.return_type,
         optional($._extent),
         optional(alias($.function_parameters, $.parameters)),
-        optional(alias($.dot_body, $.body)),
-        $._block_terminator
+        $._function_option,
+      ),
+
+    _function_option: ($) =>
+      choice(
+        seq(
+          optional(alias($.dot_body, $.body)),
+          $._block_terminator),
+        seq(kw("IN"), $.identifier, $._terminator)
       ),
 
     repeat_statement: ($) =>
@@ -1827,6 +1829,14 @@ module.exports = grammar({
         $._terminator
       ),
 
+    release_statement: ($) =>
+      seq(
+        kw("RELEASE"),
+        $.identifier,
+        optional(kw("NO-ERROR")),
+        $._terminator
+      ),
+
     run_statement: ($) =>
       seq(
         kw("RUN"),
@@ -1939,7 +1949,7 @@ module.exports = grammar({
     ambiguous_expression: ($) => seq(kw("AMBIGUOUS"), $._name),
 
     temp_table_expression: ($) =>
-      seq(kw("TEMP-TABLE"), field("table", $.identifier)),
+      seq(kw("TEMP-TABLE"), field("table", choice($.identifier, $.object_access))),
 
     current_changed_expression: ($) => seq(kw("CURRENT-CHANGED"), $._name),
 
@@ -2090,6 +2100,7 @@ module.exports = grammar({
         // $.interface_statement,
         $.on_statement,
         $.prompt_for_statement,
+        $.release_statement,
         $.run_statement,
         $.enum_statement,
         $.abl_statement,

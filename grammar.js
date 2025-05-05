@@ -60,7 +60,8 @@ module.exports = grammar({
               $.method_statement
             ),
             $.constructor_statement,
-            $.destructor_statement
+            $.destructor_statement,
+            $.function_statement
           )
         )
       ),
@@ -648,6 +649,7 @@ module.exports = grammar({
             $.number_literal,
             $.null_expression,
             $._binary_expression,
+            $.unary_expression,
             $.function_call
           ),
           repeat($.parameter_tuning)
@@ -1655,7 +1657,10 @@ module.exports = grammar({
         seq(
           optional(alias($.dot_body, $.body)),
           $._block_terminator),
-        seq(kw("IN"), $.identifier, $._terminator)
+          seq(
+            choice(seq(kw("IN"), $.identifier), kw("FORWARD")),
+            $._terminator
+          )
       ),
 
     repeat_statement: ($) =>
@@ -2015,7 +2020,7 @@ module.exports = grammar({
     available_expression: ($) =>
       seq(
         choice(kw("AVAIL"), kw("AVAILABLE")),
-        $.identifier
+        choice($.identifier, $.parenthesized_expression),
       ),
 
     new_expression: ($) =>

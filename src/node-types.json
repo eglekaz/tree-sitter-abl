@@ -506,6 +506,10 @@
         {
           "type": "type_tuning",
           "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
         }
       ]
     }
@@ -711,6 +715,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         }
       ]
@@ -4770,6 +4778,10 @@
   },
   {
     "type": "FORMAT",
+    "named": false
+  },
+  {
+    "type": "FORWARD",
     "named": false
   },
   {

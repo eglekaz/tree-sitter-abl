@@ -158,6 +158,10 @@
               {
                 "type": "SYMBOL",
                 "name": "destructor_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "function_statement"
               }
             ]
           }
@@ -4638,6 +4642,10 @@
               {
                 "type": "SYMBOL",
                 "name": "_binary_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unary_expression"
               },
               {
                 "type": "SYMBOL",
@@ -10413,24 +10421,50 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "TOKEN",
+                        "content": {
+                          "type": "PREC",
+                          "value": 1,
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[iI][nN]"
+                          }
+                        }
+                      },
+                      "named": false,
+                      "value": "IN"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    }
+                  ]
+                },
+                {
+                  "type": "ALIAS",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "[iI][nN]"
-                  }
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[fF][oO][rR][wW][aA][rR][dD]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "FORWARD"
                 }
-              },
-              "named": false,
-              "value": "IN"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
+              ]
             },
             {
               "type": "SYMBOL",
@@ -12620,8 +12654,17 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_expression"
+            }
+          ]
         }
       ]
     },

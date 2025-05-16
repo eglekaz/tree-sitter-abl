@@ -24,11 +24,7 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
   INITIAL ["Add","Delete","Update"].
 
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
-  VIEW-AS SELECTION-LIST SIZE 20 BY 5 MULTIPLE SCROLLBAR-VERTICAL NO-DRAG
-    LIST-ITEMS "One Iron", "Two Iron", "Three Iron", "Four Iron",
-               "Five Iron", "Six Iron", "Seven Iron", "Eight Iron",
-               "Nine Iron", "Pitching Wedge"
-  LABEL "Golf Clubs Available".
+  VIEW-AS TEXT LABEL "Golf Clubs Available".
 
 --------------------------------------------------------------------------------
 
@@ -102,21 +98,7 @@ DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
     (type_tuning
       (primitive_type))
     (variable_tuning)
-    (view_as_phrase
-      (selection_list_phrase
-        (size_phrase
-          (number_literal)
-          (number_literal))
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)
-        (string_literal)))
+    (view_as_phrase)
     (variable_tuning
       (string_literal))))
 
@@ -132,22 +114,6 @@ DEFINE BUFFER x-table FOR table.
   (buffer_definition
     (identifier)
     (identifier)))
-
-================================================================================
-IMAGE DEFINITION statement
-================================================================================
-
-DEFINE IMAGE myImage SIZE 5 BY 5 CONVERT-3D-COLORS.
-
---------------------------------------------------------------------------------
-
-(source_code
-  (image_definition
-    name: (identifier)
-    (size_phrase
-      width: (number_literal)
-      height: (number_literal))
-    (image_tuning)))
 
 ================================================================================
 QUERY DEFINITION statement

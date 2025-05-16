@@ -854,6 +854,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "member_modifier",
           "named": true
         },
@@ -1241,6 +1245,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1280,6 +1288,10 @@
       "types": [
         {
           "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -1540,6 +1552,10 @@
       "types": [
         {
           "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -2484,6 +2500,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "member_modifier",
           "named": true
         },
@@ -2572,6 +2592,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
           {
             "type": "function_call",
             "named": true
@@ -3003,6 +3027,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "getter",
           "named": true
         },
@@ -3081,6 +3109,10 @@
       "types": [
         {
           "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -3622,6 +3654,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "member_modifier",
           "named": true
         },
@@ -3697,6 +3733,10 @@
       "types": [
         {
           "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -3831,6 +3871,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -4122,6 +4166,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "member_modifier",
           "named": true
         },
@@ -4256,6 +4304,10 @@
       "types": [
         {
           "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {

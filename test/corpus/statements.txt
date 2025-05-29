@@ -1827,3 +1827,118 @@ END.
             (assignment_operator)
             (number_literal)))))))
 
+================================================================================
+ Return statement this object
+================================================================================
+
+return this-object .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (identifier)))
+
+================================================================================
+Return statement #1
+================================================================================
+
+RETURN ERROR mye.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (identifier)))
+
+================================================================================
+Return statement #2
+================================================================================
+
+return error .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement))
+
+================================================================================
+Return statement if 
+================================================================================
+
+return error if return-value > "" then return-value else error-status:get-message(1) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (ternary_expression
+          (comparison_expression
+            (identifier)
+            (string_literal))
+          (identifier)
+          (function_call
+            (object_access
+              (identifier)
+              (identifier))
+            (arguments
+              (argument
+                (number_literal)))))))
+
+================================================================================
+if statement Return value >
+================================================================================
+
+IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
+                UNDO, THROW NEW WowError(RETURN-VALUE, 0) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (logical_expression
+          (comparison_expression
+            (identifier)
+            (string_literal
+              (string_literal_attribute)))
+          (comparison_expression
+            (identifier)
+            (identifier)))
+        (undo_statement
+          (new_expression
+            (identifier)
+            (arguments
+              (argument
+                (identifier))
+              (argument
+                (number_literal)))))))
+
+
+================================================================================
+Return statement object access 
+================================================================================
+
+return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))))))
+
+================================================================================
+Return statement this object access 
+================================================================================
+
+    return this-object:RefCall:Available .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (object_access
+          (identifier)
+          (identifier)
+          (identifier))))

@@ -856,9 +856,9 @@ module.exports = grammar({
 
     _return_action: ($) =>
       choice(
-        seq(kw("ERROR"), optional(choice($.identifier, $.new_expression))),
+        seq(kw("ERROR"), optional($._return_value_expression)),
         kw("NO-APPLY"),
-        $._expression
+        $._return_value_expression
       ),
 
     // PHRASES
@@ -2044,6 +2044,24 @@ module.exports = grammar({
           kw("ELSE"),
           field("else", $._expression)
         )
+      ),
+
+    _return_value_expression: ($) =>
+      choice(
+        $.string_literal,
+        $.number_literal,
+        $.boolean_literal,
+        $.null_expression,
+        $.identifier,
+        $.function_call,
+        $.object_access,
+        $.member_access,
+        $.array_access,
+        $.ternary_expression,
+        $.new_expression,
+        $.parenthesized_expression,
+        $.unary_expression,
+        $._binary_expression
       ),
 
     // SUPERTYPES

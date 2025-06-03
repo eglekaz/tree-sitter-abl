@@ -60,7 +60,8 @@ module.exports = grammar({
               $.method_statement
             ),
             $.constructor_statement,
-            $.destructor_statement
+            $.destructor_statement,
+            $.function_statement
           )
         )
       ),
@@ -303,7 +304,8 @@ module.exports = grammar({
       choice(
         $.access_tuning,
         $.scope_tuning,
-        $.member_modifier
+        $.member_modifier,
+        $.constant
       ),
 
     // TODO: Fix! HACK: progress spaghetti allows to define tuning order before where clause
@@ -648,6 +650,7 @@ module.exports = grammar({
             $.number_literal,
             $.null_expression,
             $._binary_expression,
+            $.unary_expression,
             $.function_call
           ),
           repeat($.parameter_tuning)
@@ -725,7 +728,7 @@ module.exports = grammar({
       seq(
         field(
           "object",
-          choice($.identifier, $.new_expression, $.function_call)
+          choice($.identifier, $.new_expression, $.function_call, $.constant)
         ),
         repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
       ),
@@ -853,7 +856,7 @@ module.exports = grammar({
 
     _return_action: ($) =>
       choice(
-        seq(kw("ERROR"), optional($.identifier)),
+        seq(kw("ERROR"), optional(choice($.identifier, $.new_expression))),
         kw("NO-APPLY"),
         $._expression
       ),
@@ -867,7 +870,7 @@ module.exports = grammar({
         $.assignment,
         kw("TO"),
         choice($.function_call, $._integer_literal, $.identifier),
-        optional(seq(kw("BY"), $._integer_literal))
+        optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
     // combo_box_phrase: ($) =>
@@ -1658,7 +1661,10 @@ module.exports = grammar({
         seq(
           optional(alias($.dot_body, $.body)),
           $._block_terminator),
-        seq(kw("IN"), $.identifier, $._terminator)
+          seq(
+            choice(seq(kw("IN"), $.identifier), kw("FORWARD")),
+            $._terminator
+          )
       ),
 
     repeat_statement: ($) =>
@@ -2018,7 +2024,7 @@ module.exports = grammar({
     available_expression: ($) =>
       seq(
         choice(kw("AVAIL"), kw("AVAILABLE")),
-        $.identifier
+        choice($.identifier, $.parenthesized_expression),
       ),
 
     new_expression: ($) =>

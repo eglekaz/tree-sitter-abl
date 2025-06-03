@@ -349,7 +349,32 @@ DEFINE INPUT PARAMETER DATASET FOR field.
     (identifier)))
 
 ================================================================================
-EVENT DELEGATE STYLE
+EVENT statement
+================================================================================
+
+  DEFINE PUBLIC EVENT NewCustomer.
+
+  DEFINE PUBLIC EVENT NewCustomer 
+    SIGNATURE VOID ( INPUT pcCustName AS CHARACTER ).
+
+--------------------------------------------------------------------------------
+    
+    (source_code
+      (event_definition
+        (access_tuning)
+        (identifier))
+      (event_definition
+        (access_tuning)
+        (identifier)
+        (parameters
+          (function_parameter
+            (argument_mode)
+            (identifier)
+            (type_tuning
+              (primitive_type))))))
+              
+================================================================================
+EVENT statement DELEGATE
 ================================================================================
 
 DEFINE EVENT design DELEGATE designs.Events.
@@ -363,17 +388,5 @@ DEFINE EVENT design DELEGATE designs.Events.
           (identifier)
           (identifier))))
 
-================================================================================
-EVENT SIGNATURELESS PUBLIC STYLE
-================================================================================
-
-DEFINE PUBLIC EVENT NewCustomer.
-
---------------------------------------------------------------------------------
-
-    (source_code
-      (event_definition
-        (access_tuning)
-        (identifier)))
 
 

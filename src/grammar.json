@@ -1,5 +1,4 @@
 {
-  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "abl",
   "word": "identifier",
   "rules": {
@@ -735,8 +734,7 @@
     },
     "file_name": {
       "type": "PATTERN",
-      "value": "[A-z-_|0-9|\\/]+\\.[ip]",
-      "flags": "i"
+      "value": "[A-z-_|0-9|\\/]+\\.[ip]"
     },
     "comment": {
       "type": "CHOICE",
@@ -1607,8 +1605,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Z|a-z|\\-|\\\\_]{1}[A-Z|a-z|\\-|\\\\_|0-9]*",
-      "flags": "i"
+      "value": "[A-Z|a-z|\\-|\\\\_]{1}[A-Z|a-z|\\-|\\\\_|0-9]*"
     },
     "constant": {
       "type": "SEQ",
@@ -13183,6 +13180,6 @@
   "supertypes": [
     "_expression",
     "_statement"
-  ],
-  "reserved": {}
+  ]
 }
+

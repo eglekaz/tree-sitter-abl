@@ -2056,6 +2056,7 @@ module.exports = grammar({
         $.function_call,
         $.object_access,
         $.member_access,
+        $.qualified_name,
         $.array_access,
         $.ternary_expression,
         $.new_expression,

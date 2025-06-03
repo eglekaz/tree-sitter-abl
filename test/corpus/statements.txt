@@ -1828,39 +1828,102 @@ END.
             (number_literal)))))))
 
 ================================================================================
- Return statement this object
-================================================================================
-
-return this-object .
---------------------------------------------------------------------------------
-
-    (source_code
-      (return_statement
-        (identifier)))
-
-================================================================================
-Return statement #1
-================================================================================
-
-RETURN ERROR mye.
---------------------------------------------------------------------------------
-
-    (source_code
-      (return_statement
-        (identifier)))
-
-================================================================================
-Return statement #2
+RETURN statement 
 ================================================================================
 
 return error .
---------------------------------------------------------------------------------
 
+RETURN ERROR mye.
+
+return this-object .
+
+RETURN "Operation completed successfully".
+
+RETURN 404.
+
+RETURN TRUE.
+
+RETURN NULL.
+
+RETURN GetUserAge(userId).
+
+RETURN userProfile:getFullName().
+
+RETURN orderDetails.totalAmount.
+
+RETURN cartItems[0].
+
+RETURN NEW Invoice(customerId, amount).
+
+RETURN (balance + deposit) * 0.95.
+
+RETURN -pendingCount.
+
+RETURN price * quantity + tax.
+--------------------------------------------------------------------------------
+    
     (source_code
-      (return_statement))
+      (return_statement)
+      (return_statement
+        (identifier))
+      (return_statement
+        (identifier))
+      (return_statement
+        (string_literal))
+      (return_statement
+        (number_literal))
+      (return_statement
+        (boolean_literal))
+      (return_statement
+        (identifier))
+      (return_statement
+        (function_call
+          (identifier)
+          (arguments
+            (argument
+              (identifier)))))
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments)))
+      (return_statement
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (return_statement
+        (array_access
+          (identifier)
+          (array_literal
+            (number_literal))))
+      (return_statement
+        (new_expression
+          (identifier)
+          (arguments
+            (argument
+              (identifier))
+            (argument
+              (identifier)))))
+      (return_statement
+        (multiplicative_expression
+          (parenthesized_expression
+            (additive_expression
+              (identifier)
+              (identifier)))
+          (number_literal)))
+      (return_statement
+        (unary_expression
+          (identifier)))
+      (return_statement
+        (additive_expression
+          (multiplicative_expression
+            (identifier)
+            (identifier))
+          (identifier))))
 
 ================================================================================
-Return statement if 
+RETURN and IF statements
 ================================================================================
 
 return error if return-value > "" then return-value else error-status:get-message(1) .
@@ -1882,7 +1945,7 @@ return error if return-value > "" then return-value else error-status:get-messag
                 (number_literal)))))))
 
 ================================================================================
-if statement Return value >
+IF and RETURN statements
 ================================================================================
 
 IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
@@ -1910,7 +1973,7 @@ IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
 
 
 ================================================================================
-Return statement object access 
+RETURN statement object access 
 ================================================================================
 
 return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
@@ -1930,7 +1993,7 @@ return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
               (identifier))))))
 
 ================================================================================
-Return statement this object access 
+RETURN statement this object access 
 ================================================================================
 
     return this-object:RefCall:Available .

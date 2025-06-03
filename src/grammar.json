@@ -12879,6 +12879,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "qualified_name"
+        },
+        {
+          "type": "SYMBOL",
           "name": "array_access"
         },
         {

@@ -1037,57 +1037,52 @@ module.exports = grammar({
         kw("WITH"),
         repeat1(
           choice(
-            seq(kw("ACCUM"), optional($._integer_literal)),
-            // $.at_phrase, // TODO
-            seq(kw("CANCEL-BUTTON"), $.identifier),
-            kw("CENTERED"),
-            // color specification
-            $._position,
-            seq($.number_literal, kw("COLUMNS")),
-            kw("CONTEXT-HELP"),
-            // seq(kw("CONTEXT-HELP-FILE"), $.identifier),
-            seq(kw("DEFAULT-BUTTON"), $.identifier),
-            // kw("DROP-TARGET"),
-            seq(optional($._expression), kw("DOWN")),
-            // kw("EXPORT"),
-            seq(kw("WIDGET-ID"), $.number_literal),
-            $._font,
-            $._frame,
-            // kw("INHERIT-BGCOLOR"),
-            // kw("NO-INHERIT-BGCOLOR"),
-            // kw("INHERIT-FGCOLOR"),
-            // kw("NO-INHERIT-FGCOLOR"),
-            // kw("KEEP-TAB-ORDER"),
-            kw("NO-BOX"),
-            kw("NO-HIDE"),
-            kw("NO-LABELS"),
-            // kw("USE-DICT-EXPS"),
-            kw("NO-VALIDATE"),
-            // kw("NO-AUTO-VALIDATE"),
-            // kw("NO-HELP"),
-            // kw("NO-UNDERLINE"),
-            // kw("OVERLAY"),
-            // kw("PAGE-BOTTOM"),
-            // kw("PAGE-TOP"),
-            // seq(kw("RETAIN"), $.number_literal),
-            // kw("SCREEN-IO"),
-            kw("STREAM-IO"),
-            seq(kw("SCROLL"), $.number_literal),
-            kw("SCROLLABLE"),
-            kw("SIDE-LABELS"),
-            $.size_phrase,
-            seq(kw("STREAM"), field("stream", $.identifier)),
-            seq(kw("STREAM-HANDLE"), field("stream_handle", $.identifier)),
-            // kw("THREE-D"),
-            // title phrase
-            kw("TOP-ONLY"),
-            kw("USE-TEXT"),
-            // seq(kw("V6FRAME"), optional(choice(kw("USE-REVVIDEO"), kw("USE-UNDERLINE")))),
-            seq(kw("VIEW-AS"), kw("DIALOG-BOX")),
-            seq(kw("WIDTH"), $.number_literal),
-            seq(kw("IN-WINDOW"), $.identifier),
-            // $._option_with_number,
-            // $._color_option
+                //$.accumulate_expression,   error same as expression
+                //$.at_phrase,               error same as expression
+                choice(kw("ATTR-SPACE"), kw("NO-ATTR-SPACE")),
+                seq(kw("CANCEL-BUTTON"), $.identifier),
+                kw("CENTERED"),
+                $.color_specification,
+                seq(kw("COLUMN"), choice($._name, $._integer_literal)),
+                seq($.number_literal, kw("COLUMNS")),
+                kw("CONTEXT-HELP"),
+                seq(kw("CONTEXT-HELP-FILE"), $.identifier),
+                seq(kw("DEFAULT-BUTTON"), $.identifier),
+                kw("DROP-TARGET"),
+                seq(optional($._expression), kw("DOWN")),
+                kw("EXPORT"),
+                seq(kw("WIDGET-ID"), $.number_literal),
+                $._font,
+                $._frame,
+                choice(kw("INHERIT-BGCOLOR"), kw("NO-INHERIT-BGCOLOR")),
+                choice(kw("INHERIT-FGCOLOR"), kw("NO-INHERIT-FGCOLOR")),
+                kw("KEEP-TAB-ORDER"),
+                kw("NO-BOX"),
+                kw("NO-HIDE"),
+                kw("NO-LABELS"),
+                kw("USE-DICT-EXPS"),
+                kw("NO-VALIDATE"),
+                kw("NO-AUTO-VALIDATE"),
+                kw("NO-HELP"),
+                kw("NO-UNDERLINE"),
+                kw("OVERLAY"),
+                choice(kw("PAGE-BOTTOM"), kw("PAGE-TOP")),
+                seq(kw("RETAIN"), $.number_literal),
+                seq(kw("ROW"), $._expression),
+                choice(kw("SCREEN-IO"), kw("STREAM-IO")),
+                // seq(kw("SCROLL"), $.number_literal)),
+                // choice(kw("SCROLLABLE"), kw("SIDE-LABELS"))),
+                $.size_phrase,
+                // seq(kw("STREAM"), field("stream", $.identifier)),
+                // seq(kw("STREAM-HANDLE"), field("stream_handle", $.identifier)),
+                kw("THREE-D"),
+                $.title_phrase,
+                // kw("TOP-ONLY"),
+                // kw("USE-TEXT"),
+                // seq(kw("V6FRAME"), optional(choice(kw("USE-REVVIDEO"), kw("USE-UNDERLINE")))),
+                // seq(kw("VIEW-AS"), kw("DIALOG-BOX")),
+                // seq(kw("WIDTH"), $.number_literal),
+                // seq(kw("IN-WINDOW"), $.identifier)
           )
         )
       ),
@@ -1324,7 +1319,7 @@ module.exports = grammar({
         $.dataset_definition,
         $.stream_definition,
         // $.image_definition,
-        // $.frame_definition,
+        $.frame_definition,
         $.parameter_definition
       ),
 
@@ -1398,17 +1393,200 @@ module.exports = grammar({
         $._terminator
       ),
 
-    // frame_definition: ($) =>
-    //   seq(
-    //     $._define,
-    //     repeat($._tuning),
-    //     kw("FRAME"),
-    //     field("name", $.identifier),
-    //     // form item
-    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
+    frame_definition: ($) =>
+    seq(
+        $._define,
+        optional(
+        choice(
+            seq(optional(kw("NEW")), kw("SHARED")),
+            kw("PRIVATE")
+        )
+        ),
+        $._frame,
+        optional(
+        choice(
+            // Option 1: form-items (fields inside frame)
+            seq(
+            repeat1($.form_item),
+            optional(
+                seq(
+                choice(kw("HEADER"), kw("BACKGROUND")),
+                repeat1($.form_item)
+                )
+            )
+            ),
+            // Option 2: record-style EXCEPT
+            seq(
+            $.identifier,
+            optional(
+                seq(
+                kw("EXCEPT"),
+                repeat1($.identifier)
+                )
+            )
+            )
+        )
+        ),
+        optional($.frame_phrase),
+        $._terminator
+    ),
 
-    //   ),
+    form_item: ($) =>
+    choice(
+        seq(
+        $.qualified_name, /// + identifier
+        optional($.format_phrase)
+        ),
+        seq(
+        choice($.string_literal, $.number_literal),
+        optional(
+            choice(
+            $.at_phrase,
+            seq(kw("TO"), $._integer_literal)
+            )
+        )),
+        seq(kw("BGCOLOR"), choice($._expression, $._dos_hex_attribute)),
+        seq(kw("DCOLOR"), choice($._expression, $._dos_hex_attribute)),
+        seq(kw("FGCOLOR"), choice($._expression, $._dos_hex_attribute)),
+        seq(kw("FONT"), $._expression),
+        seq(kw("PFCOLOR"), choice($._expression, $._dos_hex_attribute)),
+        seq(kw("VIEW-AS"), kw("TEXT")), 
+        seq(kw("WIDGET-ID"), $.number_literal),
+        seq(
+        kw("SPACE"),
+        optional(seq("(", $._integer_literal, ")"))
+        ),
+        seq(
+        kw("SKIP"),
+        optional(seq("(", $._integer_literal, ")"))
+        ),
+    ),
+
+    format_phrase: ($) =>
+    seq(
+        $.at_phrase,
+        optional(
+        seq(
+            choice(kw("AS"), kw("LIKE")),
+            field("type", $._type)
+        )
+        ),
+        optional($._format),
+        optional(
+        choice(
+            seq($._label),
+            kw("NO-LABELS")
+        )
+        ),
+        optional(
+        seq(
+            kw("VALIDATE"),
+            kw("("),
+            field("condition", $._expression),
+            kw(","),
+            field("message", $.string_literal),
+            kw(")")
+        )
+        )
+    ),
+
+    at_phrase: ($) =>
+    seq(
+        kw("AT"),
+        choice(
+        $._integer_literal, // <- leidžia AT 5
+        repeat1(
+            seq(
+            choice(kw("ROW"), kw("COLUMN"), kw("X"), kw("Y")),
+            $._integer_literal
+            )
+        )
+        )
+    ),
+
+    _bgcolor: ($) => seq(kw("BGCOLOR"), $._integer_literal),
+    _dcolor: ($) => seq(kw("DCOLOR"), $._integer_literal),
+    _fgcolor: ($) => seq(kw("FGCOLOR"), $._integer_literal),
+    _pfcolor: ($) => seq(kw("PFCOLOR"), $._integer_literal),
+
+    color_specification: ($) =>
+    choice(
+        choice(
+            $._bgcolor,
+            $._dcolor,
+            $._fgcolor,
+            $._pfcolor,
+        ),
+        seq(kw("COLOR"), optional(kw("DISPLAY")), $.color_phrase),
+        seq(kw("PROMPT"), $.color_phrase)
+    ),
+
+    title_phrase: ($) =>
+    seq(
+        kw("TITLE"),
+        optional(
+        choice(
+            seq(
+            optional($._bgcolor),
+            optional($._dcolor),
+            optional($._fgcolor),
+            ),
+            seq(kw("COLOR"), $.color_phrase)
+        )
+        ),
+        optional(seq(kw("FONT"), $._expression)),
+        field("title", $.string_literal)
+    ),
+
+    color_phrase: ($) =>
+    repeat1(
+        choice(
+            kw("NORMAL"),
+            kw("INPUT"),
+            kw("MESSAGES"),
+            $._protermcap_attribute,
+            $._dos_hex_attribute,
+            kw("BLINK-"),
+            kw("BRIGHT-"),
+            $._fgnd_color,
+            kw("RVV-"),
+            kw("UNDERLINE-"),
+            seq(
+                kw("VALUE"),
+                kw("("),
+                $._expression,
+                kw(")")
+            )
+        )
+    ),
+
+    _fgnd_color: ($) =>
+        choice(
+            kw("BLACK"), kw("BLA"), kw("BLK"),
+            kw("BLUE"), kw("BLU"),
+            kw("GREEN"), kw("GRE"), kw("GRN"),
+            kw("CYAN"), kw("C"),
+            kw("RED"),
+            kw("MAGENTA"), kw("MA"),
+            kw("BROWN"), kw("BRO"), kw("BRN"),
+            kw("GRAY"), kw("GRA"), kw("GRY"),
+            kw("DARK-GRAY"), kw("D-GRA"),
+            kw("LIGHT-BLUE"), kw("LT-BLU"),
+            kw("LIGHT-GREEN"), kw("LT-GRE"),
+            kw("LIGHT-CYAN"), kw("LT-C"),
+            kw("LIGHT-RED"), kw("LT-RED"),
+            kw("LIGHT-MAGENTA"), kw("LT-MA"),
+            kw("LIGHT-BROWN"), kw("LT-BRO"),
+            kw("YELLOW"), kw("Y"),
+            kw("WHITE"), kw("W"),
+        ),
+
+    _protermcap_attribute: ($) =>
+        /[a-zA-Z0-9_-]+/,
+
+    _dos_hex_attribute: ($) =>
+        /0x[0-9A-Fa-f]+/,
+
 
     // image_definition: ($) =>
     //   seq(
@@ -2110,7 +2288,6 @@ module.exports = grammar({
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
-
         // $._definition,
 
         $.variable_assignment,

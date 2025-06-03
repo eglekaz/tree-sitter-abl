@@ -347,3 +347,259 @@ DEFINE INPUT PARAMETER DATASET FOR field.
     (identifier))
   (parameter_definition
     (identifier)))
+
+================================================================================
+DEFINE Frame2
+================================================================================
+
+DEFINE FRAME order
+  Order.CustNnum AT ROW 2 COLUMN 8
+  Customer.Name AT ROW 2 COLUMN 18
+  WITH TITLE "Order Information".
+
+--------------------------------------------------------------------------------
+
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier))
+          (format_phrase
+            (at_phrase)))
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier))
+          (format_phrase
+            (at_phrase)))
+        (frame_phrase
+          (title_phrase
+            (string_literal)))))
+
+================================================================================
+FRAME THREE-D
+================================================================================
+
+DEFINE FRAME custFrame
+  Customer.Name
+  WITH THREE-D.
+
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier)))
+        (frame_phrase)))
+
+================================================================================
+DEFINE FRAME
+================================================================================
+DEFINE FRAME custbal.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)))
+
+================================================================================
+FRAME SIZE-PIXELS BGCOLOR
+================================================================================
+define FRAME SplashFrame
+  SplashImage
+  WITH SIZE-PIXELS 432 BY 266 NO-BOX FONT 4 BGCOLOR 8.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (identifier)
+        (frame_phrase
+          (size_phrase
+            (number_literal)
+            (number_literal))
+          (color_specification))))
+
+================================================================================
+FRAME WITH STRING + TO + FIELD
+================================================================================
+
+DEFINE FRAME with_to
+  "Customer: " TO 20
+  Customer.Name.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (string_literal))
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier)))))
+
+================================================================================
+FRAME WITH SKIP AND SPACE
+================================================================================
+
+DEFINE FRAME spacing
+  SPACE(2)
+  Customer.Name
+  SKIP(1).
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier)))
+        (form_item)))
+
+================================================================================
+FRAME WITH VIEW-AS AND WIDGET-ID
+================================================================================
+
+DEFINE FRAME widget
+  Customer.Type VIEW-AS TEXT WIDGET-ID 100.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier)))
+        (form_item)
+        (form_item
+          (number_literal))))
+================================================================================
+FRAME WITH ROW-COLUMN BOTH ORDERS
+================================================================================
+
+DEFINE FRAME coordmix
+  Customer.ID AT COLUMN 8 ROW 2
+  Customer.Name AT ROW 3 COLUMN 20.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier))
+          (format_phrase
+            (at_phrase)))
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier))
+          (format_phrase
+            (at_phrase)))))
+
+================================================================================
+FRAME WITH TITLE, FONT, NO-BOX, COLOR
+================================================================================
+
+DEFINE FRAME styled
+  Customer.ID
+  WITH SIZE-PIXELS 400 BY 300 NO-BOX FONT 4 BGCOLOR 8 TITLE "Styled Frame".
+--------------------------------------------------------------------------------
+
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier)))
+        (frame_phrase
+          (size_phrase
+            (number_literal)
+            (number_literal))
+          (color_specification)
+          (title_phrase
+            (string_literal)))))
+
+================================================================================
+FRAME CONSTANT WITH AT
+================================================================================
+
+DEFINE FRAME label_pos
+  "Customer Balance:" AT ROW 3 COLUMN 5
+  Customer.Balance AT ROW 3 COLUMN 25.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (string_literal)
+          (at_phrase))
+        (form_item
+          (qualified_name
+            (identifier)
+            (identifier))
+          (format_phrase
+            (at_phrase)))))
+
+================================================================================
+FRAME FGCOLOR / BGCOLOR / DCOLOR / PFCOLOR
+================================================================================
+
+DEFINE FRAME color_frame
+  "Balance:" AT ROW 2 COLUMN 5
+  FGCOLOR RED
+  BGCOLOR BLUE
+  DCOLOR 0x1F.
+--------------------------------------------------------------------------------
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (string_literal)
+          (at_phrase))
+        (form_item
+          (identifier))
+        (form_item
+          (identifier))
+        (form_item)))
+================================================================================
+FRAME COLOR phrase PROMPT
+================================================================================
+
+DEFINE FRAME myFrame
+  "Something" AT ROW 1 COLUMN 1
+  WITH COLOR DISPLAY BRIGHT- RED PROMPT VALUE(1).
+
+--------------------------------------------------------------------------------
+
+    (source_code
+      (frame_definition
+        (identifier)
+        (form_item
+          (string_literal)
+          (at_phrase))
+        (frame_phrase
+          (color_specification
+            (color_phrase))
+          (color_specification
+            (color_phrase
+              (number_literal))))))
+
+================================================================================
+FRAME BACKGROUND
+================================================================================
+
+DEFINE FRAME item-info 
+  Item.ItemNum
+  Item-tot 
+  BACKGROUND SKIP(1) hline
+    vline1 AT 9
+    vline2 AT 25
+  WITH TITLE "Inventory Current Value" CENTERED USE-TEXT 5 DOWN
+
+--------------------------------------------------------------------------------

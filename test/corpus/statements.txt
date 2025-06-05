@@ -1827,3 +1827,28 @@ END.
             (assignment_operator)
             (number_literal)))))))
 
+================================================================================
+IF statement with IN FRAME
+================================================================================
+
+IF qbf-s:SCREEN-VALUE IN FRAME qbf-area = qbf-c THEN
+  qbf-s = qbf-l-cat[qbf-i].
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (comparison_expression
+          (in_frame_phrase
+            (object_access
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (array_access
+              (identifier)
+              (array_literal
+                (identifier)))))))

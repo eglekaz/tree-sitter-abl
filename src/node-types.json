@@ -60,6 +60,10 @@
         "named": true
       },
       {
+        "type": "in_frame_phrase",
+        "named": true
+      },
+      {
         "type": "input_expression",
         "named": true
       },
@@ -2145,6 +2149,36 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "in_frame_phrase",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "object_access",
           "named": true
         }
       ]

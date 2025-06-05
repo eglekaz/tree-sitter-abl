@@ -1120,6 +1120,13 @@ module.exports = grammar({
         _list($._name, ",")
       ),
 
+    in_frame_phrase: ($) =>
+    seq(
+        $.object_access,
+        kw("IN"),
+        $._frame
+    ),
+
       // widget_phrase: ($) =>
       //   choice(
       //     $._frame,
@@ -2076,6 +2083,7 @@ module.exports = grammar({
         $.member_access,
         $.array_access,
         $.function_call,
+        $.in_frame_phrase,
 
         $._name,
         $.constant

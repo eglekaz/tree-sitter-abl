@@ -7347,6 +7347,35 @@
         }
       ]
     },
+    "in_frame_phrase": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "object_access"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[iI][nN]"
+              }
+            }
+          },
+          "named": false,
+          "value": "IN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_frame"
+        }
+      ]
+    },
     "referencing_phrase": {
       "type": "SEQ",
       "members": [
@@ -12945,6 +12974,10 @@
         {
           "type": "SYMBOL",
           "name": "function_call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "in_frame_phrase"
         },
         {
           "type": "SYMBOL",

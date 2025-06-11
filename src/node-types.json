@@ -1545,10 +1545,21 @@
   {
     "type": "event_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access_tuning",
@@ -1568,6 +1579,10 @@
         },
         {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -4698,6 +4713,10 @@
   },
   {
     "type": "DEFINE",
+    "named": false
+  },
+  {
+    "type": "DELEGATE",
     "named": false
   },
   {

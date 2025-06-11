@@ -1701,6 +1701,7 @@ module.exports = grammar({
         $._input_output_option,
         repeat($.stream_tuning),
         repeat($.stream_flag),
+        optional($.constant),
         $._terminator
       ),
 

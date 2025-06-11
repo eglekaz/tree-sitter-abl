@@ -1395,13 +1395,16 @@ module.exports = grammar({
 
     event_definition: ($) =>
       seq(
-        $._define,
-        repeat($._tuning),
-        kw("EVENT"),
-        $.identifier,
-        optional(kw("SIGNATURE")),
-        kw("VOID"),
-        alias($.function_parameters, $.parameters),
+      $._define,
+      repeat($._tuning),
+      kw("EVENT"),
+      field("name", $.identifier),
+        optional(
+            choice(
+              seq(optional(kw("SIGNATURE")), kw("VOID"), alias($.function_parameters, $.parameters)),
+              seq(optional(kw("DELEGATE")), optional(kw("CLASS")), $._name),
+          )
+        ),
         $._terminator
       ),
 
@@ -1708,6 +1711,7 @@ module.exports = grammar({
         $._input_output_option,
         repeat($.stream_tuning),
         repeat($.stream_flag),
+        optional($.constant),
         $._terminator
       ),
 

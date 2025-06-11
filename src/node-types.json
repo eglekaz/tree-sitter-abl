@@ -2438,6 +2438,10 @@
       "required": false,
       "types": [
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "function_call",
           "named": true
         },

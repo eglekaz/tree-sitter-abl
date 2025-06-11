@@ -60,6 +60,10 @@
         "named": true
       },
       {
+        "type": "in_frame_phrase",
+        "named": true
+      },
+      {
         "type": "input_expression",
         "named": true
       },
@@ -1613,10 +1617,21 @@
   {
     "type": "event_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access_tuning",
@@ -1636,6 +1651,10 @@
         },
         {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -2213,6 +2232,36 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "in_frame_phrase",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "object_access",
           "named": true
         }
       ]
@@ -4834,6 +4883,10 @@
   },
   {
     "type": "DEFINE",
+    "named": false
+  },
+  {
+    "type": "DELEGATE",
     "named": false
   },
   {

@@ -1828,7 +1828,33 @@ END.
             (number_literal)))))))
 
 ================================================================================
-RETURN statement 
+IF statement with IN FRAME
+================================================================================
+
+IF qbf-s:SCREEN-VALUE IN FRAME qbf-area = qbf-c THEN
+  qbf-s = qbf-l-cat[qbf-i].
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (comparison_expression
+          (in_frame_phrase
+            (object_access
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (array_access
+              (identifier)
+              (array_literal
+                (identifier)))))))
+
+================================================================================
+RETURN statement
 ================================================================================
 
 return error .
@@ -1861,7 +1887,7 @@ RETURN -pendingCount.
 
 RETURN price * quantity + tax.
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (return_statement)
       (return_statement
@@ -1973,7 +1999,7 @@ IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
 
 
 ================================================================================
-RETURN statement object access 
+RETURN statement object access
 ================================================================================
 
 return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
@@ -1993,7 +2019,7 @@ return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
               (identifier))))))
 
 ================================================================================
-RETURN statement this object access 
+RETURN statement this object access
 ================================================================================
 
     return this-object:RefCall:Available .

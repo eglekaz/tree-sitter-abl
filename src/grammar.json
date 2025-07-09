@@ -1464,6 +1464,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "constant"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_binary_expression"
         }
       ]
@@ -1609,7 +1613,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Z|a-z|\\-|\\\\_]{1}[A-Z|a-z|\\-|\\\\_|0-9]*"
+      "value": "[A-Z|a-z|\\-|\\\\_]{1}[#A-Z|a-z|\\-|\\\\_|0-9]*"
     },
     "constant": {
       "type": "SEQ",
@@ -5131,10 +5135,6 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "new_expression"
               },
               {
@@ -5144,6 +5144,10 @@
               {
                 "type": "SYMBOL",
                 "name": "constant"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_name"
               }
             ]
           }
@@ -5275,6 +5279,18 @@
             {
               "type": "SYMBOL",
               "name": "logical_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comparison_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "unary_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "object_access"
             }
           ]
         }
@@ -6269,6 +6285,10 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "object_access"
             }
           ]
         },
@@ -12401,6 +12421,120 @@
         }
       ]
     },
+    "query_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[qQ][uU][eE][rR][yY]"
+              }
+            }
+          },
+          "named": false,
+          "value": "QUERY"
+        },
+        {
+          "type": "FIELD",
+          "name": "query",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "object_access"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "stream_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[sS][tT][rR][eE][aA][mM]"
+              }
+            }
+          },
+          "named": false,
+          "value": "STREAM"
+        },
+        {
+          "type": "FIELD",
+          "name": "stream",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "object_access"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "buffer_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[bB][uU][fF][fF][eE][rR]"
+              }
+            }
+          },
+          "named": false,
+          "value": "BUFFER"
+        },
+        {
+          "type": "FIELD",
+          "name": "buffer",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "object_access"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "current_changed_expression": {
       "type": "SEQ",
       "members": [
@@ -12444,6 +12578,35 @@
           },
           "named": false,
           "value": "LOCKED"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        }
+      ]
+    },
+    "dataset_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PREC_LEFT",
+          "value": 0,
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[dD][aA][tT][aA][sS][eE][tT]"
+                }
+              }
+            },
+            "named": false,
+            "value": "DATASET"
+          }
         },
         {
           "type": "SYMBOL",
@@ -12983,6 +13146,26 @@
         },
         {
           "type": "SYMBOL",
+          "name": "dataset_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "temp_table_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "query_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stream_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "buffer_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -13073,6 +13256,10 @@
         {
           "type": "SYMBOL",
           "name": "locked_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dataset_expression"
         },
         {
           "type": "SYMBOL",

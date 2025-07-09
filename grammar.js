@@ -244,6 +244,7 @@ module.exports = grammar({
         $.array_literal,
         $.array_access,
         $.identifier,
+        $.constant,
         $._binary_expression
       ),
 
@@ -285,7 +286,7 @@ module.exports = grammar({
 
     // IDENTIFIERS
 
-    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[A-Z|a-z|\-|\\_|0-9]*/i,
+    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
 
     constant: ($) =>
       seq("{", optional("&"), $._constant_value, "}"),
@@ -728,7 +729,7 @@ module.exports = grammar({
       seq(
         field(
           "object",
-          choice($.identifier, $.new_expression, $.function_call, $.constant)
+          choice($.new_expression, $.function_call, $.constant, $._name)
         ),
         repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
       ),
@@ -742,7 +743,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -869,7 +870,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
-        choice($.function_call, $._integer_literal, $.identifier),
+        choice($.function_call, $._integer_literal, $.identifier, $.object_access),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
@@ -1968,11 +1969,20 @@ module.exports = grammar({
     temp_table_expression: ($) =>
       seq(kw("TEMP-TABLE"), field("table", choice($.identifier, $.object_access))),
 
+    query_expression: ($) =>
+      seq(kw("QUERY"), field("query", choice($.identifier, $.object_access))),
+
+    stream_expression: ($) =>
+      seq(kw("STREAM"), field("stream", choice($.identifier, $.object_access))),
+
+    buffer_expression: ($) =>
+      seq(kw("BUFFER"), field("buffer", choice($.identifier, $.object_access))),
+
     current_changed_expression: ($) => seq(kw("CURRENT-CHANGED"), $._name),
 
     locked_expression: ($) => seq(kw("LOCKED"), $._name),
 
-    // dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
+    dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
 
     when_expression: ($) => seq(kw("WHEN"), $._expression),
 
@@ -2063,6 +2073,11 @@ module.exports = grammar({
         $.number_literal,
         $.boolean_literal,
         $.null_expression,
+        $.dataset_expression,
+        $.temp_table_expression,
+        $.query_expression,
+        $.stream_expression,
+        $.buffer_expression,
         $.identifier,
         $.function_call,
         $.object_access,
@@ -2091,7 +2106,7 @@ module.exports = grammar({
         $.temp_table_expression,
         $.current_changed_expression,
         $.locked_expression,
-        // $.dataset_expression,
+        $.dataset_expression,
         $.input_expression,
         $.can_find_expression,
         $.new_expression,

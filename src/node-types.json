@@ -2016,7 +2016,11 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
@@ -3486,10 +3490,6 @@
         },
         {
           "type": "on_stop_phrase",
-          "named": true
-        },
-        {
-          "type": "preselect_phrase",
           "named": true
         },
         {
@@ -5062,10 +5062,6 @@
   },
   {
     "type": "DO",
-    "named": false
-  },
-  {
-    "type": "DOWN",
     "named": false
   },
   {

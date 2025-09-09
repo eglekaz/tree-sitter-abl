@@ -26,6 +26,8 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
   VIEW-AS TEXT LABEL "Golf Clubs Available".
 
+define variable oManager as "Manager" no-undo.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -100,7 +102,12 @@ DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
     (variable_tuning)
     (view_as_phrase)
     (variable_tuning
-      (string_literal))))
+      (string_literal)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (string_literal))
+    (variable_tuning)))
 
 ================================================================================
 BUFFER DEFINITION statement
@@ -354,11 +361,11 @@ EVENT statement
 
   DEFINE PUBLIC EVENT NewCustomer.
 
-  DEFINE PUBLIC EVENT NewCustomer 
+  DEFINE PUBLIC EVENT NewCustomer
     SIGNATURE VOID ( INPUT pcCustName AS CHARACTER ).
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
         (access_tuning)
@@ -372,7 +379,7 @@ EVENT statement
             (identifier)
             (type_tuning
               (primitive_type))))))
-              
+
 ================================================================================
 EVENT statement DELEGATE
 ================================================================================
@@ -380,7 +387,7 @@ EVENT statement DELEGATE
 DEFINE EVENT design DELEGATE designs.Events.
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
         (identifier)

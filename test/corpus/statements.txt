@@ -1429,7 +1429,8 @@ var List<Ant> ListOfAnts.
           (number_literal)))))
   (comment)
   (var_statement
-    (type_tuning)
+    (type_tuning
+      (string_literal))
     (variable
       (identifier)))
   (comment)

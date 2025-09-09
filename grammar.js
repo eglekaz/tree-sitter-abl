@@ -55,6 +55,7 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
+            $.include,
             seq(
               optional($.annotation),
               $.method_statement
@@ -1042,6 +1043,7 @@ module.exports = grammar({
             // $.at_phrase, // TODO
             seq(kw("CANCEL-BUTTON"), $.identifier),
             kw("CENTERED"),
+            // $._bgcolor,
             // color specification
             $._position,
             seq($.number_literal, kw("COLUMNS")),
@@ -1049,7 +1051,7 @@ module.exports = grammar({
             // seq(kw("CONTEXT-HELP-FILE"), $.identifier),
             seq(kw("DEFAULT-BUTTON"), $.identifier),
             // kw("DROP-TARGET"),
-            seq(optional($._expression), kw("DOWN")),
+            // seq(optional($._expression), kw("DOWN")),
             // kw("EXPORT"),
             seq(kw("WIDGET-ID"), $.number_literal),
             $._font,
@@ -1415,10 +1417,11 @@ module.exports = grammar({
     //     repeat($._tuning),
     //     kw("FRAME"),
     //     field("name", $.identifier),
+    //     field("form_item", $.identifier),
     //     // form item
     //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
+    //     optional($.frame_phrase),
+    //     $._terminator
     //   ),
 
     // image_definition: ($) =>
@@ -1661,7 +1664,7 @@ module.exports = grammar({
         $.return_type,
         optional($._extent),
         optional(alias($.function_parameters, $.parameters)),
-        $._function_option,
+        $._function_option
       ),
 
     _function_option: ($) =>
@@ -1680,7 +1683,7 @@ module.exports = grammar({
         optional($.label),
         kw("REPEAT"),
         repeat($._repeat_phrase),
-        optional($.preselect_phrase),
+        // optional($.preselect_phrase),
         optional($.while_phrase),
         optional($._on_phrase),
         $.body,
@@ -1691,6 +1694,7 @@ module.exports = grammar({
       choice(
         $.to_phrase,
         $.repeat_tuning
+        // $.frame_phrase
       ),
 
     return_statement: ($) =>

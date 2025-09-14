@@ -1,0 +1,38 @@
+{
+  "grammars": [
+    {
+      "name": "abl",
+      "camelcase": "Abl",
+      "scope": "source.abl",
+      "file-types": [
+        ".cls",
+        ".i",
+        ".p",
+        ".w"
+      ],
+      "injection-regex": "^abl$"
+    }
+  ],
+  "metadata": {
+    "version": "0.0.48",
+    "license": "MIT",
+    "description": "Abl grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Egle Kazbaraite",
+        "email": "egle.kazbaraite@gmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/eglekaz/tree-sitter-abl"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

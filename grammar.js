@@ -55,6 +55,7 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
+            $.include,
             seq(
               optional($.annotation),
               $.method_statement
@@ -244,6 +245,7 @@ module.exports = grammar({
         $.array_literal,
         $.array_access,
         $.identifier,
+        $.constant,
         $._binary_expression
       ),
 
@@ -285,7 +287,7 @@ module.exports = grammar({
 
     // IDENTIFIERS
 
-    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[A-Z|a-z|\-|\\_|0-9]*/i,
+    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
 
     constant: ($) =>
       seq("{", optional("&"), $._constant_value, "}"),
@@ -728,7 +730,7 @@ module.exports = grammar({
       seq(
         field(
           "object",
-          choice($.identifier, $.new_expression, $.function_call, $.constant)
+          choice($.new_expression, $.function_call, $.constant, $._name)
         ),
         repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
       ),
@@ -742,7 +744,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -856,9 +858,9 @@ module.exports = grammar({
 
     _return_action: ($) =>
       choice(
-        seq(kw("ERROR"), optional(choice($.identifier, $.new_expression))),
+        seq(kw("ERROR"), optional($._return_value_expression)),
         kw("NO-APPLY"),
-        $._expression
+        $._return_value_expression
       ),
 
     // PHRASES
@@ -869,7 +871,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
-        choice($.function_call, $._integer_literal, $.identifier),
+        choice($.function_call, $._integer_literal, $.identifier, $.object_access),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
@@ -1041,6 +1043,7 @@ module.exports = grammar({
             // $.at_phrase, // TODO
             seq(kw("CANCEL-BUTTON"), $.identifier),
             kw("CENTERED"),
+            // $._bgcolor,
             // color specification
             $._position,
             seq($.number_literal, kw("COLUMNS")),
@@ -1048,7 +1051,7 @@ module.exports = grammar({
             // seq(kw("CONTEXT-HELP-FILE"), $.identifier),
             seq(kw("DEFAULT-BUTTON"), $.identifier),
             // kw("DROP-TARGET"),
-            seq(optional($._expression), kw("DOWN")),
+            // seq(optional($._expression), kw("DOWN")),
             // kw("EXPORT"),
             seq(kw("WIDGET-ID"), $.number_literal),
             $._font,
@@ -1119,6 +1122,13 @@ module.exports = grammar({
         kw("FOR"),
         _list($._name, ",")
       ),
+
+    in_frame_phrase: ($) =>
+    seq(
+        $.object_access,
+        kw("IN"),
+        $._frame
+    ),
 
       // widget_phrase: ($) =>
       //   choice(
@@ -1389,13 +1399,16 @@ module.exports = grammar({
 
     event_definition: ($) =>
       seq(
-        $._define,
-        repeat($._tuning),
-        kw("EVENT"),
-        $.identifier,
-        optional(kw("SIGNATURE")),
-        kw("VOID"),
-        alias($.function_parameters, $.parameters),
+      $._define,
+      repeat($._tuning),
+      kw("EVENT"),
+      field("name", $.identifier),
+        optional(
+            choice(
+              seq(optional(kw("SIGNATURE")), kw("VOID"), alias($.function_parameters, $.parameters)),
+              seq(optional(kw("DELEGATE")), optional(kw("CLASS")), $._name),
+          )
+        ),
         $._terminator
       ),
 
@@ -1405,10 +1418,11 @@ module.exports = grammar({
     //     repeat($._tuning),
     //     kw("FRAME"),
     //     field("name", $.identifier),
+    //     field("form_item", $.identifier),
     //     // form item
     //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
+    //     optional($.frame_phrase),
+    //     $._terminator
     //   ),
 
     // image_definition: ($) =>
@@ -1651,7 +1665,7 @@ module.exports = grammar({
         $.return_type,
         optional($._extent),
         optional(alias($.function_parameters, $.parameters)),
-        $._function_option,
+        $._function_option
       ),
 
     _function_option: ($) =>
@@ -1670,7 +1684,7 @@ module.exports = grammar({
         optional($.label),
         kw("REPEAT"),
         repeat($._repeat_phrase),
-        optional($.preselect_phrase),
+        // optional($.preselect_phrase),
         optional($.while_phrase),
         optional($._on_phrase),
         $.body,
@@ -1681,6 +1695,7 @@ module.exports = grammar({
       choice(
         $.to_phrase,
         $.repeat_tuning
+        // $.frame_phrase
       ),
 
     return_statement: ($) =>
@@ -1702,6 +1717,7 @@ module.exports = grammar({
         $._input_output_option,
         repeat($.stream_tuning),
         repeat($.stream_flag),
+        optional($.constant),
         $._terminator
       ),
 
@@ -1958,11 +1974,20 @@ module.exports = grammar({
     temp_table_expression: ($) =>
       seq(kw("TEMP-TABLE"), field("table", choice($.identifier, $.object_access))),
 
+    query_expression: ($) =>
+      seq(kw("QUERY"), field("query", choice($.identifier, $.object_access))),
+
+    stream_expression: ($) =>
+      seq(kw("STREAM"), field("stream", choice($.identifier, $.object_access))),
+
+    buffer_expression: ($) =>
+      seq(kw("BUFFER"), field("buffer", choice($.identifier, $.object_access))),
+
     current_changed_expression: ($) => seq(kw("CURRENT-CHANGED"), $._name),
 
     locked_expression: ($) => seq(kw("LOCKED"), $._name),
 
-    // dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
+    dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
 
     when_expression: ($) => seq(kw("WHEN"), $._expression),
 
@@ -2047,6 +2072,30 @@ module.exports = grammar({
         )
       ),
 
+    _return_value_expression: ($) =>
+      choice(
+        $.string_literal,
+        $.number_literal,
+        $.boolean_literal,
+        $.null_expression,
+        $.dataset_expression,
+        $.temp_table_expression,
+        $.query_expression,
+        $.stream_expression,
+        $.buffer_expression,
+        $.identifier,
+        $.function_call,
+        $.object_access,
+        $.member_access,
+        $.qualified_name,
+        $.array_access,
+        $.ternary_expression,
+        $.new_expression,
+        $.parenthesized_expression,
+        $.unary_expression,
+        $._binary_expression
+      ),
+
     // SUPERTYPES
 
     _expression: ($) =>
@@ -2062,7 +2111,7 @@ module.exports = grammar({
         $.temp_table_expression,
         $.current_changed_expression,
         $.locked_expression,
-        // $.dataset_expression,
+        $.dataset_expression,
         $.input_expression,
         $.can_find_expression,
         $.new_expression,
@@ -2077,6 +2126,7 @@ module.exports = grammar({
         $.member_access,
         $.array_access,
         $.function_call,
+        $.in_frame_phrase,
 
         $._name,
         $.constant

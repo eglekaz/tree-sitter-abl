@@ -432,3 +432,21 @@ IF CURRENT-CHANGED x THEN RETURN '!'.
       (identifier))
     (return_statement
       (string_literal))))
+
+================================================================================
+Assignment with IN FRAME
+================================================================================
+
+qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (in_frame_phrase
+            (object_access
+              (identifier)
+              (identifier))
+            (identifier)))))

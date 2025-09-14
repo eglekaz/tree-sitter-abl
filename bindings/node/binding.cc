@@ -18,3 +18,5 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
 }
 
 NODE_API_MODULE(tree_sitter_abl_binding, Init)
+
+}  // namespace

@@ -1429,7 +1429,8 @@ var List<Ant> ListOfAnts.
           (number_literal)))))
   (comment)
   (var_statement
-    (type_tuning)
+    (type_tuning
+      (string_literal))
     (variable
       (identifier)))
   (comment)
@@ -1827,3 +1828,207 @@ END.
             (assignment_operator)
             (number_literal)))))))
 
+================================================================================
+IF statement with IN FRAME
+================================================================================
+
+IF qbf-s:SCREEN-VALUE IN FRAME qbf-area = qbf-c THEN
+  qbf-s = qbf-l-cat[qbf-i].
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (comparison_expression
+          (in_frame_phrase
+            (object_access
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (array_access
+              (identifier)
+              (array_literal
+                (identifier)))))))
+
+================================================================================
+RETURN statement
+================================================================================
+
+return error .
+
+RETURN ERROR mye.
+
+return this-object .
+
+RETURN "Operation completed successfully".
+
+RETURN 404.
+
+RETURN TRUE.
+
+RETURN NULL.
+
+RETURN GetUserAge(userId).
+
+RETURN userProfile:getFullName().
+
+RETURN orderDetails.totalAmount.
+
+RETURN cartItems[0].
+
+RETURN NEW Invoice(customerId, amount).
+
+RETURN (balance + deposit) * 0.95.
+
+RETURN -pendingCount.
+
+RETURN price * quantity + tax.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement)
+      (return_statement
+        (identifier))
+      (return_statement
+        (identifier))
+      (return_statement
+        (string_literal))
+      (return_statement
+        (number_literal))
+      (return_statement
+        (boolean_literal))
+      (return_statement
+        (identifier))
+      (return_statement
+        (function_call
+          (identifier)
+          (arguments
+            (argument
+              (identifier)))))
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments)))
+      (return_statement
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (return_statement
+        (array_access
+          (identifier)
+          (array_literal
+            (number_literal))))
+      (return_statement
+        (new_expression
+          (identifier)
+          (arguments
+            (argument
+              (identifier))
+            (argument
+              (identifier)))))
+      (return_statement
+        (multiplicative_expression
+          (parenthesized_expression
+            (additive_expression
+              (identifier)
+              (identifier)))
+          (number_literal)))
+      (return_statement
+        (unary_expression
+          (identifier)))
+      (return_statement
+        (additive_expression
+          (multiplicative_expression
+            (identifier)
+            (identifier))
+          (identifier))))
+
+================================================================================
+RETURN and IF statements
+================================================================================
+
+return error if return-value > "" then return-value else error-status:get-message(1) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (ternary_expression
+          (comparison_expression
+            (identifier)
+            (string_literal))
+          (identifier)
+          (function_call
+            (object_access
+              (identifier)
+              (identifier))
+            (arguments
+              (argument
+                (number_literal)))))))
+
+================================================================================
+IF and RETURN statements
+================================================================================
+
+IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
+                UNDO, THROW NEW WowError(RETURN-VALUE, 0) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (logical_expression
+          (comparison_expression
+            (identifier)
+            (string_literal
+              (string_literal_attribute)))
+          (comparison_expression
+            (identifier)
+            (identifier)))
+        (undo_statement
+          (new_expression
+            (identifier)
+            (arguments
+              (argument
+                (identifier))
+              (argument
+                (number_literal)))))))
+
+
+================================================================================
+RETURN statement object access
+================================================================================
+
+return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))))))
+
+================================================================================
+RETURN statement this object access
+================================================================================
+
+    return this-object:RefCall:Available .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (object_access
+          (identifier)
+          (identifier)
+          (identifier))))

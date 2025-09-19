@@ -107,6 +107,12 @@ END CLASS.
 PROCEDURE TestP1:
 END PROCEDURE.
 
+@AblFormatterExcludeStart.
+PROCEDURE TestP2:
+END PROCEDURE.
+@AblFormatterExcludeEnd.
+
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -138,4 +144,11 @@ END PROCEDURE.
   (annotation)
   (procedure_statement
     (identifier)
-    (body)))
+    (body))
+  (annotation
+    name: (identifier))
+  (procedure_statement
+    (identifier)
+    (body))
+  (annotation
+    name: (identifier)))

@@ -162,7 +162,10 @@ module.exports = grammar({
           kw("TEARDOWN"),
           kw("AFTERALL"),
           kw("AFTER"),
-          kw("IGNORE")
+          kw("IGNORE"),
+          seq(field('name', $.identifier),
+            optional(seq('(', optional(field('args',$.annotation_argument)), ')'))
+          )
         ),
         $._terminator
       ),

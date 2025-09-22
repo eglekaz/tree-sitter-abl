@@ -163,9 +163,8 @@ module.exports = grammar({
           kw("AFTERALL"),
           kw("AFTER"),
           kw("IGNORE"),
-          seq(field('name', $.identifier),
-            optional(seq('(', optional(field('args',$.annotation_argument)), ')'))
-          )
+          kw("ABLFORMATTEREXCLUDESTART"),
+          kw("ABLFORMATTEREXCLUDEEND"),
         ),
         $._terminator
       ),

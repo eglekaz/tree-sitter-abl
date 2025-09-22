@@ -996,54 +996,36 @@
               "value": "IGNORE"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "name",
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "PATTERN",
+                    "value": "[aA][bB][lL][fF][oO][rR][mM][aA][tT][tT][eE][rR][eE][xX][cC][lL][uU][dD][eE][sS][tT][aA][rR][tT]"
                   }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "("
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "FIELD",
-                              "name": "args",
-                              "content": {
-                                "type": "SYMBOL",
-                                "name": "annotation_argument"
-                              }
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ")"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
                 }
-              ]
+              },
+              "named": false,
+              "value": "ABLFORMATTEREXCLUDESTART"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[aA][bB][lL][fF][oO][rR][mM][aA][tT][tT][eE][rR][eE][xX][cC][lL][uU][dD][eE][eE][nN][dD]"
+                  }
+                }
+              },
+              "named": false,
+              "value": "ABLFORMATTEREXCLUDEEND"
             }
           ]
         },

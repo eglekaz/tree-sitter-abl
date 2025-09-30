@@ -1818,6 +1818,10 @@ END.
 ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
   RUN SetUpDown.
 
+ON CHOOSE OF b_auto_insert OR LEAVE OF mi.lbl IN FRAME menu_edit DO:
+  DEF VAR n AS CHAR NO-UNDO.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1860,7 +1864,22 @@ ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
     (identifier)
     (identifier)
     (run_statement
-      procedure: (identifier))))
+      procedure: (identifier)))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (identifier)
+    (do_block
+      (body
+        (variable_definition
+          name: (identifier)
+          (type_tuning
+            type: (primitive_type))
+          (variable_tuning))))))
 
 ================================================================================
 IF statement with IN FRAME

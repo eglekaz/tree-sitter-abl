@@ -1,4 +1,2 @@
-ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A
-DO:
-    RUN SelectedCount.
-END.
+ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
+  RUN SetUpDown.

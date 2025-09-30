@@ -1815,6 +1815,9 @@ ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A DO:
   RUN SelectedCount.
 END.
 
+ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
+  RUN SetUpDown.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1849,7 +1852,15 @@ END.
     (do_block
       (body
         (run_statement
-          procedure: (identifier))))))
+          procedure: (identifier)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (identifier))))
 
 ================================================================================
 IF statement with IN FRAME

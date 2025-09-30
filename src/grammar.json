@@ -7775,8 +7775,29 @@
                     "value": "OF"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_name"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_name"
+                      },
+                      {
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": ","
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "_name"
+                            }
+                          ]
+                        }
+                      }
+                    ]
                   },
                   {
                     "type": "CHOICE",
@@ -7959,8 +7980,29 @@
                           "value": "OF"
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "_name"
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "_name"
+                            },
+                            {
+                              "type": "REPEAT",
+                              "content": {
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "STRING",
+                                    "value": ","
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_name"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "CHOICE",

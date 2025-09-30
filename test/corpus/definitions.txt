@@ -26,6 +26,9 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
   VIEW-AS TEXT LABEL "Golf Clubs Available".
 
+DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
+  INITIAL ["Start", ?, "Middle"].
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -100,7 +103,19 @@ DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
     (variable_tuning)
     (view_as_phrase)
     (variable_tuning
-      (string_literal))))
+      (string_literal)))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (number_literal))
+    (variable_tuning
+      (array_literal
+        (string_literal)
+        (null_expression)
+        (string_literal)))))
 
 ================================================================================
 BUFFER DEFINITION statement

@@ -1743,6 +1743,14 @@ ENUM Direction:
                 West.
 END ENUM.
 
+ENUM StatusCode:
+    DEFINE ENUM Success = 0
+                Unknown = ?
+                Pending
+                Failed = ?
+                Complete = 1.
+END ENUM.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1796,7 +1804,25 @@ END ENUM.
         (enum_member
           (identifier))
         (enum_member
-          (identifier))))))
+          (identifier)))))
+  (enum_statement
+    (identifier)
+    (body
+      (enum_definition
+        (enum_member
+          (identifier)
+          (number_literal))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier)
+          (number_literal))))))
 
 ================================================================================
 ON statement

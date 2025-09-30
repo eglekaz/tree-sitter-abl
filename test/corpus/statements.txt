@@ -1486,8 +1486,7 @@ var List<Ant> ListOfAnts.
           (number_literal)))))
   (comment)
   (var_statement
-    (type_tuning
-      (primitive_type))
+    (type_tuning)
     (variable
       (identifier)))
   (comment)
@@ -1603,6 +1602,15 @@ var List<Ant> ListOfAnts.
   (var_statement
     (type_tuning
       (identifier))
+    (variable
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (new_expression
+          (identifier)
+          (arguments
+            (argument
+              (string_literal))))))
     (variable
       (assignment
         (identifier)

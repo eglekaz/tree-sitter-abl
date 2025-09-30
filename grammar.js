@@ -240,6 +240,7 @@ module.exports = grammar({
         $.number_literal,
         $.string_literal,
         $.boolean_literal,
+        $.null_expression,
         $.function_call,
         $.array_literal,
         $.array_access,
@@ -785,7 +786,7 @@ module.exports = grammar({
           optional(
             seq(
               kw("="),
-              _list(choice($.identifier, $._literal),",")
+              _list(choice($.identifier, $._literal, $.null_expression),",")
             )
           )
         )

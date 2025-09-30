@@ -1,0 +1,4 @@
+ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A
+DO:
+    RUN SelectedCount.
+END.

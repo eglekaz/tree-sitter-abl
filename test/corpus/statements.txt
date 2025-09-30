@@ -1808,6 +1808,9 @@ ON WRITE OF Customer NEW new-cust OLD old-cust DO:
   a = 3.
 END.
 
+ON HELP OF FRAME FRAME-A ANYWHERE
+  RUN adeedit/_edithlp.p (INPUT "Save_Buffers_Dialog_Box").
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1825,7 +1828,16 @@ END.
           (assignment
             name: (identifier)
             (assignment_operator)
-            (number_literal)))))))
+            (number_literal))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (file_name)
+      (arguments
+        (argument
+          (argument_mode)
+          (string_literal))))))
 
 ================================================================================
 IF statement with IN FRAME

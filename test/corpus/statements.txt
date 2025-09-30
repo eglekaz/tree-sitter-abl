@@ -1828,6 +1828,11 @@ OR HELP OF FRAME {&FRAME-NAME}
     RUN adecomm/_adehelp.p ("AB":U, "CONTEXT":U, iHelpcontext, ?). 
   END.
 
+ON CHOOSE OF BtnOK 
+OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
+  IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1907,7 +1912,20 @@ OR HELP OF FRAME {&FRAME-NAME}
             (argument
               (identifier))
             (argument
-              (null_expression))))))))
+              (null_expression)))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (if_statement
+          condition: (object_access
+            object: (identifier)
+            property: (identifier))
+          (return_statement))))))
 
 ================================================================================
 IF statement with IN FRAME

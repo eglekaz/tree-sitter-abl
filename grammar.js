@@ -1178,12 +1178,18 @@ module.exports = grammar({
       _on_statement_widget_phrase: ($) =>
         prec(2, seq(
           _list(choice($.identifier, $.constant), ","),
-          seq(kw("OF"), kw("FRAME"), $._name),
+          choice(
+            seq(kw("OF"), kw("FRAME"), $._name),
+            seq(kw("OF"), $._name, optional(seq(kw("IN"), kw("FRAME"), $._name)))
+          ),
           repeat(
             seq(
               kw("OR"),
               _list(choice($.identifier, $.constant), ","),
-              seq(kw("OF"), kw("FRAME"), $._name)
+              choice(
+                seq(kw("OF"), kw("FRAME"), $._name),
+                seq(kw("OF"), $._name, optional(seq(kw("IN"), kw("FRAME"), $._name)))
+              )
             )
           ),
           optional(kw("ANYWHERE")),

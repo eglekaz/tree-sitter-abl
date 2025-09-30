@@ -1811,6 +1811,10 @@ END.
 ON HELP OF FRAME FRAME-A ANYWHERE
   RUN adeedit/_edithlp.p (INPUT "Save_Buffers_Dialog_Box").
 
+ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A DO:
+  RUN SelectedCount.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1837,7 +1841,15 @@ ON HELP OF FRAME FRAME-A ANYWHERE
       (arguments
         (argument
           (argument_mode)
-          (string_literal))))))
+          (string_literal)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (do_block
+      (body
+        (run_statement
+          procedure: (identifier))))))
 
 ================================================================================
 IF statement with IN FRAME

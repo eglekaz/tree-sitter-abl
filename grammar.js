@@ -1179,16 +1179,16 @@ module.exports = grammar({
         prec(2, seq(
           _list(choice($.identifier, $.constant), ","),
           choice(
-            seq(kw("OF"), kw("FRAME"), $._name),
-            seq(kw("OF"), _list($._name, ","), optional(seq(kw("IN"), kw("FRAME"), $._name)))
+            seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+            seq(kw("OF"), _list($._name, ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
           ),
           repeat(
             seq(
               kw("OR"),
               _list(choice($.identifier, $.constant), ","),
               choice(
-                seq(kw("OF"), kw("FRAME"), $._name),
-                seq(kw("OF"), _list($._name, ","), optional(seq(kw("IN"), kw("FRAME"), $._name)))
+                seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+                seq(kw("OF"), _list($._name, ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
               )
             )
           ),

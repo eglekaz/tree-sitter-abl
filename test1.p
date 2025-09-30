@@ -1,3 +1,6 @@
-ON CHOOSE OF b_auto_insert OR LEAVE OF mi.lbl IN FRAME menu_edit DO:
-    DEF VAR n AS CHAR NO-UNDO.
+ON CHOOSE OF BtnHelp IN FRAME Dialog-Frame
+OR HELP OF FRAME {&FRAME-NAME}
+    DO:
+      
+    RUN adecomm/_adehelp.p ("AB":U, "CONTEXT":U, iHelpcontext, ?). 
 END.

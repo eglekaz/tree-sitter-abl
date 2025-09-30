@@ -1822,6 +1822,12 @@ ON CHOOSE OF b_auto_insert OR LEAVE OF mi.lbl IN FRAME menu_edit DO:
   DEF VAR n AS CHAR NO-UNDO.
 END.
 
+ON CHOOSE OF BtnHelp IN FRAME Dialog-Frame
+OR HELP OF FRAME {&FRAME-NAME}
+  DO:
+    RUN adecomm/_adehelp.p ("AB":U, "CONTEXT":U, iHelpcontext, ?). 
+  END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1879,7 +1885,29 @@ END.
           name: (identifier)
           (type_tuning
             type: (primitive_type))
-          (variable_tuning))))))
+          (variable_tuning)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (run_statement
+          procedure: (file_name)
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))
+            (argument
+              (null_expression))))))))
 
 ================================================================================
 IF statement with IN FRAME

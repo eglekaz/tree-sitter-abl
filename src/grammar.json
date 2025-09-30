@@ -7750,8 +7750,17 @@
                     "value": "FRAME"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_name"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "constant"
+                      }
+                    ]
                   }
                 ]
               },
@@ -7838,8 +7847,17 @@
                             "value": "FRAME"
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "_name"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "_name"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "constant"
+                              }
+                            ]
                           }
                         ]
                       },
@@ -7955,8 +7973,17 @@
                           "value": "FRAME"
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "_name"
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "_name"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "constant"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -8043,8 +8070,17 @@
                                   "value": "FRAME"
                                 },
                                 {
-                                  "type": "SYMBOL",
-                                  "name": "_name"
+                                  "type": "CHOICE",
+                                  "members": [
+                                    {
+                                      "type": "SYMBOL",
+                                      "name": "_name"
+                                    },
+                                    {
+                                      "type": "SYMBOL",
+                                      "name": "constant"
+                                    }
+                                  ]
                                 }
                               ]
                             },

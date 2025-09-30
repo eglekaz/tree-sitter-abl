@@ -1130,6 +1130,63 @@ END CASE.
             (number_literal)))))))
 
 ================================================================================
+CASE statement with null expressions
+================================================================================
+
+CASE v:
+  WHEN "DEFAULT" THEN std_font = ?.
+  WHEN ? THEN std_font = 1.
+  OTHERWISE DO:
+    ASSIGN std_font = INTEGER(v) NO-ERROR.
+    IF ERROR-STATUS:ERROR THEN std_font = 1.
+  END.
+END CASE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (case_statement
+    (identifier)
+    (body
+      (case_when_branch
+        (case_condition
+          (string_literal))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (null_expression))))
+      (case_when_branch
+        (case_condition
+          (null_expression))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (number_literal))))
+      (case_otherwise_branch
+        (do_block
+          (body
+            (assign_statement
+              (assignment
+                (identifier)
+                (assignment_operator)
+                (function_call
+                  (identifier)
+                  (arguments
+                    (argument
+                      (identifier))))))
+            (if_statement
+              (object_access
+                (identifier)
+                (identifier))
+              (variable_assignment
+                (assignment
+                  (identifier)
+                  (assignment_operator)
+                  (number_literal))))))))))
+
+================================================================================
 UNDO statement
 ================================================================================
 
@@ -1429,7 +1486,8 @@ var List<Ant> ListOfAnts.
           (number_literal)))))
   (comment)
   (var_statement
-    (type_tuning)
+    (type_tuning
+      (primitive_type))
     (variable
       (identifier)))
   (comment)
@@ -1545,15 +1603,6 @@ var List<Ant> ListOfAnts.
   (var_statement
     (type_tuning
       (identifier))
-    (variable
-      (assignment
-        (identifier)
-        (assignment_operator)
-        (new_expression
-          (identifier)
-          (arguments
-            (argument
-              (string_literal))))))
     (variable
       (assignment
         (identifier)

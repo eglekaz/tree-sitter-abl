@@ -291,7 +291,11 @@ module.exports = grammar({
     constant: ($) =>
       seq("{", optional("&"), $._constant_value, "}"),
 
-    _constant_value: ($) => choice($.identifier, $._integer_literal),
+    _constant_value: ($) => choice(
+      $.identifier, 
+      $._integer_literal,
+      seq($.identifier, "=", choice($.identifier, $._integer_literal, $.string_literal))
+    ),
 
     qualified_name: ($) =>
       seq(
@@ -744,7 +748,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access, $.null_expression)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),

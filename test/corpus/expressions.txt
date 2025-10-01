@@ -499,3 +499,20 @@ display SUBSTITUTE("Value: &1", {&VALUE}).
         (argument
           (constant
             (identifier)))))))
+
+================================================================================
+Preprocessor assignments in arguments
+================================================================================
+
+RUN test.p ({&action=query}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (run_statement
+    procedure: (file_name)
+    (arguments
+      (argument
+        (constant
+          (identifier)
+          (identifier))))))

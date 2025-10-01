@@ -1,1 +1,1 @@
-NUM-ENTRIES (target-external, {&DELIM}).
+run aqua.p ({&action=query}).

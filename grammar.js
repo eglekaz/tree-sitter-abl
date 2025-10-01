@@ -279,10 +279,19 @@ module.exports = grammar({
     include: ($) =>
       seq(
         "{",
-        $.file_name,
+        choice(
+          $.file_name,
+          prec(1, alias($.include_file_path, $.file_name))
+        ),
         repeat($.include_argument),
         "}"
       ),
+
+    include_file_path: ($) =>
+      prec.right(repeat1(choice(
+        $.constant, 
+        /[A-z-_|0-9|\/\.]+/i
+      ))),
 
     // IDENTIFIERS
 

@@ -1,1 +1,1 @@
-run aqua.p ({&action=query}).
+{ {&dir}/_mnudefs.i}

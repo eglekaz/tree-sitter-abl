@@ -1818,6 +1818,21 @@
     }
   },
   {
+    "type": "file_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "finally_statement",
     "named": true,
     "fields": {},
@@ -5954,10 +5969,6 @@
   },
   {
     "type": "date_literal",
-    "named": true
-  },
-  {
-    "type": "file_name",
     "named": true
   },
   {

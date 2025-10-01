@@ -450,3 +450,52 @@ qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
               (identifier)
               (identifier))
             (identifier)))))
+
+================================================================================
+Function call with preprocessor variable arguments
+================================================================================
+
+count = NUM-ENTRIES (target-external, {&DELIM}).
+result = SUBSTRING(text, {&START-POS}, {&LENGTH}).
+display SUBSTITUTE("Value: &1", {&VALUE}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))
+          (argument
+            (constant
+              (identifier)))))))
+  (abl_statement
+    statement: (identifier)
+    (function_call
+      function: (identifier)
+      (arguments
+        (argument
+          (string_literal))
+        (argument
+          (constant
+            (identifier)))))))

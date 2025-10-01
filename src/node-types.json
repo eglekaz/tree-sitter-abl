@@ -552,6 +552,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "function_call",
           "named": true
         },
@@ -2939,6 +2943,14 @@
       "required": false,
       "types": [
         {
+          "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "do_block",
           "named": true
         },
@@ -4790,6 +4802,10 @@
   },
   {
     "type": "AND",
+    "named": false
+  },
+  {
+    "type": "ANYWHERE",
     "named": false
   },
   {

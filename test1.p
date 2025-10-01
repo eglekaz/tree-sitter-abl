@@ -1,0 +1,1 @@
+NUM-ENTRIES (target-external, {&DELIM}).

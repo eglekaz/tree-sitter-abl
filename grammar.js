@@ -36,7 +36,9 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.sort_clause],
     [$.string_literal],
-    [$.if_statement]
+    [$.if_statement],
+    [$.include, $.constant],
+    [$.include_argument]
   ],
 
   rules: {
@@ -273,19 +275,21 @@ module.exports = grammar({
         ),
         field("name", $.identifier),
         field("value", $.string_literal),
-        $.constant
+        $.constant,
+        $.identifier
       ),
 
     include: ($) =>
-      seq(
+      prec.right(1, seq(
         "{",
         choice(
           $.file_name,
-          prec(1, alias($.include_file_path, $.file_name))
+          prec(1, alias($.include_file_path, $.file_name)),
+          $.identifier
         ),
         repeat($.include_argument),
         "}"
-      ),
+      )),
 
     include_file_path: ($) =>
       prec.right(repeat1(choice(

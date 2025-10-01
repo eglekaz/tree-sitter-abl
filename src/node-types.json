@@ -2386,6 +2386,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "include_argument",
           "named": true
         }
@@ -2423,6 +2427,10 @@
       "types": [
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]

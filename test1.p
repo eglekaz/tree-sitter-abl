@@ -1,1 +1,2 @@
-{ {&dir}/_mnudefs.i}
+{get ObjectType cObjectType phInstance}.
+{set ObjectType cObjectType phInstance}.

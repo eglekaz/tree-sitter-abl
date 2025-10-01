@@ -50,6 +50,29 @@ DISPLAY {&VAR1}.
       (identifier))))
 
 ================================================================================
+INCLUDE with procedure calls
+================================================================================
+
+{get ObjectType cObjectType phInstance}
+{set ObjectType cObjectType phInstance}
+{method-call param1 param2 param3}
+{ {&dir}/helper.i arg1 arg2}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (include
+    (file_name))
+  (include
+    (file_name))
+  (include
+    (file_name))
+  (include
+    (file_name
+      (constant
+        (identifier)))))
+
+================================================================================
 COMMENT
 ================================================================================
 

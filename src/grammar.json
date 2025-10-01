@@ -1584,50 +1584,62 @@
         {
           "type": "SYMBOL",
           "name": "constant"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },
     "include": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "file_name"
-            },
-            {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "ALIAS",
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_name"
+              },
+              {
+                "type": "PREC",
+                "value": 1,
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "include_file_path"
-                },
-                "named": true,
-                "value": "file_name"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "include_file_path"
+                  },
+                  "named": true,
+                  "value": "file_name"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
               }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "include_argument"
             }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "include_argument"
+          },
+          {
+            "type": "STRING",
+            "value": "}"
           }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
+        ]
+      }
     },
     "include_file_path": {
       "type": "PREC_RIGHT",
@@ -14103,6 +14115,13 @@
     ],
     [
       "if_statement"
+    ],
+    [
+      "include",
+      "constant"
+    ],
+    [
+      "include_argument"
     ]
   ],
   "precedences": [],

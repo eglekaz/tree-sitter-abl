@@ -42,7 +42,8 @@ module.exports = grammar({
   rules: {
     source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
 
-    body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block))),
+    
+    body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
     _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
 
@@ -55,13 +56,28 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
+            $.annotation,
             seq(
               optional($.annotation),
-              $.method_statement
+              $.method_statement,
+              optional($.annotation),
             ),
-            $.constructor_statement,
-            $.destructor_statement,
-            $.function_statement
+            seq(
+              optional($.annotation),
+              $.constructor_statement,
+              optional($.annotation),
+            ),
+            seq(
+              optional($.annotation),
+              $.destructor_statement,
+              optional($.annotation),
+            ),
+            seq(
+              optional($.annotation),
+              $.function_statement,
+              optional($.annotation),
+            )
+            
           )
         )
       ),
@@ -74,11 +90,12 @@ module.exports = grammar({
             $._definition,
             $.method_statement
           )
-        )
+        ),
+        optional($.annotation)
       ),
 
     case_body: ($) =>
-      seq(":", repeat1($.case_when_branch), optional($.case_otherwise_branch)),
+      seq(":", repeat1(prec.right(seq(repeat($.annotation), $.case_when_branch, repeat($.annotation)))), optional(seq(repeat($.annotation), $.case_otherwise_branch, repeat($.annotation)))),
 
     enum_body: ($) => seq(":", repeat1($.enum_definition)),
 
@@ -780,7 +797,9 @@ module.exports = grammar({
     variable: ($) => choice(field("name", $.identifier), $.assignment),
 
     enum_member: ($) =>
+      prec.right(
       seq(
+        optional(repeat($.annotation)), 
         field("name", $.identifier),
         field(
           "value",
@@ -790,8 +809,10 @@ module.exports = grammar({
               _list(choice($.identifier, $._literal),",")
             )
           )
-        )
-      ),
+        ),
+        optional(repeat($.annotation)), 
+      )
+    ),
 
     function_call: ($) =>
       prec.right(

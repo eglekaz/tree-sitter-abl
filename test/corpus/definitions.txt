@@ -26,65 +26,78 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
   VIEW-AS TEXT LABEL "Golf Clubs Available".
 
+DEFINE VARIABLE fTitle& AS CHARACTER NO-UNDO.
+
 --------------------------------------------------------------------------------
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning
       (null_expression)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (identifier)))
+      type: (identifier)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (qualified_name
+      type: (qualified_name
         (identifier)
         (identifier)
         (identifier)
         (identifier)))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (class_type
+      type: (class_type
         (identifier))))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))
@@ -94,13 +107,20 @@ DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
         (string_literal)
         (string_literal))))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (view_as_phrase)
     (variable_tuning
-      (string_literal))))
+      (string_literal)))
+  (variable_definition
+    name: (variable_name
+      (identifier))
+    (type_tuning
+      type: (primitive_type))
+    (variable_tuning)))
 
 ================================================================================
 BUFFER DEFINITION statement

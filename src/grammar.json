@@ -1665,6 +1665,28 @@
       "type": "PATTERN",
       "value": "[A-Z|a-z|\\-|\\\\_]{1}[#A-Z|a-z|\\-|\\\\_|0-9]*"
     },
+    "variable_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "STRING",
+              "value": "&"
+            }
+          ]
+        }
+      ]
+    },
     "constant": {
       "type": "SEQ",
       "members": [
@@ -10339,7 +10361,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "variable_name"
           }
         },
         {

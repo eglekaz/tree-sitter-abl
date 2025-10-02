@@ -16,44 +16,45 @@ variable /= 3.
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (object_access
-        (identifier)
-        (identifier))
+      name: (object_access
+        object: (identifier)
+        property: (identifier))
       (assignment_operator)
       (string_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))))
 
@@ -1026,7 +1027,8 @@ END CLASS.
         (identifier)))
     (body
       (variable_definition
-        name: (identifier)
+        name: (variable_name
+          (identifier))
         (type_tuning
           type: (primitive_type)))))
   (class_statement
@@ -1038,7 +1040,8 @@ END CLASS.
     (class_tuning)
     (body
       (variable_definition
-        name: (identifier)
+        name: (variable_name
+          (identifier))
         (type_tuning
           type: (primitive_type)))))
   (variable_assignment

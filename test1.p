@@ -1,2 +1,1 @@
-qbf-a = qbf-t&:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
-qbf-a = qbf-t:LOOKUP(qbf-t&:SCREEN-VALUE) IN FRAME qbf-both.
+DEFINE VARIABLE fTitle& AS CHARACTER NO-UNDO.

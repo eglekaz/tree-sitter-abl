@@ -4538,7 +4538,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "variable_name",
             "named": true
           }
         ]
@@ -4574,6 +4574,21 @@
         },
         {
           "type": "view_as_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]

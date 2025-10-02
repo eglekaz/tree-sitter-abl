@@ -885,6 +885,10 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "method_statement",
           "named": true
         },
@@ -1998,6 +2002,84 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frame_definition",
+    "named": true,
+    "fields": {
+      "column": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "row": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "object_access",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
           "named": true
         }
       ]
@@ -3954,6 +4036,10 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "interface_statement",
           "named": true
         },
@@ -4892,6 +4978,10 @@
   },
   {
     "type": "ASYNCHRONOUS",
+    "named": false
+  },
+  {
+    "type": "AT",
     "named": false
   },
   {

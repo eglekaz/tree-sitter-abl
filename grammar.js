@@ -1361,7 +1361,7 @@ module.exports = grammar({
         $.dataset_definition,
         $.stream_definition,
         // $.image_definition,
-        // $.frame_definition,
+        $.frame_definition,
         $.parameter_definition
       ),
 
@@ -1438,17 +1438,17 @@ module.exports = grammar({
         $._terminator
       ),
 
-    // frame_definition: ($) =>
-    //   seq(
-    //     $._define,
-    //     repeat($._tuning),
-    //     kw("FRAME"),
-    //     field("name", $.identifier),
-    //     // form item
-    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
-    //   ),
+    frame_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("FRAME"),
+        field("name", choice($.identifier, $.constant)),
+        repeat(choice($.identifier, $.constant, $.object_access)),
+        optional(seq(kw("AT"), kw("COLUMN"), field("column", choice($.number_literal, $.identifier)))),
+        optional(seq(kw("ROW"), field("row", choice($.number_literal, $.identifier)))),
+        $._terminator
+      ),
 
     // image_definition: ($) =>
     //   seq(

@@ -408,5 +408,28 @@ DEFINE EVENT design DELEGATE designs.Events.
           (identifier)
           (identifier))))
 
+================================================================================
+FRAME DEFINITION statement
+================================================================================
+
+DEFINE FRAME {&FRAME_NAME} bPolicy AT COLUMN 2 ROW 2.
+DEFINE FRAME myFrame field1 field2 AT COLUMN 5 ROW 10.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (frame_definition
+    name: (constant
+      (identifier))
+    (identifier)
+    column: (number_literal)
+    row: (number_literal))
+  (frame_definition
+    name: (identifier)
+    (identifier)
+    (identifier)
+    column: (number_literal)
+    row: (number_literal)))
+
 
 

@@ -516,3 +516,45 @@ RUN test.p ({&action=query}).
         (constant
           (identifier)
           (identifier))))))
+
+================================================================================
+Widget reference 
+================================================================================
+
+qbf-a = qbf-t&:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
+
+qbf-a = qbf-t:LOOKUP(qbf-t&:SCREEN-VALUE) IN FRAME qbf-both.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier)))))

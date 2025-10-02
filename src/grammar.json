@@ -5242,13 +5242,22 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_namecolon"
-                },
-                "named": false,
-                "value": ":"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_namecolon"
+                    },
+                    "named": false,
+                    "value": ":"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "&:"
+                  }
+                ]
               },
               {
                 "type": "FIELD",
@@ -7450,8 +7459,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "object_access"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "object_access"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_call"
+            }
+          ]
         },
         {
           "type": "ALIAS",

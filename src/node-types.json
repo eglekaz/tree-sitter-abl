@@ -2371,6 +2371,10 @@
       "required": true,
       "types": [
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "object_access",
           "named": true
         }
@@ -4729,6 +4733,10 @@
   },
   {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "&:",
     "named": false
   },
   {

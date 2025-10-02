@@ -749,7 +749,7 @@ module.exports = grammar({
           "object",
           choice($.new_expression, $.function_call, $.constant, $._name)
         ),
-        repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
+        repeat1(seq(choice(alias($._namecolon, ":"), "&:"), field("property", $.identifier)))
       ),
 
     member_access: ($) =>
@@ -1141,7 +1141,7 @@ module.exports = grammar({
 
     in_frame_phrase: ($) =>
     seq(
-        $.object_access,
+        choice($.object_access, $.function_call),
         kw("IN"),
         $._frame
     ),

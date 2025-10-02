@@ -162,3 +162,15 @@ END PROCEDURE.
   (procedure_statement
     (identifier)
     (body)))
+
+================================================================================
+Complex preprocessor directive
+================================================================================
+
+{&_proparse_ prolint-nowarn(overflow)}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (constant
+    (identifier)))

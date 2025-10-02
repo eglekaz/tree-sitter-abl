@@ -1,1 +1,1 @@
-DEFINE FRAME {&FRAME_NAME} bPolicy AT COLUMN 2 ROW 2.
+{&_proparse_ prolint-nowarn(overflow)}

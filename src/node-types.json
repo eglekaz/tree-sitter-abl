@@ -4020,6 +4020,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "data_source_definition",
           "named": true
         },

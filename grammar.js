@@ -38,11 +38,12 @@ module.exports = grammar({
     [$.string_literal],
     [$.if_statement],
     [$.include, $.constant],
-    [$.include_argument]
+    [$.include_argument],
+    [$.include_argument, $._constant_value]
   ],
 
   rules: {
-    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
+    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.constant)),
 
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block))),
 
@@ -312,7 +313,8 @@ module.exports = grammar({
     _constant_value: ($) => choice(
       $.identifier, 
       $._integer_literal,
-      seq($.identifier, "=", choice($.identifier, $._integer_literal, $.string_literal))
+      seq($.identifier, "=", choice($.identifier, $._integer_literal, $.string_literal)),
+      seq($.identifier, repeat1(choice(/[\s\-()a-zA-Z0-9]+/)))
     ),
 
     qualified_name: ($) =>
@@ -1459,13 +1461,6 @@ module.exports = grammar({
     //     $._image_definition_option,
     //     // repeat($.image_tuning),
     //     $._terminator
-    //   ),
-
-    // _image_definition_option: ($) =>
-    //   choice(
-    //     $.size_phrase,
-    //     $.image_phrase,
-    //     seq(kw("LIKE"), $.identifier)
     //   ),
 
     parameter_definition: ($) =>

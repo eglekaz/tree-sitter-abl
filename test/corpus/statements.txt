@@ -599,6 +599,13 @@ ASSIGN
   qualified.name = var + 1
 .
 
+ASSIGN 
+    var1 = var2
+  &IF {&DELIM} <> ",":U &THEN
+    tbllist = REPLACE (tbllist, {&DELIM}, ",":U)   
+  &ENDIF
+      change = yes.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -624,7 +631,17 @@ ASSIGN
       (assignment_operator)
       (additive_expression
         (identifier)
-        (number_literal)))))
+        (number_literal))))
+  (assign_statement
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (identifier))
+    (preprocessor_directive)
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (boolean_literal))))
 
 ================================================================================
 FOR EACH statement

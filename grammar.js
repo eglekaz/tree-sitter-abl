@@ -1784,7 +1784,7 @@ module.exports = grammar({
     assign_statement: ($) =>
       seq(
         kw("ASSIGN"),
-        repeat1($.assignment),
+        repeat1(choice($.assignment, $.preprocessor_directive)),
         optional(kw("NO-ERROR")),
         $._terminator
       ),

@@ -742,6 +742,10 @@
         {
           "type": "assignment",
           "named": true
+        },
+        {
+          "type": "preprocessor_directive",
+          "named": true
         }
       ]
     }

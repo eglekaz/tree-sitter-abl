@@ -1057,6 +1057,10 @@
           "named": true
         },
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "logical_expression",
           "named": true
         },

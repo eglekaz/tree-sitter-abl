@@ -1081,6 +1081,13 @@ CASE test:
   OTHERWISE c = 8.
 END CASE.
 
+CASE pData:type:
+  WHEN DataTypeHelper:GetMask(DataTypeEnum:XmlDocument) THEN
+  DO:
+    pData:save(DataTypeEnum:Memptr:ToString(), mXml).
+  END.
+END CASE.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1094,12 +1101,12 @@ END CASE.
           (body
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal)))
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal))))))
       (case_when_branch
@@ -1111,7 +1118,7 @@ END CASE.
           (string_literal))
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
             (number_literal))))
       (case_when_branch
@@ -1119,15 +1126,48 @@ END CASE.
           (string_literal))
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
             (number_literal))))
       (case_otherwise_branch
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
-            (number_literal)))))))
+            (number_literal))))))
+    (case_statement
+      (object_access
+        object: (identifier)
+        property: (identifier))
+      (body
+        (case_when_branch
+          (case_condition
+            (function_call
+              function: (object_access
+                object: (identifier)
+                property: (identifier))
+              (arguments
+                (argument
+                  (object_access
+                    object: (identifier)
+                    property: (identifier))))))
+          (do_block
+            (body
+              (function_call_statement
+                (function_call
+                  function: (object_access
+                    object: (identifier)
+                    property: (identifier))
+                  (arguments
+                    (argument
+                      (function_call
+                        function: (object_access
+                          object: (identifier)
+                          property: (identifier)
+                          property: (identifier))
+                        (arguments)))
+                    (argument
+                      (identifier)))))))))))
 
 ================================================================================
 UNDO statement

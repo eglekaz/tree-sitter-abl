@@ -1,1 +1,1 @@
-btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = FALSE .
+qbf-a = qbf-t:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.

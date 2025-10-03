@@ -746,6 +746,20 @@
     "type": "assignment",
     "named": true,
     "fields": {
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,

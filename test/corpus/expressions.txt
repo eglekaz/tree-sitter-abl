@@ -439,6 +439,8 @@ Assignment with IN FRAME
 
 qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
 
+qbf-a = qbf-t:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
+
 IF ( hBuf_List:SCREEN-VALUE = "" ) OR ( hBuf_List:SCREEN-VALUE = ? )
 THEN btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = FALSE .
 ELSE btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = TRUE .
@@ -455,6 +457,20 @@ ELSE btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = TRUE .
               object: (identifier)
               property: (identifier))
             frame: (identifier))))
+      (variable_assignment
+        (assignment
+          name: (identifier)
+          (assignment_operator)
+          (function_call
+            function: (object_access
+              object: (identifier)
+              property: (identifier))
+            (arguments
+              (argument
+                (object_access
+                  object: (identifier)
+                  property: (identifier)))))
+          frame: (identifier)))
       (if_statement
         condition: (logical_expression
           (parenthesized_expression

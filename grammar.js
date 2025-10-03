@@ -37,7 +37,8 @@ module.exports = grammar({
     [$.sort_clause],
     [$.string_literal],
     [$.if_statement],
-    [$.dataset_expression, $.object_access]
+    [$.dataset_expression, $.object_access],
+    [$.in_frame_phrase, $._expression]
   ],
 
   rules: {
@@ -1653,7 +1654,8 @@ module.exports = grammar({
           ),
           $.assignment_operator,
           prec.right(choice($._expression, $.include)),
-          optional($.when_expression)
+          optional($.when_expression),
+          optional(seq(kw("IN"), $._frame))
         )
       ),
 

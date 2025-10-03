@@ -1646,7 +1646,8 @@ module.exports = grammar({
                 $.object_access,
                 $.member_access,
                 $.function_call,
-                $.array_access
+                $.array_access,
+                $.in_frame_phrase
               )
             )
           ),

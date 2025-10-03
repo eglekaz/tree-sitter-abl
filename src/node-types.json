@@ -763,6 +763,10 @@
             "named": true
           },
           {
+            "type": "in_frame_phrase",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },

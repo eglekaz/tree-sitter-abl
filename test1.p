@@ -1,2 +1,1 @@
-if valid-handle(DatasetHandle) then
-  return DatasetHandle:get-top-buffer (1):name.
+btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = FALSE .

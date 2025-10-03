@@ -10421,6 +10421,10 @@
                   {
                     "type": "SYMBOL",
                     "name": "array_access"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "in_frame_phrase"
                   }
                 ]
               }

@@ -1,9 +1,2 @@
-case pData:type:
-            when DataTypeHelper:GetMask(DataTypeEnum:XmlDocument) then
-            do:
-                pData:save(DataTypeEnum:Memptr:ToString(), mXml).
-                
-               
-            end.
-
-        end case.
+if valid-handle(DatasetHandle) then
+  return DatasetHandle:get-top-buffer (1):name.

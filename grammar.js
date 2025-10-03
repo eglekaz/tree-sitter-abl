@@ -36,7 +36,8 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.sort_clause],
     [$.string_literal],
-    [$.if_statement]
+    [$.if_statement],
+    [$.dataset_expression, $.object_access]
   ],
 
   rules: {
@@ -726,13 +727,13 @@ module.exports = grammar({
       ),
 
     object_access: ($) =>
-      seq(
+      prec(2, seq(
         field(
           "object",
           choice($.new_expression, $.function_call, $.constant, $._name)
         ),
         repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
-      ),
+      )),
 
     member_access: ($) =>
       seq(
@@ -1985,7 +1986,7 @@ module.exports = grammar({
 
     locked_expression: ($) => seq(kw("LOCKED"), $._name),
 
-    dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
+    dataset_expression: ($) => prec(-1, seq(token(seq(/[Dd][Aa][Tt][Aa][Ss][Ee][Tt]/, /\s/)), $._name)),
 
     when_expression: ($) => seq(kw("WHEN"), $._expression),
 

@@ -450,3 +450,41 @@ qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
               (identifier)
               (identifier))
             (identifier)))))
+
+================================================================================
+Method chaining with keyword-prefixed identifiers
+================================================================================
+
+DatasetHandle:get-top-buffer(1):name.
+TableHandle:find-first():available.
+QueryHandle:query-prepare("FOR EACH customer").
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (null_statement
+    (object_access
+      (function_call
+        (object_access
+          (identifier)
+          (identifier))
+        (arguments
+          (argument
+            (number_literal))))
+      (identifier)))
+  (null_statement
+    (object_access
+      (function_call
+        (object_access
+          (identifier)
+          (identifier))
+        (arguments))
+      (identifier)))
+  (function_call_statement
+    (function_call
+      (object_access
+        (identifier)
+        (identifier))
+      (arguments
+        (argument
+          (string_literal))))))

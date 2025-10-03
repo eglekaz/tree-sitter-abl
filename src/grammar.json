@@ -5125,59 +5125,63 @@
       ]
     },
     "object_access": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "object",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "new_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_call"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "constant"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_name"
-              }
-            ]
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "SYMBOL",
-                  "name": "_namecolon"
+                  "name": "new_expression"
                 },
-                "named": false,
-                "value": ":"
-              },
-              {
-                "type": "FIELD",
-                "name": "property",
-                "content": {
+                {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "function_call"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "constant"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_name"
                 }
-              }
-            ]
+              ]
+            }
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_namecolon"
+                  },
+                  "named": false,
+                  "value": ":"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "property",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "member_access": {
       "type": "SEQ",
@@ -12590,33 +12594,33 @@
       ]
     },
     "dataset_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PREC_LEFT",
-          "value": 0,
-          "content": {
-            "type": "ALIAS",
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "TOKEN",
             "content": {
-              "type": "TOKEN",
-              "content": {
-                "type": "PREC",
-                "value": 1,
-                "content": {
+              "type": "SEQ",
+              "members": [
+                {
                   "type": "PATTERN",
-                  "value": "[dD][aA][tT][aA][sS][eE][tT]"
+                  "value": "[Dd][Aa][Tt][Aa][Ss][Ee][Tt]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\s"
                 }
-              }
-            },
-            "named": false,
-            "value": "DATASET"
+              ]
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_name"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_name"
-        }
-      ]
+        ]
+      }
     },
     "when_expression": {
       "type": "SEQ",
@@ -13468,6 +13472,10 @@
     ],
     [
       "if_statement"
+    ],
+    [
+      "dataset_expression",
+      "object_access"
     ]
   ],
   "precedences": [],

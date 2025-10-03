@@ -1,1 +1,0 @@
-qbf-a = qbf-t:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.

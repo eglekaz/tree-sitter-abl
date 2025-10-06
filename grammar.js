@@ -1323,6 +1323,7 @@ module.exports = grammar({
       choice(
         $.variable_definition,
         $.buffer_definition,
+        $.browse_definition,
         // $.button_definition,
         $.query_definition,
         $.temp_table_definition,
@@ -1459,10 +1460,10 @@ module.exports = grammar({
 
     _table_option: ($) =>
       choice(
-        kw("TABLE "),
+        kw("TABLE"),
         kw("TABLE-HANDLE"),
         kw("DATASET-HANDLE"),
-        kw("DATASET ")
+        kw("DATASET")
       ),
 
     _parameter_definition_option: ($) =>
@@ -1471,6 +1472,34 @@ module.exports = grammar({
         kw("TABLE"),
         kw("TABLE-HANDLE"),
         seq(kw("DATASET"), optional(token.immediate(kw("-HANDLE"))))
+      ),
+      
+    browse_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("BROWSE"),
+        field("name", $.identifier),
+        optional(seq(kw("QUERY"), field("query", $.identifier))),
+        optional(seq(
+          kw("DISPLAY"),
+          repeat1(
+            seq(
+              $._expression,
+              optional(seq(kw("COLUMN-LABEL"), $.string_literal))
+            )
+          )
+        )),
+        optional(seq(
+          kw("WITH"),
+          repeat1(choice(
+            seq($.number_literal, kw("DOWN")),
+            seq(kw("WIDTH"), $.number_literal),
+            kw("MULTIPLE"),
+            kw("SINGLE")
+          ))
+        )),
+        $._terminator
       ),
 
     property_definition: ($) =>

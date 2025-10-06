@@ -841,6 +841,10 @@
           "named": true
         },
         {
+          "type": "browse_definition",
+          "named": true
+        },
+        {
           "type": "buffer_definition",
           "named": true
         },
@@ -919,6 +923,54 @@
     "type": "boolean_literal",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "browse_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "query": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "buffer_definition",
@@ -3891,6 +3943,10 @@
           "named": true
         },
         {
+          "type": "browse_definition",
+          "named": true
+        },
+        {
           "type": "buffer_definition",
           "named": true
         },
@@ -4881,6 +4937,10 @@
     "named": false
   },
   {
+    "type": "BROWSE",
+    "named": false
+  },
+  {
     "type": "BUFFER",
     "named": false
   },
@@ -5009,10 +5069,6 @@
     "named": false
   },
   {
-    "type": "DATASET ",
-    "named": false
-  },
-  {
     "type": "DATASET-HANDLE",
     "named": false
   },
@@ -5070,6 +5126,10 @@
   },
   {
     "type": "DIALOG-BOX",
+    "named": false
+  },
+  {
+    "type": "DISPLAY",
     "named": false
   },
   {
@@ -5389,6 +5449,10 @@
     "named": false
   },
   {
+    "type": "MULTIPLE",
+    "named": false
+  },
+  {
     "type": "NE",
     "named": false
   },
@@ -5689,6 +5753,10 @@
     "named": false
   },
   {
+    "type": "SINGLE",
+    "named": false
+  },
+  {
     "type": "SINGLE-RUN",
     "named": false
   },
@@ -5762,10 +5830,6 @@
   },
   {
     "type": "TABLE",
-    "named": false
-  },
-  {
-    "type": "TABLE ",
     "named": false
   },
   {

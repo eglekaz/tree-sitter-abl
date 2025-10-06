@@ -398,10 +398,36 @@ DEFINE EVENT design DELEGATE designs.Events.
     
     (source_code
       (event_definition
-        (identifier)
+        name: (identifier)
         (qualified_name
           (identifier)
           (identifier))))
+
+================================================================================
+BROWSE statement definition
+================================================================================
+
+DEFINE BROWSE bPolicy QUERY qPolicy
+    DISPLAY ttPolicy.tcPolName COLUMN-LABEL "Policy Name"
+           ttPolicy.tcPolDesc COLUMN-LABEL "Policy Description"
+    WITH 6 DOWN WIDTH 65 MULTIPLE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (browse_definition
+    name: (identifier)
+    query: (identifier)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (string_literal)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (string_literal)
+    (number_literal)
+    (number_literal)))
 
 
 

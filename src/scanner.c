@@ -114,13 +114,34 @@ bool tree_sitter_abl_external_scanner_scan(
     char start = lexer->lookahead;
     lexer->advance(lexer, false);
 
-    while (!lexer->eof(lexer) && lexer->lookahead != start) {
-      if (lexer->lookahead == '~') {
+    // while (!lexer->eof(lexer) && lexer->lookahead != start) {
+    //   if (lexer->lookahead == '~') {
+    //     lexer->advance(lexer, false);
+    //     if (!lexer->eof(lexer))
+    //       lexer->advance(lexer, false);
+    //   }
+    //   else lexer->advance(lexer, false);
+    // }
+
+    while (!lexer->eof(lexer)) {
+      if (lexer->lookahead == start) {
+        lexer->advance(lexer, false);
+        // Check for embedded double quote ("")
+        if (lexer->lookahead == start) {
+          // Embedded quote, consume and continue
+          lexer->advance(lexer, false);
+          continue;
+        }
+        // End of string
+        lexer->result_symbol = ESCAPED_STRING;
+        return true;
+      } else if (lexer->lookahead == '~') {
         lexer->advance(lexer, false);
         if (!lexer->eof(lexer))
           lexer->advance(lexer, false);
+      } else {
+        lexer->advance(lexer, false);
       }
-      else lexer->advance(lexer, false);
     }
 
     if (!lexer->eof(lexer) && lexer->lookahead == start) {

@@ -57,12 +57,10 @@ module.exports = grammar({
             $._definition,
             $.var_statement,
             $.annotation,
-            seq(
-              $.method_statement,
-            ),
+            $.method_statement,
             $.constructor_statement,
             $.destructor_statement,
-            $.function_statement,
+            $.function_statement
           )
         )
       ),
@@ -80,7 +78,7 @@ module.exports = grammar({
       ),
 
     case_body: ($) =>
-      seq(":", repeat1(prec.right(seq(repeat($.annotation), $.case_when_branch, repeat($.annotation)))), optional(seq(repeat($.annotation), $.case_otherwise_branch, repeat($.annotation)))),
+      seq(":", repeat1(prec.right(seq(optional($.annotation), $.case_when_branch, optional($.annotation)))), optional(seq(optional($.annotation), $.case_otherwise_branch, optional($.annotation)))),
 
     enum_body: ($) => seq(":", repeat1($.enum_definition)),
 
@@ -165,7 +163,7 @@ module.exports = grammar({
           kw("AFTERALL"),
           kw("AFTER"),
           kw("IGNORE"),
-          //These are axtra annotations that we added for our formatter.
+          //These are extra annotations that we added for the OpenEdge ABL Formatter.
           //For more details, please visit: https://marketplace.visualstudio.com/items?itemName=BalticAmadeus.openedge-abl-formatter
           kw("ABLFORMATTEREXCLUDESTART"),
           kw("ABLFORMATTEREXCLUDEEND"),

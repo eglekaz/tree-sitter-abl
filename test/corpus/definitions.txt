@@ -32,65 +32,69 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
 DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
   VIEW-AS COMBO-BOX LIST-ITEMS 07/04/1776, 07/11/1969, 09/10/1993.
 
+DEFINE VARIABLE qbf-acdc AS CHARACTER NO-UNDO 
+  VIEW-AS RADIO-SET HORIZONTAL RADIO-BUTTONS "A&scending", "A":u, 
+  "Des&cending", "D":u SIZE 30 BY 1.
+
 --------------------------------------------------------------------------------
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning
       (null_expression)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (identifier)))
+      type: (identifier)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (qualified_name
+      type: (qualified_name
         (identifier)
         (identifier)
         (identifier)
         (identifier)))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (class_type
+      type: (class_type
         (identifier))))
   (variable_definition
-    (identifier)
+     name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))
@@ -100,17 +104,17 @@ DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
         (string_literal)
         (string_literal))))
   (variable_definition
-    (identifier)
+     name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (view_as_phrase)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    (identifier)
+     name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))
@@ -120,9 +124,9 @@ DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
         (null_expression)
         (string_literal))))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (string_literal))
@@ -130,7 +134,23 @@ DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
       (combo_box_phrase
         (date_literal)
         (date_literal)
-        (date_literal)))))
+        (date_literal))))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (primitive_type))
+    (variable_tuning)
+    (view_as_phrase
+      (radio_set_phrase
+        label: (string_literal)
+        value: (string_literal
+          (string_literal_attribute))
+        label: (string_literal)
+        value: (string_literal
+          (string_literal_attribute))
+        (size_phrase
+          width: (number_literal)
+          height: (number_literal))))))
 
 ================================================================================
 BUFFER DEFINITION statement

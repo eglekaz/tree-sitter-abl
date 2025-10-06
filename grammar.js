@@ -59,21 +59,10 @@ module.exports = grammar({
             $.annotation,
             seq(
               $.method_statement,
-              optional($.annotation),
             ),
-            seq(
-              $.constructor_statement,
-              optional($.annotation),
-            ),
-            seq(
-              $.destructor_statement,
-              optional($.annotation),
-            ),
-            seq(
-              $.function_statement,
-              optional($.annotation),
-            )
-            
+            $.constructor_statement,
+            $.destructor_statement,
+            $.function_statement,
           )
         )
       ),

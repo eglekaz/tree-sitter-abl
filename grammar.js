@@ -38,7 +38,8 @@ module.exports = grammar({
     [$.string_literal],
     [$.if_statement],
     [$._name, $.radio_set_phrase],
-    [$.radio_set_phrase, $._expression]
+    [$.radio_set_phrase, $._expression],
+    [$._list_items, $._expression]
   ],
 
   rules: {
@@ -877,24 +878,21 @@ module.exports = grammar({
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
-    // combo_box_phrase: ($) =>
-    //   seq(
-    //     kw("COMBO-BOX"),
-    //     repeat(
-    //       choice(
-    //         $._list_items,
-    //         $._inner_lines,
-    //         $.size_phrase,
-    //         kw("SORT"),
-    //         $._tooltip,
-    //         kw("SIMPLE"),
-    //         kw("DROP-DOWN"),
-    //         kw("DROP-DOWN-LIST"),
-    //         $._max_chars,
-    //         seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
-    //       )
-    //     )
-    //   ),
+    combo_box_phrase: ($) =>
+      seq(
+        kw("COMBO-BOX"),
+        repeat(
+          choice(
+            $._list_items,
+            $.size_phrase,
+            kw("SORT"),
+            kw("SIMPLE"),
+            kw("DROP-DOWN"),
+            kw("DROP-DOWN-LIST"),
+            seq(kw("AUTO-COMPLETION"), optional(kw("UNIQUE-MATCH")))
+          )
+        )
+      ),
 
     // editor_phrase: ($) =>
     //   seq(
@@ -979,7 +977,7 @@ module.exports = grammar({
       seq(
         kw("VIEW-AS"),
         choice(
-          // $.combo_box_phrase,
+          $.combo_box_phrase,
           // $.editor_phrase,
           $.radio_set_phrase,
           // $.selection_list_phrase,
@@ -1310,13 +1308,13 @@ module.exports = grammar({
 
     _label: ($) => seq(kw("LABEL"), _list($.string_literal, ",")),
 
-    // _list_items: ($) =>
-    //   seq(
-    //     choice(
-    //       kw("LIST-ITEMS"),
-    //       kw("LIST-ITEM-PAIRS")),
-    //     _list($.string_literal,",")
-    //   ),
+    _list_items: ($) =>
+      seq(
+        choice(
+          kw("LIST-ITEMS"),
+          kw("LIST-ITEM-PAIRS")),
+        _list(choice($.string_literal, $.date_literal, $.number_literal, $._expression), ",")
+      ),
 
     // _max_chars: ($) => seq(kw("MAX-CHARS"), $.number_literal),
 

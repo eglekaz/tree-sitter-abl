@@ -29,6 +29,9 @@ DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
 DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
   INITIAL ["Start", ?, "Middle"].
 
+DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
+  VIEW-AS COMBO-BOX LIST-ITEMS 07/04/1776, 07/11/1969, 09/10/1993.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -115,7 +118,19 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
       (array_literal
         (string_literal)
         (null_expression)
-        (string_literal)))))
+        (string_literal))))
+  (variable_definition
+    (identifier)
+    (type_tuning
+      (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (string_literal))
+    (view_as_phrase
+      (combo_box_phrase
+        (date_literal)
+        (date_literal)
+        (date_literal)))))
 
 ================================================================================
 BUFFER DEFINITION statement

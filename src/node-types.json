@@ -1325,6 +1325,25 @@
     }
   },
   {
+    "type": "combo_box_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "comment",
     "named": true,
     "fields": {}
@@ -4734,6 +4753,10 @@
       "required": false,
       "types": [
         {
+          "type": "combo_box_phrase",
+          "named": true
+        },
+        {
           "type": "radio_set_phrase",
           "named": true
         }
@@ -4989,6 +5012,10 @@
     "named": false
   },
   {
+    "type": "AUTO-COMPLETION",
+    "named": false
+  },
+  {
     "type": "AVAIL",
     "named": false
   },
@@ -5125,6 +5152,10 @@
     "named": false
   },
   {
+    "type": "COMBO-BOX",
+    "named": false
+  },
+  {
     "type": "CONSTRUCTOR",
     "named": false
   },
@@ -5238,6 +5269,14 @@
   },
   {
     "type": "DOWN",
+    "named": false
+  },
+  {
+    "type": "DROP-DOWN",
+    "named": false
+  },
+  {
+    "type": "DROP-DOWN-LIST",
     "named": false
   },
   {
@@ -5502,6 +5541,14 @@
   },
   {
     "type": "LIKE-SEQUENTIAL",
+    "named": false
+  },
+  {
+    "type": "LIST-ITEM-PAIRS",
+    "named": false
+  },
+  {
+    "type": "LIST-ITEMS",
     "named": false
   },
   {
@@ -5873,6 +5920,10 @@
     "named": false
   },
   {
+    "type": "SIMPLE",
+    "named": false
+  },
+  {
     "type": "SINGLE",
     "named": false
   },
@@ -5894,6 +5945,10 @@
   },
   {
     "type": "SIZE-PIXELS",
+    "named": false
+  },
+  {
+    "type": "SORT",
     "named": false
   },
   {
@@ -6026,6 +6081,10 @@
   },
   {
     "type": "UNIQUE",
+    "named": false
+  },
+  {
+    "type": "UNIQUE-MATCH",
     "named": false
   },
   {

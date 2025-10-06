@@ -193,7 +193,8 @@ module.exports = grammar({
     _literal: ($) =>
       choice(
         $.number_literal,
-        $.string_literal
+        $.string_literal,
+        $.date_literal
       ),
 
     boolean_literal: ($) =>

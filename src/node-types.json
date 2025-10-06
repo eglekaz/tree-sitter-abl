@@ -1057,6 +1057,10 @@
         "required": false,
         "types": [
           {
+            "type": "date_literal",
+            "named": true
+          },
+          {
             "type": "number_literal",
             "named": true
           },
@@ -1114,6 +1118,10 @@
         },
         {
           "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "date_literal",
           "named": true
         },
         {
@@ -1720,6 +1728,10 @@
             "named": false
           },
           {
+            "type": "date_literal",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -1867,6 +1879,10 @@
         },
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "date_literal",
           "named": true
         },
         {
@@ -3322,6 +3338,10 @@
           "named": true
         },
         {
+          "type": "date_literal",
+          "named": true
+        },
+        {
           "type": "getter",
           "named": true
         },
@@ -4719,6 +4739,10 @@
         },
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "date_literal",
           "named": true
         },
         {

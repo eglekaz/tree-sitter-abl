@@ -901,6 +901,10 @@
           "named": true
         },
         {
+          "type": "rectangle_definition",
+          "named": true
+        },
+        {
           "type": "stream_definition",
           "named": true
         },
@@ -3491,6 +3495,48 @@
     }
   },
   {
+    "type": "rectangle_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "referencing_phrase",
     "named": true,
     "fields": {},
@@ -3984,6 +4030,10 @@
         },
         {
           "type": "query_definition",
+          "named": true
+        },
+        {
+          "type": "rectangle_definition",
           "named": true
         },
         {
@@ -5650,6 +5700,10 @@
   },
   {
     "type": "RECID",
+    "named": false
+  },
+  {
+    "type": "RECTANGLE",
     "named": false
   },
   {

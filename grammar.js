@@ -1326,6 +1326,7 @@ module.exports = grammar({
         $.browse_definition,
         // $.button_definition,
         $.query_definition,
+        $.rectangle_definition,
         $.temp_table_definition,
         $.workfile_definition,
         $.property_definition,
@@ -1473,7 +1474,7 @@ module.exports = grammar({
         kw("TABLE-HANDLE"),
         seq(kw("DATASET"), optional(token.immediate(kw("-HANDLE"))))
       ),
-      
+
     browse_definition: ($) =>
       seq(
         $._define,
@@ -1498,6 +1499,21 @@ module.exports = grammar({
             kw("MULTIPLE"),
             kw("SINGLE")
           ))
+        )),
+        $._terminator
+      ),
+
+    rectangle_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("RECTANGLE"),
+        field("name", $.identifier),
+        optional(seq(
+          kw("SIZE"),
+          $.number_literal,
+          kw("BY"),
+          $.number_literal
         )),
         $._terminator
       ),

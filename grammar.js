@@ -58,22 +58,18 @@ module.exports = grammar({
             $.var_statement,
             $.annotation,
             seq(
-              optional($.annotation),
               $.method_statement,
               optional($.annotation),
             ),
             seq(
-              optional($.annotation),
               $.constructor_statement,
               optional($.annotation),
             ),
             seq(
-              optional($.annotation),
               $.destructor_statement,
               optional($.annotation),
             ),
             seq(
-              optional($.annotation),
               $.function_statement,
               optional($.annotation),
             )
@@ -180,6 +176,8 @@ module.exports = grammar({
           kw("AFTERALL"),
           kw("AFTER"),
           kw("IGNORE"),
+          //These are axtra annotations that we added for our formatter.
+          //For more details, please visit: https://marketplace.visualstudio.com/items?itemName=BalticAmadeus.openedge-abl-formatter
           kw("ABLFORMATTEREXCLUDESTART"),
           kw("ABLFORMATTEREXCLUDEEND"),
         ),
@@ -800,7 +798,7 @@ module.exports = grammar({
     enum_member: ($) =>
       prec.right(
       seq(
-        optional(repeat($.annotation)), 
+        repeat($.annotation), 
         field("name", $.identifier),
         field(
           "value",
@@ -811,7 +809,7 @@ module.exports = grammar({
             )
           )
         ),
-        optional(repeat($.annotation)), 
+        repeat($.annotation), 
       )
     ),
 

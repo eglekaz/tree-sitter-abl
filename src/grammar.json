@@ -146,18 +146,6 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "annotation"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
                     "type": "SYMBOL",
                     "name": "method_statement"
                   },
@@ -178,18 +166,6 @@
               {
                 "type": "SEQ",
                 "members": [
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "annotation"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
                   {
                     "type": "SYMBOL",
                     "name": "constructor_statement"
@@ -212,18 +188,6 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "annotation"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
                     "type": "SYMBOL",
                     "name": "destructor_statement"
                   },
@@ -244,18 +208,6 @@
               {
                 "type": "SEQ",
                 "members": [
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "annotation"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
                   {
                     "type": "SYMBOL",
                     "name": "function_statement"
@@ -5829,19 +5781,11 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "annotation"
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "annotation"
+            }
           },
           {
             "type": "FIELD",
@@ -5889,6 +5833,10 @@
                             {
                               "type": "SYMBOL",
                               "name": "_literal"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "null_expression"
                             }
                           ]
                         },
@@ -5911,6 +5859,10 @@
                                   {
                                     "type": "SYMBOL",
                                     "name": "_literal"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "null_expression"
                                   }
                                 ]
                               }
@@ -5928,19 +5880,11 @@
             }
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "annotation"
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "annotation"
+            }
           }
         ]
       }

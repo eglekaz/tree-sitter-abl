@@ -3480,6 +3480,46 @@
     }
   },
   {
+    "type": "radio_set_phrase",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "size_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "range_notation",
     "named": true,
     "fields": {},
@@ -4688,7 +4728,17 @@
   {
     "type": "view_as_phrase",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "radio_set_phrase",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "when_expression",
@@ -5247,6 +5297,10 @@
     "named": false
   },
   {
+    "type": "EXPAND",
+    "named": false
+  },
+  {
     "type": "EXTENT",
     "named": false
   },
@@ -5332,6 +5386,10 @@
   },
   {
     "type": "HELP",
+    "named": false
+  },
+  {
+    "type": "HORIZONTAL",
     "named": false
   },
   {
@@ -5691,6 +5749,14 @@
     "named": false
   },
   {
+    "type": "RADIO-BUTTONS",
+    "named": false
+  },
+  {
+    "type": "RADIO-SET",
+    "named": false
+  },
+  {
     "type": "RAW",
     "named": false
   },
@@ -5988,6 +6054,10 @@
   },
   {
     "type": "VARIABLE",
+    "named": false
+  },
+  {
+    "type": "VERTICAL",
     "named": false
   },
   {

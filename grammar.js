@@ -36,7 +36,9 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.sort_clause],
     [$.string_literal],
-    [$.if_statement]
+    [$.if_statement],
+    [$._name, $.radio_set_phrase],
+    [$.radio_set_phrase, $._expression]
   ],
 
   rules: {
@@ -914,17 +916,24 @@ module.exports = grammar({
     //     )
     //   ),
 
-    // radio_set_phrase: ($) =>
-    //   seq(
-    //     kw("RADIO-SET"),
-    //     optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
-    //     seq(
-    //       kw("RADIO-BUTTONS"),
-    //       field("label", $.identifier), ",", field("value", $.identifier),
-    //       repeat(seq(",", field("label", $.identifier), ",", field("value", $.identifier)))
-    //     ),
-    //     optional($._tooltip)
-    //   ),
+    radio_set_phrase: ($) =>
+      seq(
+        kw("RADIO-SET"),
+        optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
+        seq(
+          kw("RADIO-BUTTONS"),
+          field("label", choice($.string_literal, $.identifier)), 
+          ",", 
+          field("value", choice($.string_literal, $.identifier, $._expression)),
+          repeat(seq(
+            ",", 
+            field("label", choice($.string_literal, $.identifier)), 
+            ",", 
+            field("value", choice($.string_literal, $.identifier, $._expression))
+          ))
+        ),
+        optional($.size_phrase)
+      ),
 
     // selection_list_phrase: ($) =>
     //   seq(
@@ -972,7 +981,7 @@ module.exports = grammar({
         choice(
           // $.combo_box_phrase,
           // $.editor_phrase,
-          // $.radio_set_phrase,
+          $.radio_set_phrase,
           // $.selection_list_phrase,
           // $.slider_phrase,
           // seq(

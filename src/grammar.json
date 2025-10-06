@@ -1448,6 +1448,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "null_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "function_call"
         },
         {
@@ -5278,6 +5282,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "null_expression"
+            },
+            {
+              "type": "SYMBOL",
               "name": "logical_expression"
             },
             {
@@ -5666,6 +5674,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "_literal"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "null_expression"
                           }
                         ]
                       },
@@ -5688,6 +5700,10 @@
                                 {
                                   "type": "SYMBOL",
                                   "name": "_literal"
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "null_expression"
                                 }
                               ]
                             }

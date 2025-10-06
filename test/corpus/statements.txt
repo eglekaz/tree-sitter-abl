@@ -1833,6 +1833,11 @@ OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
   IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
 END.
 
+ON "GO" OF FRAME FldPicker DO:
+     IF v_MapLst:LIST-ITEMS IN FRAME FldPicker = ? THEN
+        ASSIGN p_Result = "":U.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1925,7 +1930,26 @@ END.
           condition: (object_access
             object: (identifier)
             property: (identifier))
-          (return_statement))))))
+          (return_statement)))))
+    (on_statement
+    (string_literal)
+    (identifier)
+    (do_block
+      (body
+        (if_statement
+          condition: (comparison_expression
+            (in_frame_phrase
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              frame: (identifier))
+            (null_expression))
+          (assign_statement
+            (assignment
+              name: (identifier)
+              (assignment_operator)
+              (string_literal
+                (string_literal_attribute)))))))))
 
 ================================================================================
 IF statement with IN FRAME

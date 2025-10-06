@@ -39,7 +39,8 @@ module.exports = grammar({
     [$.if_statement],
     [$._name, $.radio_set_phrase],
     [$.radio_set_phrase, $._expression],
-    [$._list_items, $._expression]
+    [$._list_items, $._expression],
+    [$.size_phrase, $.frame_definition]
   ],
 
   rules: {
@@ -1343,7 +1344,7 @@ module.exports = grammar({
         $.dataset_definition,
         $.stream_definition,
         // $.image_definition,
-        // $.frame_definition,
+        $.frame_definition,
         $.parameter_definition
       ),
 
@@ -1420,17 +1421,28 @@ module.exports = grammar({
         $._terminator
       ),
 
-    // frame_definition: ($) =>
-    //   seq(
-    //     $._define,
-    //     repeat($._tuning),
-    //     kw("FRAME"),
-    //     field("name", $.identifier),
-    //     // form item
-    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
-    //   ),
+    frame_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("FRAME"),
+        field("name", $.identifier),
+        repeat($.identifier), // frame items
+        optional(seq(
+          kw("WITH"),
+          repeat1(choice(
+            $.size_phrase,
+            seq(kw("SIZE-PIXELS"), $.number_literal, kw("BY"), $.number_literal),
+            kw("NO-BOX"),
+            seq(kw("FONT"), $.number_literal),
+            seq(kw("BGCOLOR"), $.number_literal),
+            seq(kw("FGCOLOR"), $.number_literal),
+            kw("SCROLLABLE"),
+            kw("RESIZABLE")
+          ))
+        )),
+        $._terminator
+      ),
 
     // image_definition: ($) =>
     //   seq(

@@ -885,6 +885,10 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "method_statement",
           "named": true
         },
@@ -2070,6 +2074,56 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frame_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
           "named": true
         }
       ]
@@ -4096,6 +4150,10 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "interface_statement",
           "named": true
         },
@@ -5072,6 +5130,10 @@
     "named": false
   },
   {
+    "type": "BGCOLOR",
+    "named": false
+  },
+  {
     "type": "BINARY",
     "named": false
   },
@@ -5369,6 +5431,10 @@
   },
   {
     "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "FGCOLOR",
     "named": false
   },
   {
@@ -5857,6 +5923,10 @@
   },
   {
     "type": "REPEAT",
+    "named": false
+  },
+  {
+    "type": "RESIZABLE",
     "named": false
   },
   {

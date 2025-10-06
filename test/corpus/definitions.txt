@@ -183,6 +183,26 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
       (date_literal))))
 
 ================================================================================
+FRAME DEFINITION statement
+================================================================================
+
+define FRAME SplashFrame
+  SplashImage
+  WITH SIZE-PIXELS 432 BY 266 NO-BOX FONT 4 BGCOLOR 8.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (frame_definition
+    name: (identifier)
+    (identifier)
+    (size_phrase
+      width: (number_literal)
+      height: (number_literal))
+    (number_literal)
+    (number_literal)))
+
+================================================================================
 BUFFER DEFINITION statement
 ================================================================================
 

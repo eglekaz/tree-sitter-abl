@@ -71,10 +71,10 @@ module.exports = grammar({
         repeat(
           choice(
             $._definition,
+            $.annotation,
             $.method_statement
           )
         ),
-        optional($.annotation)
       ),
 
     case_body: ($) =>

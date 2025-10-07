@@ -1662,6 +1662,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4770,6 +4780,14 @@
   },
   {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "ABLFORMATTEREXCLUDEEND",
+    "named": false
+  },
+  {
+    "type": "ABLFORMATTEREXCLUDESTART",
     "named": false
   },
   {

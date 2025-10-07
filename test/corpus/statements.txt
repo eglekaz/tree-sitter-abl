@@ -1130,6 +1130,63 @@ END CASE.
             (number_literal)))))))
 
 ================================================================================
+CASE statement with null expressions
+================================================================================
+
+CASE v:
+  WHEN "DEFAULT" THEN std_font = ?.
+  WHEN ? THEN std_font = 1.
+  OTHERWISE DO:
+    ASSIGN std_font = INTEGER(v) NO-ERROR.
+    IF ERROR-STATUS:ERROR THEN std_font = 1.
+  END.
+END CASE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (case_statement
+    (identifier)
+    (body
+      (case_when_branch
+        (case_condition
+          (string_literal))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (null_expression))))
+      (case_when_branch
+        (case_condition
+          (null_expression))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (number_literal))))
+      (case_otherwise_branch
+        (do_block
+          (body
+            (assign_statement
+              (assignment
+                (identifier)
+                (assignment_operator)
+                (function_call
+                  (identifier)
+                  (arguments
+                    (argument
+                      (identifier))))))
+            (if_statement
+              (object_access
+                (identifier)
+                (identifier))
+              (variable_assignment
+                (assignment
+                  (identifier)
+                  (assignment_operator)
+                  (number_literal))))))))))
+
+================================================================================
 UNDO statement
 ================================================================================
 
@@ -1743,6 +1800,14 @@ ENUM Direction:
                 West.
 END ENUM.
 
+ENUM StatusCode:
+    DEFINE ENUM Success = 0
+                Unknown = ?
+                Pending
+                Failed = ?
+                Complete = 1.
+END ENUM.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1796,7 +1861,25 @@ END ENUM.
         (enum_member
           (identifier))
         (enum_member
-          (identifier))))))
+          (identifier)))))
+  (enum_statement
+    (identifier)
+    (body
+      (enum_definition
+        (enum_member
+          (identifier)
+          (number_literal))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier)
+          (number_literal))))))
 
 ================================================================================
 ON statement

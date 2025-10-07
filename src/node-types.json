@@ -713,6 +713,10 @@
           "named": true
         },
         {
+          "type": "null_expression",
+          "named": true
+        },
+        {
           "type": "number_literal",
           "named": true
         },
@@ -1058,6 +1062,10 @@
         },
         {
           "type": "logical_expression",
+          "named": true
+        },
+        {
+          "type": "null_expression",
           "named": true
         },
         {
@@ -1641,6 +1649,10 @@
             "named": true
           },
           {
+            "type": "null_expression",
+            "named": true
+          },
+          {
             "type": "number_literal",
             "named": true
           },
@@ -1650,6 +1662,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4770,6 +4792,14 @@
   },
   {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "ABLFORMATTEREXCLUDEEND",
+    "named": false
+  },
+  {
+    "type": "ABLFORMATTEREXCLUDESTART",
     "named": false
   },
   {

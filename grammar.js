@@ -42,7 +42,8 @@ module.exports = grammar({
   rules: {
     source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
 
-    body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block))),
+    
+    body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
     _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
 
@@ -55,10 +56,8 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
-            seq(
-              optional($.annotation),
-              $.method_statement
-            ),
+            $.annotation,
+            $.method_statement,
             $.constructor_statement,
             $.destructor_statement,
             $.function_statement
@@ -72,13 +71,14 @@ module.exports = grammar({
         repeat(
           choice(
             $._definition,
+            $.annotation,
             $.method_statement
           )
-        )
+        ),
       ),
 
     case_body: ($) =>
-      seq(":", repeat1($.case_when_branch), optional($.case_otherwise_branch)),
+      seq(":", repeat1(prec.right(seq(optional($.annotation), $.case_when_branch, optional($.annotation)))), optional(seq(optional($.annotation), $.case_otherwise_branch, optional($.annotation)))),
 
     enum_body: ($) => seq(":", repeat1($.enum_definition)),
 
@@ -162,7 +162,11 @@ module.exports = grammar({
           kw("TEARDOWN"),
           kw("AFTERALL"),
           kw("AFTER"),
-          kw("IGNORE")
+          kw("IGNORE"),
+          //These are extra annotations that we added for the OpenEdge ABL Formatter.
+          //For more details, please visit: https://marketplace.visualstudio.com/items?itemName=BalticAmadeus.openedge-abl-formatter
+          kw("ABLFORMATTEREXCLUDESTART"),
+          kw("ABLFORMATTEREXCLUDEEND"),
         ),
         $._terminator
       ),
@@ -240,6 +244,7 @@ module.exports = grammar({
         $.number_literal,
         $.string_literal,
         $.boolean_literal,
+        $.null_expression,
         $.function_call,
         $.array_literal,
         $.array_access,
@@ -743,7 +748,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.null_expression, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -778,18 +783,22 @@ module.exports = grammar({
     variable: ($) => choice(field("name", $.identifier), $.assignment),
 
     enum_member: ($) =>
+      prec.right(
       seq(
+        repeat($.annotation), 
         field("name", $.identifier),
         field(
           "value",
           optional(
             seq(
               kw("="),
-              _list(choice($.identifier, $._literal),",")
+              _list(choice($.identifier, $._literal, $.null_expression),",")
             )
           )
-        )
-      ),
+        ),
+        repeat($.annotation), 
+      )
+    ),
 
     function_call: ($) =>
       prec.right(

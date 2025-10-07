@@ -450,3 +450,49 @@ qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
               (identifier)
               (identifier))
             (identifier)))))
+
+================================================================================
+Array literals with null expressions
+================================================================================
+
+x = [1, ?, 3].
+y = ["hello", ?, "world"].
+z = [true, ?, false].
+mixed = [1, "test", ?, true].
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_literal
+        (number_literal)
+        (null_expression)
+        (number_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_literal
+        (string_literal)
+        (null_expression)
+        (string_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_literal
+        (boolean_literal)
+        (null_expression)
+        (boolean_literal))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_literal
+        (number_literal)
+        (string_literal)
+        (null_expression)
+        (boolean_literal)))))

@@ -1891,6 +1891,36 @@ ON WRITE OF Customer NEW new-cust OLD old-cust DO:
   a = 3.
 END.
 
+ON HELP OF FRAME FRAME-A ANYWHERE
+  RUN adeedit/_edithlp.p (INPUT "Save_Buffers_Dialog_Box").
+
+ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A DO:
+  RUN SelectedCount.
+END.
+
+ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
+  RUN SetUpDown.
+
+ON CHOOSE OF b_auto_insert OR LEAVE OF mi.lbl IN FRAME menu_edit DO:
+  DEF VAR n AS CHAR NO-UNDO.
+END.
+
+ON CHOOSE OF BtnHelp IN FRAME Dialog-Frame
+OR HELP OF FRAME {&FRAME-NAME}
+  DO:
+    RUN adecomm/_adehelp.p ("AB":U, "CONTEXT":U, iHelpcontext, ?). 
+  END.
+
+ON CHOOSE OF BtnOK 
+OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
+  IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
+END.
+
+ON "GO" OF FRAME FldPicker DO:
+     IF v_MapLst:LIST-ITEMS IN FRAME FldPicker = ? THEN
+        ASSIGN p_Result = "":U.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1908,7 +1938,101 @@ END.
           (assignment
             name: (identifier)
             (assignment_operator)
-            (number_literal)))))))
+            (number_literal))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (file_name)
+      (arguments
+        (argument
+          (argument_mode)
+          (string_literal)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (do_block
+      (body
+        (run_statement
+          procedure: (identifier)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (identifier)))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (identifier)
+    (do_block
+      (body
+        (variable_definition
+          name: (identifier)
+          (type_tuning
+            type: (primitive_type))
+          (variable_tuning)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (run_statement
+          procedure: (file_name)
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))
+            (argument
+              (null_expression)))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (if_statement
+          condition: (object_access
+            object: (identifier)
+            property: (identifier))
+          (return_statement)))))
+    (on_statement
+    (string_literal)
+    (identifier)
+    (do_block
+      (body
+        (if_statement
+          condition: (comparison_expression
+            (in_frame_phrase
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              frame: (identifier))
+            (null_expression))
+          (assign_statement
+            (assignment
+              name: (identifier)
+              (assignment_operator)
+              (string_literal
+                (string_literal_attribute)))))))))
 
 ================================================================================
 IF statement with IN FRAME

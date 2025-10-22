@@ -1184,20 +1184,26 @@ module.exports = grammar({
           choice($.do_block, kw("REVERT"))
         )),
 
-      // _on_statement_widget_phrase: ($) =>
-      //   prec(2, seq(
-      //     _list(choice($.identifier, $.constant), ","),
-      //     $.of_phrase,
-      //     repeat(
-      //       seq(
-      //         kw("OR"),
-      //         _list(choice($.identifier, $.constant), ","),
-      //         $.of_phrase
-      //       )
-      //     ),
-      //     optional(kw("ANYWHERE")),
-      //     choice($.do_block, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
-      //   )),
+      _on_statement_widget_phrase: ($) =>
+        prec(2, seq(
+          _list(choice($.identifier, $.constant, $.string_literal), ","),
+          choice(
+            seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+            seq(kw("OF"), _list(choice($._name, $.constant), ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
+          ),
+          repeat(
+            seq(
+              kw("OR"),
+              _list(choice($.identifier, $.constant, $.string_literal), ","),
+              choice(
+                seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+                seq(kw("OF"), _list(choice($._name, $.constant), ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
+              )
+            )
+          ),
+          optional(kw("ANYWHERE")),
+          choice($.do_block, $.run_statement, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
+        )),
 
         // TODO: Refactor
       // image_phrase: ($) =>
@@ -1829,7 +1835,7 @@ module.exports = grammar({
       seq(
         kw("ON"),
         choice(
-          // $._on_statement_widget_phrase,
+          $._on_statement_widget_phrase,
           $._on_statement_database_phrase,
           seq(field("label", $.identifier), field("function", $.identifier), $._terminator),
           // seq(alias("\"WEB-NOTIFY\"", $.string_literal), kw("ANYWHERE"), $._statement_body)

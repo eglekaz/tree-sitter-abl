@@ -26,6 +26,10 @@
           {
             "type": "SYMBOL",
             "name": "interface_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "method_statement"
           }
         ]
       }

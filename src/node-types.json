@@ -4158,6 +4158,10 @@
           "named": true
         },
         {
+          "type": "method_statement",
+          "named": true
+        },
+        {
           "type": "parameter_definition",
           "named": true
         },

@@ -44,7 +44,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
+    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.method_statement)),
 
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block))),
 

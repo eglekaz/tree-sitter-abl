@@ -452,6 +452,114 @@ qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
             (identifier)))))
 
 ================================================================================
+Function call with preprocessor variable arguments
+================================================================================
+
+count = NUM-ENTRIES (target-external, {&DELIM}).
+result = SUBSTRING(text, {&START-POS}, {&LENGTH}).
+display SUBSTITUTE("Value: &1", {&VALUE}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))
+          (argument
+            (constant
+              (identifier)))))))
+  (abl_statement
+    statement: (identifier)
+    (function_call
+      function: (identifier)
+      (arguments
+        (argument
+          (string_literal))
+        (argument
+          (constant
+            (identifier)))))))
+
+================================================================================
+Preprocessor assignments in arguments
+================================================================================
+
+RUN test.p ({&action=query}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (run_statement
+    procedure: (file_name)
+    (arguments
+      (argument
+        (constant
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Widget reference 
+================================================================================
+
+qbf-a = qbf-t&:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
+
+qbf-a = qbf-t:LOOKUP(qbf-t&:SCREEN-VALUE) IN FRAME qbf-both.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier)))))
+
+================================================================================
 Array literals with null expressions
 ================================================================================
 

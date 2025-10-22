@@ -16,44 +16,45 @@ variable /= 3.
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (object_access
-        (identifier)
-        (identifier))
+      name: (object_access
+        object: (identifier)
+        property: (identifier))
       (assignment_operator)
       (string_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))))
 
@@ -599,6 +600,13 @@ ASSIGN
   qualified.name = var + 1
 .
 
+ASSIGN 
+    var1 = var2
+  &IF {&DELIM} <> ",":U &THEN
+    tbllist = REPLACE (tbllist, {&DELIM}, ",":U)   
+  &ENDIF
+      change = yes.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -624,7 +632,17 @@ ASSIGN
       (assignment_operator)
       (additive_expression
         (identifier)
-        (number_literal)))))
+        (number_literal))))
+  (assign_statement
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (identifier))
+    (preprocessor_directive)
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (boolean_literal))))
 
 ================================================================================
 FOR EACH statement
@@ -1009,7 +1027,8 @@ END CLASS.
         (identifier)))
     (body
       (variable_definition
-        name: (identifier)
+        name: (variable_name
+          (identifier))
         (type_tuning
           type: (primitive_type)))))
   (class_statement
@@ -1021,7 +1040,8 @@ END CLASS.
     (class_tuning)
     (body
       (variable_definition
-        name: (identifier)
+        name: (variable_name
+          (identifier))
         (type_tuning
           type: (primitive_type)))))
   (variable_assignment

@@ -36,11 +36,14 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.sort_clause],
     [$.string_literal],
-    [$.if_statement]
+    [$.if_statement],
+    [$.include, $.constant],
+    [$.include_argument],
+    [$.include_argument, $._constant_value]
   ],
 
   rules: {
-    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement)),
+    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.constant)),
 
     
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
@@ -278,25 +281,46 @@ module.exports = grammar({
         ),
         field("name", $.identifier),
         field("value", $.string_literal),
-        $.constant
+        $.constant,
+        $.identifier
       ),
 
     include: ($) =>
-      seq(
+      prec.right(1, seq(
         "{",
-        $.file_name,
+        choice(
+          $.file_name,
+          prec(1, alias($.include_file_path, $.file_name)),
+          $.identifier
+        ),
         repeat($.include_argument),
         "}"
-      ),
+      )),
+
+    include_file_path: ($) =>
+      prec.right(repeat1(choice(
+        $.constant, 
+        /[A-z-_|0-9|\/\.]+/i
+      ))),
 
     // IDENTIFIERS
 
     identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
 
+    variable_name: ($) => choice(
+      $.identifier,
+      seq($.identifier, "&")
+    ),
+
     constant: ($) =>
       seq("{", optional("&"), $._constant_value, "}"),
 
-    _constant_value: ($) => choice($.identifier, $._integer_literal),
+    _constant_value: ($) => choice(
+      $.identifier, 
+      $._integer_literal,
+      seq($.identifier, "=", choice($.identifier, $._integer_literal, $.string_literal)),
+      seq($.identifier, repeat1(choice(/[\s\-()a-zA-Z0-9]+/)))
+    ),
 
     qualified_name: ($) =>
       seq(
@@ -655,6 +679,7 @@ module.exports = grammar({
             $.string_literal,
             $.number_literal,
             $.null_expression,
+            $.constant,
             $._binary_expression,
             $.unary_expression,
             $.function_call
@@ -736,7 +761,7 @@ module.exports = grammar({
           "object",
           choice($.new_expression, $.function_call, $.constant, $._name)
         ),
-        repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
+        repeat1(seq(choice(alias($._namecolon, ":"), "&:"), field("property", $.identifier)))
       ),
 
     member_access: ($) =>
@@ -748,7 +773,7 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.null_expression, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access)),
+      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access, $.null_expression)),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -1132,7 +1157,7 @@ module.exports = grammar({
 
     in_frame_phrase: ($) =>
     seq(
-        $.object_access,
+        choice($.object_access, $.function_call),
         kw("IN"),
         $._frame
     ),
@@ -1184,20 +1209,26 @@ module.exports = grammar({
           choice($.do_block, kw("REVERT"))
         )),
 
-      // _on_statement_widget_phrase: ($) =>
-      //   prec(2, seq(
-      //     _list(choice($.identifier, $.constant), ","),
-      //     $.of_phrase,
-      //     repeat(
-      //       seq(
-      //         kw("OR"),
-      //         _list(choice($.identifier, $.constant), ","),
-      //         $.of_phrase
-      //       )
-      //     ),
-      //     optional(kw("ANYWHERE")),
-      //     choice($.do_block, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
-      //   )),
+      _on_statement_widget_phrase: ($) =>
+        prec(2, seq(
+          _list(choice($.identifier, $.constant), ","),
+          choice(
+            seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+            seq(kw("OF"), _list(choice($._name, $.constant), ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
+          ),
+          repeat(
+            seq(
+              kw("OR"),
+              _list(choice($.identifier, $.constant), ","),
+              choice(
+                seq(kw("OF"), kw("FRAME"), choice($._name, $.constant)),
+                seq(kw("OF"), _list(choice($._name, $.constant), ","), optional(seq(kw("IN"), kw("FRAME"), choice($._name, $.constant))))
+              )
+            )
+          ),
+          optional(kw("ANYWHERE")),
+          choice($.do_block, $.run_statement, prec(2, $._statement), kw("REVERT"), seq(kw("PERSISTENT"), $.run_statement))
+        )),
 
         // TODO: Refactor
       // image_phrase: ($) =>
@@ -1341,7 +1372,7 @@ module.exports = grammar({
         $.dataset_definition,
         $.stream_definition,
         // $.image_definition,
-        // $.frame_definition,
+        $.frame_definition,
         $.parameter_definition
       ),
 
@@ -1418,17 +1449,17 @@ module.exports = grammar({
         $._terminator
       ),
 
-    // frame_definition: ($) =>
-    //   seq(
-    //     $._define,
-    //     repeat($._tuning),
-    //     kw("FRAME"),
-    //     field("name", $.identifier),
-    //     // form item
-    //     seq(optional(choice(kw("HEADER"), kw("BACKGROUND")))), // head item
-    //     optional($.frame_phrase)
-
-    //   ),
+    frame_definition: ($) =>
+      seq(
+        $._define,
+        repeat($._tuning),
+        kw("FRAME"),
+        field("name", choice($.identifier, $.constant)),
+        repeat(choice($.identifier, $.constant, $.object_access)),
+        optional(seq(kw("AT"), kw("COLUMN"), field("column", choice($.number_literal, $.identifier)))),
+        optional(seq(kw("ROW"), field("row", choice($.number_literal, $.identifier)))),
+        $._terminator
+      ),
 
     // image_definition: ($) =>
     //   seq(
@@ -1439,13 +1470,6 @@ module.exports = grammar({
     //     $._image_definition_option,
     //     // repeat($.image_tuning),
     //     $._terminator
-    //   ),
-
-    // _image_definition_option: ($) =>
-    //   choice(
-    //     $.size_phrase,
-    //     $.image_phrase,
-    //     seq(kw("LIKE"), $.identifier)
     //   ),
 
     parameter_definition: ($) =>
@@ -1537,7 +1561,7 @@ module.exports = grammar({
         $._define,
         repeat($._tuning),
         choice(kw("VARIABLE"), alias($._var_keyword, "VAR")),
-        field("name", $.identifier),
+        field("name", $.variable_name),
         $.type_tuning,
         repeat(
           choice(
@@ -1769,7 +1793,7 @@ module.exports = grammar({
     assign_statement: ($) =>
       seq(
         kw("ASSIGN"),
-        repeat1($.assignment),
+        repeat1(choice($.assignment, $.preprocessor_directive)),
         optional(kw("NO-ERROR")),
         $._terminator
       ),
@@ -1829,7 +1853,7 @@ module.exports = grammar({
       seq(
         kw("ON"),
         choice(
-          // $._on_statement_widget_phrase,
+          $._on_statement_widget_phrase,
           $._on_statement_database_phrase,
           seq(field("label", $.identifier), field("function", $.identifier), $._terminator),
           // seq(alias("\"WEB-NOTIFY\"", $.string_literal), kw("ANYWHERE"), $._statement_body)

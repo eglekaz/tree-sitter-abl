@@ -2142,44 +2142,12 @@
     "type": "frame_definition",
     "named": true,
     "fields": {
-      "column": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number_literal",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "constant",
-            "named": true
-          },
-          {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "row": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number_literal",
             "named": true
           }
         ]
@@ -2206,11 +2174,15 @@
           "named": true
         },
         {
-          "type": "object_access",
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "scope_tuning",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
           "named": true
         }
       ]
@@ -5241,10 +5213,6 @@
   },
   {
     "type": "AUTO-COMPLETION",
-    "named": false
-  },
-  {
-    "type": "AT",
     "named": false
   },
   {

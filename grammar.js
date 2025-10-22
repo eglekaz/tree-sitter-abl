@@ -40,7 +40,7 @@ module.exports = grammar({
     [$._name, $.radio_set_phrase],
     [$.radio_set_phrase, $._expression],
     [$._list_items, $._expression],
-    [$.size_phrase, $.frame_definition]
+    [$.size_phrase, $.frame_definition],
     [$.dataset_expression, $.object_access],
     [$.in_frame_phrase, $._expression],
     [$.include, $.constant],

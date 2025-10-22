@@ -758,6 +758,20 @@
     "type": "assignment",
     "named": true,
     "fields": {
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -772,6 +786,10 @@
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "in_frame_phrase",
             "named": true
           },
           {
@@ -1070,6 +1088,10 @@
         },
         {
           "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -4063,6 +4085,10 @@
         },
         {
           "type": "interface_statement",
+          "named": true
+        },
+        {
+          "type": "method_statement",
           "named": true
         },
         {

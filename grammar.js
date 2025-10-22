@@ -37,13 +37,15 @@ module.exports = grammar({
     [$.sort_clause],
     [$.string_literal],
     [$.if_statement],
+    [$.dataset_expression, $.object_access],
+    [$.in_frame_phrase, $._expression],
     [$.include, $.constant],
     [$.include_argument],
     [$.include_argument, $._constant_value]
   ],
 
   rules: {
-    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.constant)),
+    source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.method_statement, $.constant)),
 
     
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
@@ -756,13 +758,13 @@ module.exports = grammar({
       ),
 
     object_access: ($) =>
-      seq(
+      prec(2, seq(
         field(
           "object",
           choice($.new_expression, $.function_call, $.constant, $._name)
         ),
         repeat1(seq(choice(alias($._namecolon, ":"), "&:"), field("property", $.identifier)))
-      ),
+      )),
 
     member_access: ($) =>
       seq(
@@ -773,7 +775,10 @@ module.exports = grammar({
       ),
 
     case_condition: ($) =>
-      seq(optional(seq(kw("OR"), kw("WHEN"))), choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access, $.null_expression)),
+      seq(
+        optional(seq(kw("OR"), kw("WHEN"))),
+        choice($._literal, $.boolean_literal, $.logical_expression, $.comparison_expression, $.unary_expression, $.object_access, $.null_expression, $.function_call)
+      ),
 
     case_when_branch: ($) =>
       seq(kw("WHEN"), repeat1($.case_condition), kw("THEN"), $._statement_body),
@@ -1675,13 +1680,15 @@ module.exports = grammar({
                 $.object_access,
                 $.member_access,
                 $.function_call,
-                $.array_access
+                $.array_access,
+                $.in_frame_phrase
               )
             )
           ),
           $.assignment_operator,
           prec.right(choice($._expression, $.include)),
-          optional($.when_expression)
+          optional($.when_expression),
+          optional(seq(kw("IN"), $._frame))
         )
       ),
 
@@ -2015,7 +2022,7 @@ module.exports = grammar({
 
     locked_expression: ($) => seq(kw("LOCKED"), $._name),
 
-    dataset_expression: ($) => seq(prec.left(kw("DATASET")), $._name),
+    dataset_expression: ($) => prec(-1, seq(token(seq(/[Dd][Aa][Tt][Aa][Ss][Ee][Tt]/, /\s/)), $._name)),
 
     when_expression: ($) => seq(kw("WHEN"), $._expression),
 

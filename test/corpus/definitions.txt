@@ -63,7 +63,6 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
       (identifier))
     (type_tuning
       type: (primitive_type)))
-      type: (primitive_type)))
   (variable_definition
     name: (variable_name
       (identifier))
@@ -96,7 +95,6 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
     name: (variable_name
       (identifier))
     (type_tuning
-      type: (class_type
       type: (class_type
         (identifier))))
   (variable_definition
@@ -149,7 +147,8 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (null_expression)
         (string_literal))))
   (variable_definition
-    name: (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -161,7 +160,8 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (date_literal)
         (date_literal))))
   (variable_definition
-    name: (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -177,7 +177,8 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
           width: (number_literal)
           height: (number_literal)))))
     (variable_definition
-      name: (identifier)
+      name: (variable_name
+        (identifier))
       (type_tuning
         type: (primitive_type))
       (variable_tuning)
@@ -196,7 +197,8 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
 
 (source_code
   (variable_definition
-    name: (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
       type: (primitive_type))
     (variable_tuning)

@@ -1470,8 +1470,8 @@ module.exports = grammar({
         $._define,
         repeat($._tuning),
         kw("FRAME"),
-        field("name", $.identifier),
-        repeat($.identifier), // frame items
+        field("name", choice($.identifier, $.constant)),
+        repeat(choice($.identifier, $.constant, $.object_access)),
         optional(seq(
           kw("WITH"),
           repeat1(choice(
@@ -1485,6 +1485,8 @@ module.exports = grammar({
             kw("RESIZABLE")
           ))
         )),
+        optional(seq(kw("AT"), kw("COLUMN"), field("column", choice($.number_literal, $.identifier)))),
+        optional(seq(kw("ROW"), field("row", choice($.number_literal, $.identifier)))),
         $._terminator
       ),
 

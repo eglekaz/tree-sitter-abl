@@ -166,11 +166,11 @@ END PROCEDURE.
     (body)))
 
 ================================================================================
-Top-level METHOD statement
+METHOD statement (top-level)
 ================================================================================
 
-method public static void NotType (input pArgument as Object, input poType as Progress.Lang.Class):
-    define variable oDerivedClass as Progress.Lang.Class no-undo.
+method public static void Type (input pArgument as Object):
+define variable oDerivedClass as Progress.Lang.Class no-undo.
 end method.
 
 --------------------------------------------------------------------------------
@@ -179,42 +179,20 @@ end method.
   (method_statement
     (access_tuning)
     (scope_tuning)
-    (return_type
-      (primitive_type))
+    (return_type (primitive_type))
     name: (identifier)
     (parameters
       (function_parameter
         (argument_mode)
         name: (identifier)
-        (type_tuning
-          type: (identifier)))
-      (function_parameter
-        (argument_mode)
-        name: (identifier)
-        (type_tuning
-          type: (qualified_name
-            (identifier)
-            (identifier)
-            (identifier)))))
+        (type_tuning 
+          type: (identifier))))
     (body
       (variable_definition
-        name: (variable_name
-          (identifier))
+        name: (identifier)
         (type_tuning
           type: (qualified_name
             (identifier)
             (identifier)
             (identifier)))
         (variable_tuning)))))
-
-================================================================================
-Complex preprocessor directive
-================================================================================
-
-{&_proparse_ prolint-nowarn(overflow)}
-
---------------------------------------------------------------------------------
-
-(source_code
-  (constant
-    (identifier)))

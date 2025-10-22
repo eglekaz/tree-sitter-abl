@@ -125,9 +125,10 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
       type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (variable_name
+      (identifier))
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))

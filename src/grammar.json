@@ -5515,10 +5515,6 @@
             },
             {
               "type": "SYMBOL",
-              "name": "null_expression"
-            },
-            {
-              "type": "SYMBOL",
               "name": "logical_expression"
             },
             {

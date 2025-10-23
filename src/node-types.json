@@ -3229,6 +3229,10 @@
         {
           "type": "referencing_phrase",
           "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }

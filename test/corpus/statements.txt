@@ -16,8 +16,7 @@ variable /= 3.
 
 (source_code
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type)))
   (variable_assignment
@@ -1027,8 +1026,7 @@ END CLASS.
         (identifier)))
     (body
       (variable_definition
-        name: (variable_name
-          (identifier))
+        name: (identifier)
         (type_tuning
           type: (primitive_type)))))
   (class_statement
@@ -1040,8 +1038,7 @@ END CLASS.
     (class_tuning)
     (body
       (variable_definition
-        name: (variable_name
-          (identifier))
+        name: (identifier)
         (type_tuning
           type: (primitive_type)))))
   (variable_assignment

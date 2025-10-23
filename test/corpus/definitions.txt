@@ -44,46 +44,38 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
 
 (source_code
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning
       (null_expression)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (identifier)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (qualified_name
         (identifier)
@@ -92,22 +84,19 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (identifier)))
     (variable_tuning))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (class_type
         (identifier))))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -119,8 +108,7 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (string_literal)
         (string_literal))))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -128,14 +116,12 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
     (variable_tuning
       (string_literal)))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -147,8 +133,7 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (null_expression)
         (string_literal))))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -160,8 +145,7 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (date_literal)
         (date_literal))))
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)
@@ -177,8 +161,7 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
           width: (number_literal)
           height: (number_literal)))))
     (variable_definition
-      name: (variable_name
-        (identifier))
+      name: (identifier)
       (type_tuning
         type: (primitive_type))
       (variable_tuning)
@@ -197,8 +180,7 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
 
 (source_code
   (variable_definition
-    name: (variable_name
-      (identifier))
+    name: (identifier)
     (type_tuning
       type: (primitive_type))
     (variable_tuning)

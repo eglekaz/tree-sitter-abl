@@ -1772,29 +1772,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Z|a-z|\\-|\\\\_]{1}[#A-Z|a-z|\\-|\\\\_|0-9]*"
-    },
-    "variable_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "STRING",
-              "value": "&"
-            }
-          ]
-        }
-      ]
+      "value": "[A-Z|a-z|\\-|\\\\_]{1}[#+&A-Z|a-z|\\-|\\\\_|0-9]*"
     },
     "constant": {
       "type": "SEQ",
@@ -11777,7 +11755,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "variable_name"
+            "name": "identifier"
           }
         },
         {

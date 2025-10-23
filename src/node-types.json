@@ -4865,7 +4865,7 @@
         "required": true,
         "types": [
           {
-            "type": "variable_name",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -4901,21 +4901,6 @@
         },
         {
           "type": "view_as_phrase",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "variable_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
           "named": true
         }
       ]

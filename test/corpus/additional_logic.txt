@@ -189,8 +189,7 @@ end method.
           type: (identifier))))
     (body
       (variable_definition
-        name: (variable_name
-          (identifier))
+        name: (identifier)
         (type_tuning
           type: (qualified_name
             (identifier)

@@ -312,12 +312,13 @@ module.exports = grammar({
 
     // IDENTIFIERS
 
-    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
+    // identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
+    identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#+&A-Z|a-z|\-|\\_|0-9]*/i,
 
-    variable_name: ($) => choice(
-      $.identifier,
-      seq($.identifier, "&")
-    ),
+    // variable_name: ($) => choice(
+    //   $.identifier,
+    //   seq($.identifier, "&")
+    // ),
 
     constant: ($) =>
       seq("{", optional("&"), $._constant_value, "}"),
@@ -1633,7 +1634,7 @@ module.exports = grammar({
         $._define,
         repeat($._tuning),
         choice(kw("VARIABLE"), alias($._var_keyword, "VAR")),
-        field("name", $.variable_name),
+        field("name", $.identifier),
         $.type_tuning,
         repeat(
           choice(

@@ -2268,7 +2268,11 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
@@ -4620,6 +4624,10 @@
           },
           {
             "type": "qualified_name",
+            "named": true
+          },
+          {
+            "type": "string_literal",
             "named": true
           }
         ]

@@ -65,8 +65,11 @@ module.exports = grammar({
           choice(
             $._definition,
             $.var_statement,
-            $.annotation,
-            $.method_statement,
+            $.include,
+            seq(
+              optional($.annotation),
+              $.method_statement
+            ),
             $.constructor_statement,
             $.destructor_statement,
             $.function_statement
@@ -563,8 +566,8 @@ module.exports = grammar({
 
     type_tuning: ($) =>
       choice(
-        seq(kw("AS"), field("type", $._type)),
-        seq(kw("LIKE"), field("type", $._type))
+        seq(kw("AS"), field("type", choice($._type, $.string_literal))),
+        seq(kw("LIKE"), field("type", choice($._type, $.string_literal)))
       ),
 
     using: ($) =>
@@ -1091,6 +1094,7 @@ module.exports = grammar({
             // $.at_phrase, // TODO
             seq(kw("CANCEL-BUTTON"), $.identifier),
             kw("CENTERED"),
+            // $._bgcolor,
             // color specification
             $._position,
             seq($.number_literal, kw("COLUMNS")),
@@ -1098,7 +1102,7 @@ module.exports = grammar({
             // seq(kw("CONTEXT-HELP-FILE"), $.identifier),
             seq(kw("DEFAULT-BUTTON"), $.identifier),
             // kw("DROP-TARGET"),
-            seq(optional($._expression), kw("DOWN")),
+            // seq(optional($._expression), kw("DOWN")),
             // kw("EXPORT"),
             seq(kw("WIDGET-ID"), $.number_literal),
             $._font,
@@ -1769,7 +1773,7 @@ module.exports = grammar({
         $.return_type,
         optional($._extent),
         optional(alias($.function_parameters, $.parameters)),
-        $._function_option,
+        $._function_option
       ),
 
     _function_option: ($) =>
@@ -1799,6 +1803,7 @@ module.exports = grammar({
       choice(
         $.to_phrase,
         $.repeat_tuning
+        // $.frame_phrase
       ),
 
     return_statement: ($) =>

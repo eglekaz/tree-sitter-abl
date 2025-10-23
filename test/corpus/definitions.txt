@@ -38,7 +38,7 @@ DEFINE VARIABLE qbf-acdc AS CHARACTER NO-UNDO
   VIEW-AS RADIO-SET HORIZONTAL RADIO-BUTTONS "A&scending", "A":u, 
   "Des&cending", "D":u SIZE 30 BY 1.
 
-DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776.
+define variable oManager as "Manager" no-undo.
 
 --------------------------------------------------------------------------------
 
@@ -160,15 +160,11 @@ DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776
         (size_phrase
           width: (number_literal)
           height: (number_literal)))))
-    (variable_definition
-      name: (identifier)
-      (type_tuning
-        type: (primitive_type))
-      (variable_tuning)
-      (variable_tuning
-        (string_literal))
-      (variable_tuning
-        (date_literal))))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (string_literal))
+    (variable_tuning)))
 
 ================================================================================
 VARIABLE DEFINITION with INITIAL date literal statement
@@ -461,11 +457,11 @@ EVENT statement
 
   DEFINE PUBLIC EVENT NewCustomer.
 
-  DEFINE PUBLIC EVENT NewCustomer 
+  DEFINE PUBLIC EVENT NewCustomer
     SIGNATURE VOID ( INPUT pcCustName AS CHARACTER ).
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
         (access_tuning)
@@ -479,7 +475,7 @@ EVENT statement
             (identifier)
             (type_tuning
               (primitive_type))))))
-              
+
 ================================================================================
 EVENT statement DELEGATE
 ================================================================================
@@ -487,7 +483,7 @@ EVENT statement DELEGATE
 DEFINE EVENT design DELEGATE designs.Events.
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
         name: (identifier)

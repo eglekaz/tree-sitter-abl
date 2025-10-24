@@ -45,7 +45,8 @@ module.exports = grammar({
     [$.in_frame_phrase, $._expression],
     [$.include, $.constant],
     [$.include_argument],
-    [$.include_argument, $._constant_value]
+    [$.include_argument, $._constant_value],
+    [$._literal, $._expression]
   ],
 
   rules: {
@@ -315,7 +316,6 @@ module.exports = grammar({
 
     // IDENTIFIERS
 
-    // identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#A-Z|a-z|\-|\\_|0-9]*/i,
     identifier: ($) => /[A-Z|a-z|\-|\\_]{1}[#+&A-Z|a-z|\-|\\_|0-9]*/i,
 
     // variable_name: ($) => choice(
@@ -409,7 +409,6 @@ module.exports = grammar({
 
     field_option: ($) =>
       choice(
-        // $._bgcolor,
         $._column_label,
         // $._dcolor,
         $._label,
@@ -772,7 +771,7 @@ module.exports = grammar({
           "object",
           choice($.new_expression, $.function_call, $.constant, $._name)
         ),
-        repeat1(seq(choice(alias($._namecolon, ":"), "&:"), field("property", $.identifier)))
+        repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
       )),
 
     member_access: ($) =>
@@ -1102,7 +1101,6 @@ module.exports = grammar({
             // seq(kw("CONTEXT-HELP-FILE"), $.identifier),
             seq(kw("DEFAULT-BUTTON"), $.identifier),
             // kw("DROP-TARGET"),
-            // seq(optional($._expression), kw("DOWN")),
             // kw("EXPORT"),
             seq(kw("WIDGET-ID"), $.number_literal),
             $._font,
@@ -1364,7 +1362,7 @@ module.exports = grammar({
         choice(
           kw("LIST-ITEMS"),
           kw("LIST-ITEM-PAIRS")),
-        _list(choice($.string_literal, $.date_literal, $.number_literal, $._expression), ",")
+        _list(choice($._literal, $._expression), ",")
       ),
 
     // _max_chars: ($) => seq(kw("MAX-CHARS"), $.number_literal),
@@ -1504,6 +1502,13 @@ module.exports = grammar({
     //     $._image_definition_option,
     //     // repeat($.image_tuning),
     //     $._terminator
+    //   ),
+
+    // _image_definition_option: ($) =>
+    //   choice(
+    //     $.size_phrase,
+    //     $.image_phrase,
+    //     seq(kw("LIKE"), $.identifier)
     //   ),
 
     parameter_definition: ($) =>

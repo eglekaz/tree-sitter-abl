@@ -26,68 +26,79 @@ DEFINE VARIABLE array-var AS CHARACTER NO-UNDO EXTENT 3
 DEFINE VARIABLE clubs AS CHARACTER NO-UNDO
   VIEW-AS TEXT LABEL "Golf Clubs Available".
 
+DEFINE VARIABLE fTitle& AS CHARACTER NO-UNDO.
+
 DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
   INITIAL ["Start", ?, "Middle"].
+
+DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
+  VIEW-AS COMBO-BOX LIST-ITEMS 07/04/1776, 07/11/1969, 09/10/1993.
+
+DEFINE VARIABLE qbf-acdc AS CHARACTER NO-UNDO 
+  VIEW-AS RADIO-SET HORIZONTAL RADIO-BUTTONS "A&scending", "A":u, 
+  "Des&cending", "D":u SIZE 30 BY 1.
+
+define variable oManager as "Manager" no-undo.
 
 --------------------------------------------------------------------------------
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning
       (null_expression)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (identifier)))
+      type: (identifier)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (qualified_name
+      type: (qualified_name
         (identifier)
         (identifier)
         (identifier)
         (identifier)))
     (variable_tuning))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (class_type
+      type: (class_type
         (identifier))))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))
@@ -97,17 +108,22 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
         (string_literal)
         (string_literal))))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
     (variable_tuning)
     (view_as_phrase)
     (variable_tuning
       (string_literal)))
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type))
+      type: (primitive_type))
+    (variable_tuning))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (primitive_type))
     (variable_tuning)
     (variable_tuning
       (number_literal))
@@ -115,7 +131,79 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
       (array_literal
         (string_literal)
         (null_expression)
-        (string_literal)))))
+        (string_literal))))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (string_literal))
+    (view_as_phrase
+      (combo_box_phrase
+        (date_literal)
+        (date_literal)
+        (date_literal))))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (primitive_type))
+    (variable_tuning)
+    (view_as_phrase
+      (radio_set_phrase
+        label: (string_literal)
+        value: (string_literal
+          (string_literal_attribute))
+        label: (string_literal)
+        value: (string_literal
+          (string_literal_attribute))
+        (size_phrase
+          width: (number_literal)
+          height: (number_literal)))))
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (string_literal))
+    (variable_tuning)))
+
+================================================================================
+VARIABLE DEFINITION with INITIAL date literal statement
+================================================================================
+
+DEFINE VARIABLE hist-date AS DATE NO-UNDO FORMAT "99/99/9999" INITIAL 07/04/1776.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_definition
+    name: (identifier)
+    (type_tuning
+      type: (primitive_type))
+    (variable_tuning)
+    (variable_tuning
+      (string_literal))
+    (variable_tuning
+      (date_literal))))
+
+================================================================================
+FRAME DEFINITION statement
+================================================================================
+
+define FRAME SplashFrame
+  SplashImage
+  WITH SIZE-PIXELS 432 BY 266 NO-BOX FONT 4 BGCOLOR 8.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (frame_definition
+    name: (identifier)
+    (identifier)
+    (size_phrase
+      width: (number_literal)
+      height: (number_literal))
+    (number_literal)
+    (number_literal)))
 
 ================================================================================
 BUFFER DEFINITION statement
@@ -369,11 +457,11 @@ EVENT statement
 
   DEFINE PUBLIC EVENT NewCustomer.
 
-  DEFINE PUBLIC EVENT NewCustomer 
+  DEFINE PUBLIC EVENT NewCustomer
     SIGNATURE VOID ( INPUT pcCustName AS CHARACTER ).
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
         (access_tuning)
@@ -387,7 +475,7 @@ EVENT statement
             (identifier)
             (type_tuning
               (primitive_type))))))
-              
+
 ================================================================================
 EVENT statement DELEGATE
 ================================================================================
@@ -395,13 +483,76 @@ EVENT statement DELEGATE
 DEFINE EVENT design DELEGATE designs.Events.
 
 --------------------------------------------------------------------------------
-    
+
     (source_code
       (event_definition
-        (identifier)
+        name: (identifier)
         (qualified_name
           (identifier)
           (identifier))))
+
+================================================================================
+BROWSE statement definition
+================================================================================
+
+DEFINE BROWSE bPolicy QUERY qPolicy
+    DISPLAY ttPolicy.tcPolName COLUMN-LABEL "Policy Name"
+           ttPolicy.tcPolDesc COLUMN-LABEL "Policy Description"
+    WITH 6 DOWN WIDTH 65 MULTIPLE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (browse_definition
+    name: (identifier)
+    query: (identifier)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (string_literal)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (string_literal)
+    (number_literal)
+    (number_literal)))
+
+================================================================================
+RECTANGLE DEFINITION statement
+================================================================================
+
+DEFINE RECTANGLE rect_btns SIZE 1 BY 2.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (rectangle_definition
+    name: (identifier)
+    (number_literal)
+    (number_literal)))
+
+================================================================================
+FRAME DEFINITION statement
+================================================================================
+
+DEFINE FRAME {&FRAME_NAME} bPolicy AT COLUMN 2 ROW 2.
+DEFINE FRAME myFrame field1 field2 AT COLUMN 5 ROW 10.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (frame_definition
+    name: (constant
+      (identifier))
+    (identifier)
+    column: (number_literal)
+    row: (number_literal))
+  (frame_definition
+    name: (identifier)
+    (identifier)
+    (identifier)
+    column: (number_literal)
+    row: (number_literal)))
 
 
 

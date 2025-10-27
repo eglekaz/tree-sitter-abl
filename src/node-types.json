@@ -552,6 +552,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "function_call",
           "named": true
         },
@@ -742,6 +746,10 @@
         {
           "type": "assignment",
           "named": true
+        },
+        {
+          "type": "preprocessor_directive",
+          "named": true
         }
       ]
     }
@@ -750,6 +758,20 @@
     "type": "assignment",
     "named": true,
     "fields": {
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -764,6 +786,10 @@
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "in_frame_phrase",
             "named": true
           },
           {
@@ -841,6 +867,10 @@
           "named": true
         },
         {
+          "type": "browse_definition",
+          "named": true
+        },
+        {
           "type": "buffer_definition",
           "named": true
         },
@@ -881,6 +911,10 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "method_statement",
           "named": true
         },
@@ -894,6 +928,10 @@
         },
         {
           "type": "query_definition",
+          "named": true
+        },
+        {
+          "type": "rectangle_definition",
           "named": true
         },
         {
@@ -919,6 +957,54 @@
     "type": "boolean_literal",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "browse_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "query": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "buffer_definition",
@@ -1001,6 +1087,10 @@
         "required": false,
         "types": [
           {
+            "type": "date_literal",
+            "named": true
+          },
+          {
             "type": "number_literal",
             "named": true
           },
@@ -1058,6 +1148,14 @@
         },
         {
           "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "date_literal",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -1269,6 +1367,25 @@
     }
   },
   {
+    "type": "combo_box_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "comment",
     "named": true,
     "fields": {}
@@ -1293,11 +1410,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         }
       ]
@@ -1645,6 +1766,10 @@
             "named": false
           },
           {
+            "type": "date_literal",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -1805,6 +1930,10 @@
           "named": true
         },
         {
+          "type": "date_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1822,6 +1951,21 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "file_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
           "named": true
         }
       ]
@@ -1995,6 +2139,92 @@
     }
   },
   {
+    "type": "frame_definition",
+    "named": true,
+    "fields": {
+      "column": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "row": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "object_access",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "frame_phrase",
     "named": true,
     "fields": {
@@ -2038,7 +2268,11 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
@@ -2362,6 +2596,10 @@
       "required": true,
       "types": [
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "object_access",
           "named": true
         }
@@ -2378,6 +2616,10 @@
       "types": [
         {
           "type": "file_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -2418,6 +2660,10 @@
       "types": [
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -3269,6 +3515,10 @@
           "named": true
         },
         {
+          "type": "date_literal",
+          "named": true
+        },
+        {
           "type": "getter",
           "named": true
         },
@@ -3446,6 +3696,46 @@
     }
   },
   {
+    "type": "radio_set_phrase",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "size_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "range_notation",
     "named": true,
     "fields": {},
@@ -3455,6 +3745,48 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rectangle_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_tuning",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "member_modifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "scope_tuning",
           "named": true
         }
       ]
@@ -3913,11 +4245,19 @@
           "named": true
         },
         {
+          "type": "browse_definition",
+          "named": true
+        },
+        {
           "type": "buffer_definition",
           "named": true
         },
         {
           "type": "class_statement",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -3937,7 +4277,15 @@
           "named": true
         },
         {
+          "type": "frame_definition",
+          "named": true
+        },
+        {
           "type": "interface_statement",
+          "named": true
+        },
+        {
+          "type": "method_statement",
           "named": true
         },
         {
@@ -3950,6 +4298,10 @@
         },
         {
           "type": "query_definition",
+          "named": true
+        },
+        {
+          "type": "rectangle_definition",
           "named": true
         },
         {
@@ -4277,6 +4629,10 @@
           {
             "type": "qualified_name",
             "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
           }
         ]
       }
@@ -4579,6 +4935,10 @@
           "named": true
         },
         {
+          "type": "date_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -4604,7 +4964,21 @@
   {
     "type": "view_as_phrase",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "combo_box_phrase",
+          "named": true
+        },
+        {
+          "type": "radio_set_phrase",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "when_expression",
@@ -4867,6 +5241,14 @@
     "named": false
   },
   {
+    "type": "AT",
+    "named": false
+  },
+  {
+    "type": "AUTO-COMPLETION",
+    "named": false
+  },
+  {
     "type": "AVAIL",
     "named": false
   },
@@ -4899,6 +5281,10 @@
     "named": false
   },
   {
+    "type": "BGCOLOR",
+    "named": false
+  },
+  {
     "type": "BINARY",
     "named": false
   },
@@ -4912,6 +5298,10 @@
   },
   {
     "type": "BREAK",
+    "named": false
+  },
+  {
+    "type": "BROWSE",
     "named": false
   },
   {
@@ -4999,6 +5389,10 @@
     "named": false
   },
   {
+    "type": "COMBO-BOX",
+    "named": false
+  },
+  {
     "type": "CONSTRUCTOR",
     "named": false
   },
@@ -5040,10 +5434,6 @@
   },
   {
     "type": "DATASET",
-    "named": false
-  },
-  {
-    "type": "DATASET ",
     "named": false
   },
   {
@@ -5107,11 +5497,23 @@
     "named": false
   },
   {
+    "type": "DISPLAY",
+    "named": false
+  },
+  {
     "type": "DO",
     "named": false
   },
   {
     "type": "DOWN",
+    "named": false
+  },
+  {
+    "type": "DROP-DOWN",
+    "named": false
+  },
+  {
+    "type": "DROP-DOWN-LIST",
     "named": false
   },
   {
@@ -5171,11 +5573,19 @@
     "named": false
   },
   {
+    "type": "EXPAND",
+    "named": false
+  },
+  {
     "type": "EXTENT",
     "named": false
   },
   {
     "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "FGCOLOR",
     "named": false
   },
   {
@@ -5256,6 +5666,10 @@
   },
   {
     "type": "HELP",
+    "named": false
+  },
+  {
+    "type": "HORIZONTAL",
     "named": false
   },
   {
@@ -5371,6 +5785,14 @@
     "named": false
   },
   {
+    "type": "LIST-ITEM-PAIRS",
+    "named": false
+  },
+  {
+    "type": "LIST-ITEMS",
+    "named": false
+  },
+  {
     "type": "LOCKED",
     "named": false
   },
@@ -5420,6 +5842,10 @@
   },
   {
     "type": "MOUSE-POINTER",
+    "named": false
+  },
+  {
+    "type": "MULTIPLE",
     "named": false
   },
   {
@@ -5611,6 +6037,14 @@
     "named": false
   },
   {
+    "type": "RADIO-BUTTONS",
+    "named": false
+  },
+  {
+    "type": "RADIO-SET",
+    "named": false
+  },
+  {
     "type": "RAW",
     "named": false
   },
@@ -5620,6 +6054,10 @@
   },
   {
     "type": "RECID",
+    "named": false
+  },
+  {
+    "type": "RECTANGLE",
     "named": false
   },
   {
@@ -5636,6 +6074,10 @@
   },
   {
     "type": "REPEAT",
+    "named": false
+  },
+  {
+    "type": "RESIZABLE",
     "named": false
   },
   {
@@ -5723,6 +6165,14 @@
     "named": false
   },
   {
+    "type": "SIMPLE",
+    "named": false
+  },
+  {
+    "type": "SINGLE",
+    "named": false
+  },
+  {
     "type": "SINGLE-RUN",
     "named": false
   },
@@ -5740,6 +6190,10 @@
   },
   {
     "type": "SIZE-PIXELS",
+    "named": false
+  },
+  {
+    "type": "SORT",
     "named": false
   },
   {
@@ -5796,10 +6250,6 @@
   },
   {
     "type": "TABLE",
-    "named": false
-  },
-  {
-    "type": "TABLE ",
     "named": false
   },
   {
@@ -5879,6 +6329,10 @@
     "named": false
   },
   {
+    "type": "UNIQUE-MATCH",
+    "named": false
+  },
+  {
     "type": "USE-INDEX",
     "named": false
   },
@@ -5904,6 +6358,10 @@
   },
   {
     "type": "VARIABLE",
+    "named": false
+  },
+  {
+    "type": "VERTICAL",
     "named": false
   },
   {
@@ -5976,10 +6434,6 @@
   },
   {
     "type": "date_literal",
-    "named": true
-  },
-  {
-    "type": "file_name",
     "named": true
   },
   {

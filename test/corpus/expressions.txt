@@ -438,18 +438,219 @@ Assignment with IN FRAME
 ================================================================================
 
 qbf-a = qbf-s:SCREEN-VALUE IN FRAME qbf-frame.
+
+qbf-a = qbf-t:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
+
+IF ( hBuf_List:SCREEN-VALUE = "" ) OR ( hBuf_List:SCREEN-VALUE = ? )
+THEN btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = FALSE .
+ELSE btn_Save_Sel:SENSITIVE IN FRAME FRAME-A = TRUE .
+
 --------------------------------------------------------------------------------
 
     (source_code
       (variable_assignment
         (assignment
-          (identifier)
+          name: (identifier)
           (assignment_operator)
           (in_frame_phrase
             (object_access
-              (identifier)
-              (identifier))
-            (identifier)))))
+              object: (identifier)
+              property: (identifier))
+            frame: (identifier))))
+      (variable_assignment
+        (assignment
+          name: (identifier)
+          (assignment_operator)
+          (in_frame_phrase
+            (function_call
+              function: (object_access
+                object: (identifier)
+                property: (identifier))
+              (arguments
+                (argument
+                  (object_access
+                    object: (identifier)
+                    property: (identifier)))))
+            frame: (identifier))))
+      (if_statement
+        condition: (logical_expression
+          (parenthesized_expression
+            (comparison_expression
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              (string_literal)))
+          (parenthesized_expression
+            (comparison_expression
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              (null_expression))))
+        (variable_assignment
+          (assignment
+            name: (in_frame_phrase
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              frame: (identifier))
+            (assignment_operator)
+            (boolean_literal)))
+        (else_statement
+          (variable_assignment
+            (assignment
+              name: (in_frame_phrase
+                (object_access
+                  object: (identifier)
+                  property: (identifier))
+                frame: (identifier))
+              (assignment_operator)
+              (boolean_literal))))))
+
+================================================================================
+Method chaining with keyword-prefixed identifiers
+================================================================================
+
+DatasetHandle:get-top-buffer(1):name.
+TableHandle:find-first():available.
+QueryHandle:query-prepare("FOR EACH customer").
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (null_statement
+    (object_access
+      (function_call
+        (object_access
+          (identifier)
+          (identifier))
+        (arguments
+          (argument
+            (number_literal))))
+      (identifier)))
+  (null_statement
+    (object_access
+      (function_call
+        (object_access
+          (identifier)
+          (identifier))
+        (arguments))
+      (identifier)))
+  (function_call_statement
+    (function_call
+      (object_access
+        (identifier)
+        (identifier))
+      (arguments
+        (argument
+          (string_literal))))))
+
+================================================================================
+Function call with preprocessor variable arguments
+================================================================================
+
+count = NUM-ENTRIES (target-external, {&DELIM}).
+result = SUBSTRING(text, {&START-POS}, {&LENGTH}).
+display SUBSTITUTE("Value: &1", {&VALUE}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (function_call
+        function: (identifier)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (constant
+              (identifier)))
+          (argument
+            (constant
+              (identifier)))))))
+  (abl_statement
+    statement: (identifier)
+    (function_call
+      function: (identifier)
+      (arguments
+        (argument
+          (string_literal))
+        (argument
+          (constant
+            (identifier)))))))
+
+================================================================================
+Preprocessor assignments in arguments
+================================================================================
+
+RUN test.p ({&action=query}).
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (run_statement
+    procedure: (file_name)
+    (arguments
+      (argument
+        (constant
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Widget reference 
+================================================================================
+
+qbf-a = qbf-t&:LOOKUP(qbf-t:SCREEN-VALUE) IN FRAME qbf-both.
+
+qbf-a = qbf-t:LOOKUP(qbf-t&:SCREEN-VALUE) IN FRAME qbf-both.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier))))
+  (variable_assignment
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (in_frame_phrase
+        (function_call
+          function: (object_access
+            object: (identifier)
+            property: (identifier))
+          (arguments
+            (argument
+              (object_access
+                object: (identifier)
+                property: (identifier)))))
+        frame: (identifier)))))
 
 ================================================================================
 Array literals with null expressions

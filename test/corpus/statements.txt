@@ -16,44 +16,44 @@ variable /= 3.
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (object_access
-        (identifier)
-        (identifier))
+      name: (object_access
+        object: (identifier)
+        property: (identifier))
       (assignment_operator)
       (string_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))))
 
@@ -599,6 +599,13 @@ ASSIGN
   qualified.name = var + 1
 .
 
+ASSIGN 
+    var1 = var2
+  &IF {&DELIM} <> ",":U &THEN
+    tbllist = REPLACE (tbllist, {&DELIM}, ",":U)   
+  &ENDIF
+      change = yes.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -624,7 +631,17 @@ ASSIGN
       (assignment_operator)
       (additive_expression
         (identifier)
-        (number_literal)))))
+        (number_literal))))
+  (assign_statement
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (identifier))
+    (preprocessor_directive)
+    (assignment
+      (identifier)
+      (assignment_operator)
+      (boolean_literal))))
 
 ================================================================================
 FOR EACH statement
@@ -1081,6 +1098,13 @@ CASE test:
   OTHERWISE c = 8.
 END CASE.
 
+CASE pData:type:
+  WHEN DataTypeHelper:GetMask(DataTypeEnum:XmlDocument) THEN
+  DO:
+    pData:save(DataTypeEnum:Memptr:ToString(), mXml).
+  END.
+END CASE.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1094,12 +1118,12 @@ END CASE.
           (body
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal)))
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal))))))
       (case_when_branch
@@ -1111,7 +1135,7 @@ END CASE.
           (string_literal))
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
             (number_literal))))
       (case_when_branch
@@ -1119,15 +1143,48 @@ END CASE.
           (string_literal))
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
             (number_literal))))
       (case_otherwise_branch
         (variable_assignment
           (assignment
-            (identifier)
+            name: (identifier)
             (assignment_operator)
-            (number_literal)))))))
+            (number_literal))))))
+    (case_statement
+      (object_access
+        object: (identifier)
+        property: (identifier))
+      (body
+        (case_when_branch
+          (case_condition
+            (function_call
+              function: (object_access
+                object: (identifier)
+                property: (identifier))
+              (arguments
+                (argument
+                  (object_access
+                    object: (identifier)
+                    property: (identifier))))))
+          (do_block
+            (body
+              (function_call_statement
+                (function_call
+                  function: (object_access
+                    object: (identifier)
+                    property: (identifier))
+                  (arguments
+                    (argument
+                      (function_call
+                        function: (object_access
+                          object: (identifier)
+                          property: (identifier)
+                          property: (identifier))
+                        (arguments)))
+                    (argument
+                      (identifier)))))))))))
 
 ================================================================================
 CASE statement with null expressions

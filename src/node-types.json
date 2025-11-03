@@ -4600,6 +4600,10 @@
           "named": true
         },
         {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }

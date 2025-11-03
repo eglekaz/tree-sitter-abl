@@ -692,7 +692,8 @@ module.exports = grammar({
             $.constant,
             $._binary_expression,
             $.unary_expression,
-            $.function_call
+            $.function_call,
+            $.boolean_literal
           ),
           repeat($.parameter_tuning)
         )

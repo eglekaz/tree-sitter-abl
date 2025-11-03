@@ -4907,6 +4907,10 @@
               {
                 "type": "SYMBOL",
                 "name": "function_call"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "boolean_literal"
               }
             ]
           },

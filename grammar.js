@@ -1978,7 +1978,7 @@ module.exports = grammar({
         kw("RUN"),
         field(
           "procedure",
-          choice($._name, $.function_call, $.file_name)
+          choice($._name, $.function_call, $.file_name, $.string_literal)
         ),
         repeat($.run_tuning),
         optional(alias($.function_arguments, $.arguments)),

@@ -1781,6 +1781,7 @@ RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
   THIS-PROCEDURE (OUTPUT numLines AS INTEGER).
 
+RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1825,7 +1826,14 @@ RUN server-error.p ON SERVER hServer
         (argument_mode)
         (identifier)
         (type_tuning
-          (primitive_type))))))
+          (primitive_type)))))
+    (run_statement
+        (string_literal)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (identifier)))))
 
 ================================================================================
 ENUM statement

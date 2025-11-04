@@ -13937,6 +13937,10 @@
               {
                 "type": "SYMBOL",
                 "name": "file_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "string_literal"
               }
             ]
           }

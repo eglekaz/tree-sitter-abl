@@ -337,6 +337,10 @@ DO x = 5 TO INTEGER("20"):
   x = 5.
 END.
 
+DO x = 5 TO property.num:
+  x = 5.
+END.
+
 DO WHILE x < 10:
   x = 5.
 END.
@@ -375,6 +379,21 @@ END.
         (arguments
           (argument
             (string_literal)))))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (qualified_name
+        (identifier)
+        (identifier)))
     (body
       (variable_assignment
         (assignment

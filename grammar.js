@@ -692,7 +692,8 @@ module.exports = grammar({
             $.constant,
             $._binary_expression,
             $.unary_expression,
-            $.function_call
+            $.function_call,
+            $.boolean_literal
           ),
           repeat($.parameter_tuning)
         )
@@ -917,7 +918,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
-        choice($.function_call, $._integer_literal, $.identifier, $.object_access),
+        choice($.function_call, $._integer_literal, $._name, $.object_access),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 

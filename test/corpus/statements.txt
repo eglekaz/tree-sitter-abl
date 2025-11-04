@@ -337,6 +337,10 @@ DO x = 5 TO INTEGER("20"):
   x = 5.
 END.
 
+DO x = 5 TO property.num:
+  x = 5.
+END.
+
 DO WHILE x < 10:
   x = 5.
 END.
@@ -375,6 +379,21 @@ END.
         (arguments
           (argument
             (string_literal)))))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (qualified_name
+        (identifier)
+        (identifier)))
     (body
       (variable_assignment
         (assignment
@@ -1776,6 +1795,7 @@ RUN statement
 RUN getMyNumber.p(piFirstNum, piSecNum).
 RUN VALUE(programs[INDEX("12345", selection)]).
 RUN recall-query IN phand.
+RUN getMyValue.p(piFIrstNum, piSecNum, True).
 
 RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
@@ -1811,6 +1831,15 @@ RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
     (identifier)
     (run_tuning
       (identifier)))
+  (run_statement
+    (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))
+      (argument
+        (boolean_literal))))
   (run_statement
     (file_name)
     (run_tuning

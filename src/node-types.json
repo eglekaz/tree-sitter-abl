@@ -548,6 +548,10 @@
           "named": true
         },
         {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
           "type": "comparison_expression",
           "named": true
         },
@@ -4597,6 +4601,10 @@
         },
         {
           "type": "object_access",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {

@@ -4907,6 +4907,10 @@
               {
                 "type": "SYMBOL",
                 "name": "function_call"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "boolean_literal"
               }
             ]
           },
@@ -6571,7 +6575,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_name"
             },
             {
               "type": "SYMBOL",

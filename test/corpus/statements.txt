@@ -659,6 +659,10 @@ FOR EACH Item NO-LOCK WITH STREAM-IO:
     DISPLAY something.
 END.
 
+for each Customer where Customer.id = iID while count > 0:
+  display something.
+end.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -690,6 +694,22 @@ END.
     table: (identifier)
     (query_tuning)
     (frame_phrase)
+    (body
+      (abl_statement
+        statement: (identifier)
+        (identifier))))
+  (for_statement
+    table: (identifier)
+    (where_clause
+      condition: (comparison_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (identifier)))
+    (while_phrase
+      condition: (comparison_expression
+        (identifier)
+        (number_literal)))
     (body
       (abl_statement
         statement: (identifier)
@@ -1781,6 +1801,8 @@ RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
   THIS-PROCEDURE (OUTPUT numLines AS INTEGER).
 
+RUN dir1/dir2/dir3/dir4/file.w.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1825,7 +1847,9 @@ RUN server-error.p ON SERVER hServer
         (argument_mode)
         (identifier)
         (type_tuning
-          (primitive_type))))))
+          (primitive_type)))))
+  (run_statement
+    (file_name)))
 
 ================================================================================
 ENUM statement

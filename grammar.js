@@ -155,11 +155,16 @@ module.exports = grammar({
 
     _name: ($) => choice($.identifier, $.qualified_name),
 
-    file_name: ($) => /[A-z-_|0-9|\/]+\.[ip]/i,
+    file_name: ($) => /[A-z-_|0-9|\/]+\.[ipwr]/i,
 
-    // TODO: FIX: Comments inside comments caused memory leak
+    // TODO: FIX
     comment: ($) =>
       choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+    // Note: This was initial solution for comments inside comments. Does not work
+    //  choice(
+    //     seq("//", /.*/),
+    //     seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
+    //   ),
 
     annotation: ($) =>
       seq(
@@ -645,7 +650,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          field("array", choice($.identifier, $.object_access)),
+          field("array", choice($.identifier, $.qualified_name, $.object_access)),
           $.array_literal,
         )
       ),
@@ -672,7 +677,7 @@ module.exports = grammar({
           choice(
             $.ternary_expression,
             seq(
-              choice($._name, $.object_access),
+              choice($._name, $.object_access, $.member_access),
               optional($.type_tuning)
             ),
             seq(
@@ -1848,7 +1853,7 @@ module.exports = grammar({
         optional($.label),
         alias($._for_keyword, "FOR"),
         _list($._for_phrase, ","),
-        repeat(choice($._on_phrase, $.frame_phrase)),
+        repeat(choice($._on_phrase, $.frame_phrase, $.while_phrase)),
         $.body,
         $._block_terminator
       ),
@@ -2266,8 +2271,6 @@ module.exports = grammar({
         $.undo_statement,
         $.error_scope_statement,
         $.using_statement,
-        // $.class_statement,
-        // $.interface_statement,
         $.on_statement,
         $.prompt_for_statement,
         $.release_statement,
@@ -2275,10 +2278,7 @@ module.exports = grammar({
         $.enum_statement,
         $.abl_statement,
 
-        // $._definition,
-
         $.variable_assignment,
-        // $.do_block,
         $.preprocessor_directive,
         $.include,
         $.annotation //TODO: Check should it be in supertype

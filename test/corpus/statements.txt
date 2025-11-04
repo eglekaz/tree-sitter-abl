@@ -1776,6 +1776,7 @@ RUN statement
 RUN getMyNumber.p(piFirstNum, piSecNum).
 RUN VALUE(programs[INDEX("12345", selection)]).
 RUN recall-query IN phand.
+RUN getMyValue.p(piFIrstNum, piSecNum, True).
 
 RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
@@ -1810,6 +1811,15 @@ RUN server-error.p ON SERVER hServer
     (identifier)
     (run_tuning
       (identifier)))
+  (run_statement
+    (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))
+      (argument
+        (boolean_literal))))
   (run_statement
     (file_name)
     (run_tuning

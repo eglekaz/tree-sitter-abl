@@ -5923,10 +5923,6 @@
     "named": false
   },
   {
-    "type": "IN WINDOW",
-    "named": false
-  },
-  {
     "type": "IN-WINDOW",
     "named": false
   },
@@ -6680,6 +6676,10 @@
   },
   {
     "type": "WIDTH",
+    "named": false
+  },
+  {
+    "type": "WINDOW",
     "named": false
   },
   {

@@ -1774,13 +1774,18 @@ module.exports = grammar({
         repeat1(
           choice(
             $._expression,
-            kw("SKIP"),
+            seq(
+              kw("SKIP"),
+              optional(seq("(", $._integer_literal, ")"))
+            )
+
           )
         ),
         repeat($.message_tuning),
 
         optional(seq(
-          kw("IN WINDOW"),
+          kw("IN"),
+          kw("WINDOW"),
           $._name
         )),
         $._terminator

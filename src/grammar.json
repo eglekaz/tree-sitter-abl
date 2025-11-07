@@ -824,7 +824,7 @@
     },
     "file_name": {
       "type": "PATTERN",
-      "value": "[A-z-_|0-9|\\/]+\\.[ip]"
+      "value": "[A-z-_|0-9|\\/]+\\.[ipwr]"
     },
     "comment": {
       "type": "CHOICE",
@@ -4595,6 +4595,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "qualified_name"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "object_access"
                 }
               ]
@@ -4737,6 +4741,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "object_access"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "member_access"
                       }
                     ]
                   },
@@ -13121,6 +13129,10 @@
               {
                 "type": "SYMBOL",
                 "name": "frame_phrase"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "while_phrase"
               }
             ]
           }

@@ -572,6 +572,10 @@
           "named": true
         },
         {
+          "type": "member_access",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -648,6 +652,10 @@
           },
           {
             "type": "object_access",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
             "named": true
           }
         ]
@@ -2133,6 +2141,10 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        },
+        {
+          "type": "while_phrase",
           "named": true
         }
       ]

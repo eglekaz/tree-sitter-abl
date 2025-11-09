@@ -1778,11 +1778,9 @@ module.exports = grammar({
               kw("SKIP"),
               optional(seq("(", $._integer_literal, ")"))
             )
-
           )
         ),
         repeat($.message_tuning),
-
         optional(seq(
           kw("IN"),
           kw("WINDOW"),

@@ -1886,7 +1886,9 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
       (argument
         (identifier))
       (argument
-        (boolean_literal)))
+        (boolean_literal))))
+  (run_statement
+    procedure: (file_name)
     (run_tuning
       (identifier))
     (run_tuning)
@@ -1900,14 +1902,14 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
         (argument_mode)
         (identifier)
         (type_tuning
-          (primitive_type)))))
+          type: (primitive_type)))))
   (run_statement
-        (string_literal)
-        (arguments
-          (argument
-            (identifier))
-          (argument
-            (identifier))))
+    procedure: (string_literal)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))))
   (run_statement
     procedure: (file_name))
   (run_statement

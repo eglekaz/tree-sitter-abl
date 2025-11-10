@@ -1879,7 +1879,14 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
     (run_tuning
       (identifier)))
   (run_statement
-    (file_name)
+    procedure: (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))
+      (argument
+        (boolean_literal)))
     (run_tuning
       (identifier))
     (run_tuning)

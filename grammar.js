@@ -376,6 +376,108 @@ module.exports = grammar({
         kw("SUB-TOTAL")
       ),
 
+    message_tuning: ($) =>
+      choice(
+        $.message_color,
+        $.message_alert_box,
+        $.message_update,
+        $.message_pause,
+        kw("NO-ERROR")
+    ),
+
+    message_color: ($) =>
+      seq(
+        kw("COLOR"),
+        $.color_phrase
+      ),
+
+    color_phrase: ($) =>
+      choice(
+        kw("NORMAL"),
+        kw("INPUT"),
+        kw("MESSAGES"),
+        seq(
+          optional(
+            choice(
+              kw("BLINK-"),
+              kw("RVV-"),
+              kw("UNDERLINE-"),
+              kw("BRIGHT-")
+            )
+          ),
+          choice($.string_literal, $.identifier)
+        ),
+
+        seq(
+          kw("VALUE"),
+          "(", $._expression, 
+          ")")
+      ),
+    
+    message_alert_box: ($) =>
+      seq(
+        kw("VIEW-AS"),
+        kw("ALERT-BOX"),
+        optional($.alert_box_type),
+        optional($.alert_box_buttons),
+        optional($.alert_box_title)
+      ),
+
+    alert_box_type: ($) =>
+      choice(
+        kw("MESSAGE"),
+        kw("INFORMATION"),
+        kw("WARNING"),
+        kw("ERROR"),
+        kw("QUESTION")
+      ),
+
+    alert_box_buttons: ($) =>
+      seq(
+        kw("BUTTONS"),
+        choice(
+          kw("OK"),
+          kw("CANCEL"),
+          kw("OK-CANCEL"),
+          kw("YES-NO"),
+          kw("YES-NO-CANCEL"),
+          kw("OK-HELP"),
+          kw("YES-NO-HELP"),
+          $.identifier,
+          $.string_literal
+        )
+      ),
+
+    alert_box_title: ($) =>
+      seq(kw("TITLE"), $.string_literal),
+
+    message_update: ($) =>
+      seq(
+        choice(
+          kw("UPDATE"),
+          kw("SET")
+        ),
+        $._name,
+        repeat(
+          choice(
+            seq(
+              choice(
+                kw("AS"),
+                kw("LIKE")),
+                $._type
+              ),
+              seq(
+                kw("FORMAT"),
+                $.string_literal
+              ),
+              kw("AUTO-RETURN")
+          )
+        ),
+      ),
+
+    message_pause:($) => kw("PAUSE"),
+    
+
     // button_tuning: ($) =>
     //   choice(
     //     seq(kw("AUTO-GO"), optional(kw("AUTO-ENDKEY"))),
@@ -1666,6 +1768,27 @@ module.exports = grammar({
 
     // STATEMENTS
 
+    message_statement:($) =>
+      seq(
+        kw("MESSAGE"),
+        repeat1(
+          choice(
+            $._expression,
+            seq(
+              kw("SKIP"),
+              optional(seq("(", $._integer_literal, ")"))
+            )
+          )
+        ),
+        repeat($.message_tuning),
+        optional(seq(
+          kw("IN"),
+          kw("WINDOW"),
+          $._name
+        )),
+        $._terminator
+    ),
+
     null_statement: ($) => seq($.object_access, $._terminator),
 
     using_statement: ($) =>
@@ -2249,6 +2372,7 @@ module.exports = grammar({
     _statement: ($) =>
       choice(
         $.var_statement,
+        $.message_statement,
         $.null_statement,
         $.procedure_statement,
         $.function_statement,

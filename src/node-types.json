@@ -619,6 +619,10 @@
           "named": true
         },
         {
+          "type": "member_access",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -695,6 +699,10 @@
           },
           {
             "type": "object_access",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
             "named": true
           }
         ]
@@ -1245,6 +1253,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "do_block",
           "named": true
         }
@@ -1284,6 +1296,10 @@
         },
         {
           "type": "case_condition",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -1780,6 +1796,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "do_block",
           "named": true
         }
@@ -2196,6 +2216,10 @@
         {
           "type": "where_clause",
           "named": true
+        },
+        {
+          "type": "while_phrase",
+          "named": true
         }
       ]
     }
@@ -2598,6 +2622,10 @@
       "types": [
         {
           "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {

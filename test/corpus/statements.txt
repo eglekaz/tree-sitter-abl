@@ -625,26 +625,32 @@ ASSIGN
   &ENDIF
       change = yes.
 
+ASSIGN
+    MyTable.MyArray[iNum] = 2.
+
+ASSIGN
+    myVariable = MyBuffer.MyArray[iNum].
+
 --------------------------------------------------------------------------------
 
 (source_code
   (assign_statement
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (string_literal))
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (function_call
-        (identifier)
+        function: (identifier)
         (arguments)))
     (assignment
-      (qualified_name
+      name: (qualified_name
         (identifier)
         (identifier))
       (assignment_operator)
@@ -653,14 +659,34 @@ ASSIGN
         (number_literal))))
   (assign_statement
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (identifier))
     (preprocessor_directive)
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
-      (boolean_literal))))
+      (boolean_literal)))
+  (assign_statement
+    (assignment
+      name: (array_access
+        array: (qualified_name
+          (identifier)
+          (identifier))
+        (array_literal
+          (identifier)))
+      (assignment_operator)
+      (number_literal)))
+  (assign_statement
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_access
+        array: (qualified_name
+          (identifier)
+          (identifier))
+        (array_literal
+          (identifier))))))
 
 ================================================================================
 FOR EACH statement
@@ -677,6 +703,10 @@ END.
 FOR EACH Item NO-LOCK WITH STREAM-IO:
     DISPLAY something.
 END.
+
+for each Customer where Customer.id = iID while count > 0:
+  display something.
+end.
 
 --------------------------------------------------------------------------------
 
@@ -709,6 +739,22 @@ END.
     table: (identifier)
     (query_tuning)
     (frame_phrase)
+    (body
+      (abl_statement
+        statement: (identifier)
+        (identifier))))
+  (for_statement
+    table: (identifier)
+    (where_clause
+      condition: (comparison_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (identifier)))
+    (while_phrase
+      condition: (comparison_expression
+        (identifier)
+        (number_literal)))
     (body
       (abl_statement
         statement: (identifier)
@@ -1799,37 +1845,41 @@ RUN server-error.p ON SERVER hServer
   THIS-PROCEDURE (OUTPUT numLines AS INTEGER).
 
 RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
+RUN dir1/dir2/dir3/dir4/file.w.
+
+RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
+
 --------------------------------------------------------------------------------
 
 (source_code
   (run_statement
-    (file_name)
+    procedure: (file_name)
     (arguments
       (argument
         (identifier))
       (argument
         (identifier))))
   (run_statement
-    (function_call
-      (identifier)
+    procedure: (function_call
+      function: (identifier)
       (arguments
         (argument
           (array_access
-            (identifier)
+            array: (identifier)
             (array_literal
               (function_call
-                (identifier)
+                function: (identifier)
                 (arguments
                   (argument
                     (string_literal))
                   (argument
                     (identifier))))))))))
   (run_statement
-    (identifier)
+    procedure: (identifier)
     (run_tuning
       (identifier)))
   (run_statement
-    (file_name)
+    procedure: (file_name)
     (arguments
       (argument
         (identifier))
@@ -1838,7 +1888,7 @@ RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
       (argument
         (boolean_literal))))
   (run_statement
-    (file_name)
+    procedure: (file_name)
     (run_tuning
       (identifier))
     (run_tuning)
@@ -1852,14 +1902,25 @@ RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
         (argument_mode)
         (identifier)
         (type_tuning
-          (primitive_type)))))
-    (run_statement
-        (string_literal)
-        (arguments
-          (argument
-            (identifier))
-          (argument
-            (identifier)))))
+          type: (primitive_type)))))
+  (run_statement
+    procedure: (string_literal)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))))
+  (run_statement
+    procedure: (file_name))
+  (run_statement
+    procedure: (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (member_access
+          object: (identifier)
+          property: (identifier))))))
 
 ================================================================================
 ENUM statement

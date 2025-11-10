@@ -89,6 +89,10 @@
             "type": "SYMBOL",
             "name": "_statement"
           }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constant"
         }
       ]
     },
@@ -824,7 +828,7 @@
     },
     "file_name": {
       "type": "PATTERN",
-      "value": "[A-z-_|0-9|\\/]+\\.[ip]"
+      "value": "[A-z-_|0-9|\\/]+\\.[ipwr]"
     },
     "comment": {
       "type": "CHOICE",
@@ -5143,15 +5147,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[rR][eE][tT][uU][rR][nN]"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_return_keyword"
               },
               "named": false,
               "value": "RETURN"
@@ -5324,6 +5321,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "qualified_name"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "object_access"
                 }
               ]
@@ -5466,6 +5467,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "object_access"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "member_access"
                       }
                     ]
                   },
@@ -7160,15 +7165,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[rR][eE][tT][uU][rR][nN]"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_return_keyword"
               },
               "named": false,
               "value": "RETURN"
@@ -11479,15 +11477,8 @@
                 {
                   "type": "ALIAS",
                   "content": {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "PREC",
-                      "value": 1,
-                      "content": {
-                        "type": "PATTERN",
-                        "value": "[rR][eE][tT][uU][rR][nN]"
-                      }
-                    }
+                    "type": "SYMBOL",
+                    "name": "_return_keyword"
                   },
                   "named": false,
                   "value": "RETURN"
@@ -13705,15 +13696,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[rR][eE][tT][uU][rR][nN]"
-              }
-            }
+            "type": "SYMBOL",
+            "name": "_return_keyword"
           },
           "named": false,
           "value": "RETURN"
@@ -13993,6 +13977,10 @@
               {
                 "type": "SYMBOL",
                 "name": "frame_phrase"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "while_phrase"
               }
             ]
           }
@@ -16574,6 +16562,10 @@
     {
       "type": "SYMBOL",
       "name": "_field_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_return_keyword"
     }
   ],
   "inline": [],

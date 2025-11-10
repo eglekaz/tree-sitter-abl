@@ -20,7 +20,8 @@ enum TokenType {
   DEF_KEYWORD,
   VAR_KEYWORD,
   INDEX_KEYWORD,
-  FIELD_KEYWORD
+  FIELD_KEYWORD,
+  RETURN_KEYWORD
 };
 
 void * tree_sitter_abl_external_scanner_create() {
@@ -92,6 +93,7 @@ bool tree_sitter_abl_external_scanner_scan(
   if (valid_symbols[VAR_KEYWORD] && match_keyword(lexer, "VAR", VAR_KEYWORD)) return true;
   if (valid_symbols[INDEX_KEYWORD] && match_keyword(lexer, "INDEX", INDEX_KEYWORD)) return true;
   if (valid_symbols[FIELD_KEYWORD] && match_keyword(lexer, "FIELD", FIELD_KEYWORD)) return true;
+  if (valid_symbols[RETURN_KEYWORD] && match_keyword(lexer, "RETURN", RETURN_KEYWORD)) return true;
 
   if (valid_symbols[AUGMENTED_ASSIGNMENT]) {
     while (!lexer->eof(lexer) && iswspace(lexer->lookahead)) {

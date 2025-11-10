@@ -337,6 +337,10 @@ DO x = 5 TO INTEGER("20"):
   x = 5.
 END.
 
+DO x = 5 TO property.num:
+  x = 5.
+END.
+
 DO WHILE x < 10:
   x = 5.
 END.
@@ -375,6 +379,21 @@ END.
         (arguments
           (argument
             (string_literal)))))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (qualified_name
+        (identifier)
+        (identifier)))
     (body
       (variable_assignment
         (assignment
@@ -1001,11 +1020,10 @@ END.
           (identifier)
           (identifier))
         (body
-          (abl_statement
-            statement: (identifier)
+          (message_statement
             (string_literal)
-            (identifier)
-            (identifier))
+            (message_tuning
+              (message_alert_box)))
           (undo_statement
             (identifier))))
       (catch_statement
@@ -1015,18 +1033,16 @@ END.
           (identifier)
           (identifier))
         (body
-          (abl_statement
-            statement: (identifier)
+          (message_statement
             (string_literal)
-            (identifier)
-            (identifier))))
+            (message_tuning
+              (message_alert_box)))))
       (finally_statement
         (body
-          (abl_statement
-            statement: (identifier)
+          (message_statement
             (string_literal)
-            (identifier)
-            (identifier)))))))
+            (message_tuning
+              (message_alert_box))))))))
 
 ================================================================================
 CLASS statement
@@ -1822,11 +1838,13 @@ RUN statement
 RUN getMyNumber.p(piFirstNum, piSecNum).
 RUN VALUE(programs[INDEX("12345", selection)]).
 RUN recall-query IN phand.
+RUN getMyValue.p(piFIrstNum, piSecNum, True).
 
 RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
   THIS-PROCEDURE (OUTPUT numLines AS INTEGER).
 
+RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
 RUN dir1/dir2/dir3/dir4/file.w.
 
 RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
@@ -1861,7 +1879,7 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
     (run_tuning
       (identifier)))
   (run_statement
-    procedure: (file_name)
+    (file_name)
     (run_tuning
       (identifier))
     (run_tuning)
@@ -1875,7 +1893,14 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
         (argument_mode)
         (identifier)
         (type_tuning
-          type: (primitive_type)))))
+          (primitive_type)))))
+  (run_statement
+        (string_literal)
+        (arguments
+          (argument
+            (identifier))
+          (argument
+            (identifier))))
   (run_statement
     procedure: (file_name))
   (run_statement
@@ -2356,3 +2381,43 @@ RETURN statement this object access
           (identifier)
           (identifier)
           (identifier))))
+
+================================================================================
+MESSAGE statement
+================================================================================
+
+MESSAGE "Hello world".
+
+MESSAGE "You have" cust-name SKIP(1) "records".
+
+MESSAGE "Operation complete." COLOR VALUE("BLUE")
+    VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+
+MESSAGE "Enter your name:" UPDATE user-name AS CHARACTER.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (message_statement
+        (string_literal))
+      (message_statement
+        (string_literal)
+        (identifier)
+        (parenthesized_expression
+          (number_literal))
+        (string_literal))
+      (message_statement
+        (string_literal)
+        (message_tuning
+          (message_color
+            (color_phrase
+              (string_literal))))
+        (message_tuning
+          (message_alert_box
+            (alert_box_type)
+            (alert_box_buttons))))
+      (message_statement
+        (string_literal)
+        (message_tuning
+          (message_update
+            (identifier)
+            (primitive_type)))))

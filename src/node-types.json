@@ -198,6 +198,10 @@
         "named": true
       },
       {
+        "type": "message_statement",
+        "named": true
+      },
+      {
         "type": "null_statement",
         "named": true
       },
@@ -475,6 +479,45 @@
     }
   },
   {
+    "type": "alert_box_buttons",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alert_box_title",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alert_box_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ambiguous_expression",
     "named": true,
     "fields": {},
@@ -545,6 +588,10 @@
         },
         {
           "type": "array_access",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
           "named": true
         },
         {
@@ -1377,6 +1424,21 @@
         },
         {
           "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "color_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -2969,6 +3031,130 @@
     "fields": {}
   },
   {
+    "type": "message_alert_box",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alert_box_buttons",
+          "named": true
+        },
+        {
+          "type": "alert_box_title",
+          "named": true
+        },
+        {
+          "type": "alert_box_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "message_color",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "color_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "message_pause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "message_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "message_tuning",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "message_tuning",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "message_alert_box",
+          "named": true
+        },
+        {
+          "type": "message_color",
+          "named": true
+        },
+        {
+          "type": "message_pause",
+          "named": true
+        },
+        {
+          "type": "message_update",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "message_update",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "method_statement",
     "named": true,
     "fields": {
@@ -4105,6 +4291,10 @@
           {
             "type": "qualified_name",
             "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
           }
         ]
       }
@@ -4621,6 +4811,10 @@
         },
         {
           "type": "object_access",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -5229,6 +5423,10 @@
     "named": false
   },
   {
+    "type": "ALERT-BOX",
+    "named": false
+  },
+  {
     "type": "AMBIGUOUS",
     "named": false
   },
@@ -5277,6 +5475,10 @@
     "named": false
   },
   {
+    "type": "AUTO-RETURN",
+    "named": false
+  },
+  {
     "type": "AVAIL",
     "named": false
   },
@@ -5321,6 +5523,10 @@
     "named": false
   },
   {
+    "type": "BLINK-",
+    "named": false
+  },
+  {
     "type": "BLOCK-LEVEL",
     "named": false
   },
@@ -5329,11 +5535,19 @@
     "named": false
   },
   {
+    "type": "BRIGHT-",
+    "named": false
+  },
+  {
     "type": "BROWSE",
     "named": false
   },
   {
     "type": "BUFFER",
+    "named": false
+  },
+  {
+    "type": "BUTTONS",
     "named": false
   },
   {
@@ -5358,6 +5572,10 @@
   },
   {
     "type": "CAN-FIND",
+    "named": false
+  },
+  {
+    "type": "CANCEL",
     "named": false
   },
   {
@@ -5398,6 +5616,10 @@
   },
   {
     "type": "COLLATE",
+    "named": false
+  },
+  {
+    "type": "COLOR",
     "named": false
   },
   {
@@ -5737,6 +5959,10 @@
     "named": false
   },
   {
+    "type": "INFORMATION",
+    "named": false
+  },
+  {
     "type": "INHERITS",
     "named": false
   },
@@ -5853,6 +6079,14 @@
     "named": false
   },
   {
+    "type": "MESSAGE",
+    "named": false
+  },
+  {
+    "type": "MESSAGES",
+    "named": false
+  },
+  {
     "type": "METHOD",
     "named": false
   },
@@ -5949,6 +6183,10 @@
     "named": false
   },
   {
+    "type": "NORMAL",
+    "named": false
+  },
+  {
     "type": "NOT",
     "named": false
   },
@@ -5958,6 +6196,18 @@
   },
   {
     "type": "OF",
+    "named": false
+  },
+  {
+    "type": "OK",
+    "named": false
+  },
+  {
+    "type": "OK-CANCEL",
+    "named": false
+  },
+  {
+    "type": "OK-HELP",
     "named": false
   },
   {
@@ -6002,6 +6252,10 @@
   },
   {
     "type": "PARAMETER",
+    "named": false
+  },
+  {
+    "type": "PAUSE",
     "named": false
   },
   {
@@ -6054,6 +6308,10 @@
   },
   {
     "type": "QUERY",
+    "named": false
+  },
+  {
+    "type": "QUESTION",
     "named": false
   },
   {
@@ -6141,6 +6399,10 @@
     "named": false
   },
   {
+    "type": "RVV-",
+    "named": false
+  },
+  {
     "type": "SCROLL",
     "named": false
   },
@@ -6218,6 +6480,10 @@
   },
   {
     "type": "SIZE-PIXELS",
+    "named": false
+  },
+  {
+    "type": "SKIP",
     "named": false
   },
   {
@@ -6321,6 +6587,10 @@
     "named": false
   },
   {
+    "type": "TITLE",
+    "named": false
+  },
+  {
     "type": "TO",
     "named": false
   },
@@ -6349,6 +6619,10 @@
     "named": false
   },
   {
+    "type": "UNDERLINE-",
+    "named": false
+  },
+  {
     "type": "UNDO",
     "named": false
   },
@@ -6358,6 +6632,10 @@
   },
   {
     "type": "UNIQUE-MATCH",
+    "named": false
+  },
+  {
+    "type": "UPDATE",
     "named": false
   },
   {
@@ -6381,6 +6659,10 @@
     "named": false
   },
   {
+    "type": "VALUE",
+    "named": false
+  },
+  {
     "type": "VAR",
     "named": false
   },
@@ -6401,6 +6683,10 @@
     "named": false
   },
   {
+    "type": "WARNING",
+    "named": false
+  },
+  {
     "type": "WHEN",
     "named": false
   },
@@ -6418,6 +6704,10 @@
   },
   {
     "type": "WIDTH",
+    "named": false
+  },
+  {
+    "type": "WINDOW",
     "named": false
   },
   {
@@ -6450,6 +6740,18 @@
   },
   {
     "type": "YES",
+    "named": false
+  },
+  {
+    "type": "YES-NO",
+    "named": false
+  },
+  {
+    "type": "YES-NO-CANCEL",
+    "named": false
+  },
+  {
+    "type": "YES-NO-HELP",
     "named": false
   },
   {

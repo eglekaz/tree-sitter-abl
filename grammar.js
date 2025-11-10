@@ -28,7 +28,8 @@ module.exports = grammar({
     $._def_keyword,
     $._var_keyword,
     $._index_keyword,
-    $._field_keyword
+    $._field_keyword,
+    $._return_keyword
   ],
   extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   word: ($) => $.identifier,
@@ -55,7 +56,7 @@ module.exports = grammar({
     
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
-    _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
+    _statement_body: ($) => choice($.do_block, prec(2, $._statement), $.constant),
 
     dot_body: ($) => seq(choice(":", "."), repeat(choice($._statement, $._definition))),
 
@@ -637,7 +638,7 @@ module.exports = grammar({
       seq($._name, $.generic_expression),
 
     return_type: ($) =>
-      seq(choice(kw("RETURNS"), kw("RETURN")), field("type", $._type)),
+      seq(choice(kw("RETURNS"), alias($._return_keyword, "RETURN")), field("type", $._type)),
 
     member_modifier: ($) => choice(kw("ABSTRACT"), kw("OVERRIDE"), kw("FINAL")),
 
@@ -902,7 +903,7 @@ module.exports = grammar({
         seq(kw("NEXT"), optional(field("label", $.identifier))),
         seq(kw("RETRY"), optional(field("label", $.identifier))),
         seq(
-          kw("RETURN"),
+          alias($._return_keyword, "RETURN"),
           $._return_action
         )
       ),
@@ -1520,7 +1521,7 @@ module.exports = grammar({
       seq(
         $._define,
         optional(
-          choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT"), kw("RETURN"))
+          choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT"), alias($._return_keyword, "RETURN"))
         ),
         choice(kw("PARAMETER"), kw("PARAM")),
         optional($._parameter_definition_option),
@@ -1818,7 +1819,7 @@ module.exports = grammar({
 
     return_statement: ($) =>
       seq(
-        kw("RETURN"),
+        alias($._return_keyword, "RETURN"),
         optional($._return_action),
         $._terminator
       ),

@@ -89,6 +89,10 @@
             "type": "SYMBOL",
             "name": "_statement"
           }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constant"
         }
       ]
     },
@@ -4414,15 +4418,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[rR][eE][tT][uU][rR][nN]"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_return_keyword"
               },
               "named": false,
               "value": "RETURN"
@@ -6435,15 +6432,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[rR][eE][tT][uU][rR][nN]"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_return_keyword"
               },
               "named": false,
               "value": "RETURN"
@@ -10754,15 +10744,8 @@
                 {
                   "type": "ALIAS",
                   "content": {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "PREC",
-                      "value": 1,
-                      "content": {
-                        "type": "PATTERN",
-                        "value": "[rR][eE][tT][uU][rR][nN]"
-                      }
-                    }
+                    "type": "SYMBOL",
+                    "name": "_return_keyword"
                   },
                   "named": false,
                   "value": "RETURN"
@@ -12841,15 +12824,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[rR][eE][tT][uU][rR][nN]"
-              }
-            }
+            "type": "SYMBOL",
+            "name": "_return_keyword"
           },
           "named": false,
           "value": "RETURN"
@@ -15706,6 +15682,10 @@
     {
       "type": "SYMBOL",
       "name": "_field_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_return_keyword"
     }
   ],
   "inline": [],

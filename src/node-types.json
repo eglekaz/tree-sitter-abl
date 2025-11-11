@@ -498,21 +498,6 @@
     }
   },
   {
-    "type": "alert_box_title",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "alert_box_type",
     "named": true,
     "fields": {}
@@ -3031,29 +3016,6 @@
     "fields": {}
   },
   {
-    "type": "message_alert_box",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "alert_box_buttons",
-          "named": true
-        },
-        {
-          "type": "alert_box_title",
-          "named": true
-        },
-        {
-          "type": "alert_box_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "message_color",
     "named": true,
     "fields": {},
@@ -3086,22 +3048,11 @@
           "named": true
         },
         {
-          "type": "message_tuning",
+          "type": "alert_box_buttons",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "message_tuning",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
+        },
         {
-          "type": "message_alert_box",
+          "type": "alert_box_type",
           "named": true
         },
         {
@@ -5956,6 +5907,10 @@
   },
   {
     "type": "INDEX",
+    "named": false
+  },
+  {
+    "type": "INFO",
     "named": false
   },
   {

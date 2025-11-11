@@ -2198,7 +2198,7 @@
         }
       ]
     },
-    "message_tuning": {
+    "_message_tuning": {
       "type": "CHOICE",
       "members": [
         {
@@ -2207,7 +2207,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "message_alert_box"
+          "name": "_message_alert_box"
         },
         {
           "type": "SYMBOL",
@@ -2441,7 +2441,7 @@
         }
       ]
     },
-    "message_alert_box": {
+    "_message_alert_box": {
       "type": "SEQ",
       "members": [
         {
@@ -2504,8 +2504,38 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "alert_box_title"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[tT][iI][tT][lL][eE]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "TITLE"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "string_literal"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "additive_expression"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -2548,6 +2578,22 @@
           },
           "named": false,
           "value": "INFORMATION"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[iI][nN][fF][oO]"
+              }
+            }
+          },
+          "named": false,
+          "value": "INFO"
         },
         {
           "type": "ALIAS",
@@ -2742,31 +2788,6 @@
               "name": "string_literal"
             }
           ]
-        }
-      ]
-    },
-    "alert_box_title": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[tT][iI][tT][lL][eE]"
-              }
-            }
-          },
-          "named": false,
-          "value": "TITLE"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_literal"
         }
       ]
     },
@@ -12654,7 +12675,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "message_tuning"
+            "name": "_message_tuning"
           }
         },
         {

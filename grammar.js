@@ -382,10 +382,10 @@ module.exports = grammar({
         kw("SUB-TOTAL")
       ),
 
-    message_tuning: ($) =>
+    _message_tuning: ($) =>
       choice(
         $.message_color,
-        $.message_alert_box,
+        $._message_alert_box,
         $.message_update,
         $.message_pause,
         kw("NO-ERROR")
@@ -420,19 +420,20 @@ module.exports = grammar({
           ")")
       ),
     
-    message_alert_box: ($) =>
+    _message_alert_box: ($) =>
       seq(
         kw("VIEW-AS"),
         kw("ALERT-BOX"),
         optional($.alert_box_type),
         optional($.alert_box_buttons),
-        optional($.alert_box_title)
+        optional(seq(kw("TITLE"), choice($.string_literal, $.additive_expression)))
       ),
 
     alert_box_type: ($) =>
       choice(
         kw("MESSAGE"),
         kw("INFORMATION"),
+        kw("INFO"),
         kw("WARNING"),
         kw("ERROR"),
         kw("QUESTION")
@@ -453,9 +454,6 @@ module.exports = grammar({
           $.string_literal
         )
       ),
-
-    alert_box_title: ($) =>
-      seq(kw("TITLE"), $.string_literal),
 
     message_update: ($) =>
       seq(
@@ -1786,7 +1784,7 @@ module.exports = grammar({
             )
           )
         ),
-        repeat($.message_tuning),
+        repeat($._message_tuning),
         optional(seq(
           kw("IN"),
           kw("WINDOW"),

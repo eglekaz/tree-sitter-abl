@@ -178,6 +178,10 @@
         "named": true
       },
       {
+        "type": "form_statement",
+        "named": true
+      },
+      {
         "type": "function_call_statement",
         "named": true
       },
@@ -2204,6 +2208,180 @@
         },
         {
           "type": "while_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "form_field_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "view_as_phrase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "form_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "form_skip",
+    "named": true,
+    "fields": {
+      "count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "form_space",
+    "named": true,
+    "fields": {
+      "count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "form_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "form_field_item",
+          "named": true
+        },
+        {
+          "type": "form_header",
+          "named": true
+        },
+        {
+          "type": "form_skip",
+          "named": true
+        },
+        {
+          "type": "form_space",
+          "named": true
+        },
+        {
+          "type": "form_string_item",
+          "named": true
+        },
+        {
+          "type": "form_with_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "form_string_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "form_with_clause",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "size_phrase",
           "named": true
         }
       ]
@@ -5826,6 +6004,10 @@
     "named": false
   },
   {
+    "type": "FORM",
+    "named": false
+  },
+  {
     "type": "FORMAT",
     "named": false
   },
@@ -5863,6 +6045,10 @@
   },
   {
     "type": "HANDLE",
+    "named": false
+  },
+  {
+    "type": "HEADER",
     "named": false
   },
   {
@@ -6106,6 +6292,10 @@
     "named": false
   },
   {
+    "type": "NO-LABEL",
+    "named": false
+  },
+  {
     "type": "NO-LABELS",
     "named": false
   },
@@ -6119,6 +6309,10 @@
   },
   {
     "type": "NO-PREFETCH",
+    "named": false
+  },
+  {
+    "type": "NO-UNDERLINE",
     "named": false
   },
   {
@@ -6450,6 +6644,10 @@
     "named": false
   },
   {
+    "type": "SPACE",
+    "named": false
+  },
+  {
     "type": "STATIC",
     "named": false
   },
@@ -6535,6 +6733,10 @@
   },
   {
     "type": "THIS-PROCEDURE",
+    "named": false
+  },
+  {
+    "type": "THREE-D",
     "named": false
   },
   {

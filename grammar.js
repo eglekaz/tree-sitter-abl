@@ -1799,7 +1799,7 @@ module.exports = grammar({
         repeat($._repeat_phrase),
         optional($.preselect_phrase),
         optional($.while_phrase),
-        optional($._on_phrase),
+        repeat($._on_phrase),
         $.body,
         $._block_terminator
       ),
@@ -2000,7 +2000,7 @@ module.exports = grammar({
         optional($.label),
         kw("DO"),
         repeat($._do_tuning),
-        optional($._on_phrase),
+        repeat($._on_phrase),
         optional($.frame_phrase),
         $.body,
         $._block_terminator

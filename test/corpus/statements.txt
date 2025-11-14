@@ -2410,13 +2410,13 @@ MESSAGE "Enter your name:" UPDATE user-name AS CHARACTER.
         (string_literal))
       (message_statement
         (string_literal)
-          (message_color
-            (color_phrase
-              (string_literal)))
-          (alert_box_type)
-          (alert_box_buttons))
+        (message_color
+          (color_phrase
+            (string_literal)))
+        (alert_box_type)
+        (alert_box_buttons))
       (message_statement
         (string_literal)
-          (message_update
-            (identifier)
-            (primitive_type))))
+        (message_update
+          (identifier)
+          (primitive_type))))

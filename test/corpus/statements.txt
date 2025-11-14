@@ -1021,9 +1021,7 @@ END.
           (identifier))
         (body
           (message_statement
-            (string_literal)
-            (message_tuning
-              (message_alert_box)))
+            (string_literal))
           (undo_statement
             (identifier))))
       (catch_statement
@@ -1034,15 +1032,11 @@ END.
           (identifier))
         (body
           (message_statement
-            (string_literal)
-            (message_tuning
-              (message_alert_box)))))
+            (string_literal))))
       (finally_statement
         (body
           (message_statement
-            (string_literal)
-            (message_tuning
-              (message_alert_box))))))))
+            (string_literal)))))))
 
 ================================================================================
 CLASS statement
@@ -2416,17 +2410,13 @@ MESSAGE "Enter your name:" UPDATE user-name AS CHARACTER.
         (string_literal))
       (message_statement
         (string_literal)
-        (message_tuning
-          (message_color
-            (color_phrase
-              (string_literal))))
-        (message_tuning
-          (message_alert_box
-            (alert_box_type)
-            (alert_box_buttons))))
+        (message_color
+          (color_phrase
+            (string_literal)))
+        (alert_box_type)
+        (alert_box_buttons))
       (message_statement
         (string_literal)
-        (message_tuning
-          (message_update
-            (identifier)
-            (primitive_type)))))
+        (message_update
+          (identifier)
+          (primitive_type))))

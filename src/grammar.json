@@ -16244,11 +16244,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "ambiguous_expression"
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "temp_table_expression"
+          "name": "ambiguous_expression"
         },
         {
           "type": "SYMBOL",
@@ -16260,19 +16260,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dataset_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "input_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "can_find_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "new_expression"
         },
         {
           "type": "SYMBOL",

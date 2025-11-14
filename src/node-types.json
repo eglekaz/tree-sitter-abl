@@ -3092,10 +3092,6 @@
           "named": true
         },
         {
-          "type": "dataset_expression",
-          "named": true
-        },
-        {
           "type": "date_literal",
           "named": true
         },
@@ -3105,10 +3101,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "input_expression",
           "named": true
         },
         {
@@ -3136,10 +3128,6 @@
           "named": true
         },
         {
-          "type": "new_expression",
-          "named": true
-        },
-        {
           "type": "null_expression",
           "named": true
         },
@@ -3152,15 +3140,15 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
           "type": "qualified_name",
           "named": true
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "temp_table_expression",
           "named": true
         },
         {

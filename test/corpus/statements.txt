@@ -16,44 +16,44 @@ variable /= 3.
 
 (source_code
   (variable_definition
-    (identifier)
+    name: (identifier)
     (type_tuning
-      (primitive_type)))
+      type: (primitive_type)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (object_access
-        (identifier)
-        (identifier))
+      name: (object_access
+        object: (identifier)
+        property: (identifier))
       (assignment_operator)
       (string_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal)))
   (variable_assignment
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))))
 
@@ -337,6 +337,10 @@ DO x = 5 TO INTEGER("20"):
   x = 5.
 END.
 
+DO x = 5 TO property.num:
+  x = 5.
+END.
+
 DO WHILE x < 10:
   x = 5.
 END.
@@ -375,6 +379,21 @@ END.
         (arguments
           (argument
             (string_literal)))))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (qualified_name
+        (identifier)
+        (identifier)))
     (body
       (variable_assignment
         (assignment
@@ -466,6 +485,8 @@ fn-no-mode(somerpar) NO-ERROR.
 
 PersonData:GetById(id, output table ttPerson by-reference).
 
+function getData returns integer (pcFile as char) in ContextHandle.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -539,7 +560,17 @@ PersonData:GetById(id, output table ttPerson by-reference).
         (argument
           (argument_mode)
           (identifier)
-          (parameter_tuning))))))
+          (parameter_tuning)))))
+  (function_statement
+    name: (identifier)
+    (return_type
+      type: (primitive_type))
+    (parameters
+      (function_parameter
+        name: (identifier)
+        (type_tuning
+          type: (primitive_type))))
+    (identifier)))
 
 ================================================================================
 DO TRANSACTION statement
@@ -587,32 +618,75 @@ ASSIGN
   qualified.name = var + 1
 .
 
+ASSIGN 
+    var1 = var2
+  &IF {&DELIM} <> ",":U &THEN
+    tbllist = REPLACE (tbllist, {&DELIM}, ",":U)   
+  &ENDIF
+      change = yes.
+
+ASSIGN
+    MyTable.MyArray[iNum] = 2.
+
+ASSIGN
+    myVariable = MyBuffer.MyArray[iNum].
+
 --------------------------------------------------------------------------------
 
 (source_code
   (assign_statement
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (number_literal))
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (string_literal))
     (assignment
-      (identifier)
+      name: (identifier)
       (assignment_operator)
       (function_call
-        (identifier)
+        function: (identifier)
         (arguments)))
     (assignment
-      (qualified_name
+      name: (qualified_name
         (identifier)
         (identifier))
       (assignment_operator)
       (additive_expression
         (identifier)
-        (number_literal)))))
+        (number_literal))))
+  (assign_statement
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (identifier))
+    (preprocessor_directive)
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (boolean_literal)))
+  (assign_statement
+    (assignment
+      name: (array_access
+        array: (qualified_name
+          (identifier)
+          (identifier))
+        (array_literal
+          (identifier)))
+      (assignment_operator)
+      (number_literal)))
+  (assign_statement
+    (assignment
+      name: (identifier)
+      (assignment_operator)
+      (array_access
+        array: (qualified_name
+          (identifier)
+          (identifier))
+        (array_literal
+          (identifier))))))
 
 ================================================================================
 FOR EACH statement
@@ -629,6 +703,10 @@ END.
 FOR EACH Item NO-LOCK WITH STREAM-IO:
     DISPLAY something.
 END.
+
+for each Customer where Customer.id = iID while count > 0:
+  display something.
+end.
 
 --------------------------------------------------------------------------------
 
@@ -661,6 +739,22 @@ END.
     table: (identifier)
     (query_tuning)
     (frame_phrase)
+    (body
+      (abl_statement
+        statement: (identifier)
+        (identifier))))
+  (for_statement
+    table: (identifier)
+    (where_clause
+      condition: (comparison_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (identifier)))
+    (while_phrase
+      condition: (comparison_expression
+        (identifier)
+        (number_literal)))
     (body
       (abl_statement
         statement: (identifier)
@@ -926,11 +1020,8 @@ END.
           (identifier)
           (identifier))
         (body
-          (abl_statement
-            statement: (identifier)
-            (string_literal)
-            (identifier)
-            (identifier))
+          (message_statement
+            (string_literal))
           (undo_statement
             (identifier))))
       (catch_statement
@@ -940,18 +1031,12 @@ END.
           (identifier)
           (identifier))
         (body
-          (abl_statement
-            statement: (identifier)
-            (string_literal)
-            (identifier)
-            (identifier))))
+          (message_statement
+            (string_literal))))
       (finally_statement
         (body
-          (abl_statement
-            statement: (identifier)
-            (string_literal)
-            (identifier)
-            (identifier)))))))
+          (message_statement
+            (string_literal)))))))
 
 ================================================================================
 CLASS statement
@@ -1069,6 +1154,13 @@ CASE test:
   OTHERWISE c = 8.
 END CASE.
 
+CASE pData:type:
+  WHEN DataTypeHelper:GetMask(DataTypeEnum:XmlDocument) THEN
+  DO:
+    pData:save(DataTypeEnum:Memptr:ToString(), mXml).
+  END.
+END CASE.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1082,38 +1174,130 @@ END CASE.
           (body
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal)))
             (variable_assignment
               (assignment
-                (identifier)
+                name: (identifier)
                 (assignment_operator)
                 (number_literal))))))
       (case_when_branch
         (case_condition
+          (logical_expression
+            (string_literal)
+            (identifier)))
+        (case_condition
           (string_literal))
+        (variable_assignment
+          (assignment
+            name: (identifier)
+            (assignment_operator)
+            (number_literal))))
+      (case_when_branch
+        (case_condition
+          (string_literal))
+        (variable_assignment
+          (assignment
+            name: (identifier)
+            (assignment_operator)
+            (number_literal))))
+      (case_otherwise_branch
+        (variable_assignment
+          (assignment
+            name: (identifier)
+            (assignment_operator)
+            (number_literal))))))
+    (case_statement
+      (object_access
+        object: (identifier)
+        property: (identifier))
+      (body
+        (case_when_branch
+          (case_condition
+            (function_call
+              function: (object_access
+                object: (identifier)
+                property: (identifier))
+              (arguments
+                (argument
+                  (object_access
+                    object: (identifier)
+                    property: (identifier))))))
+          (do_block
+            (body
+              (function_call_statement
+                (function_call
+                  function: (object_access
+                    object: (identifier)
+                    property: (identifier))
+                  (arguments
+                    (argument
+                      (function_call
+                        function: (object_access
+                          object: (identifier)
+                          property: (identifier)
+                          property: (identifier))
+                        (arguments)))
+                    (argument
+                      (identifier)))))))))))
+
+================================================================================
+CASE statement with null expressions
+================================================================================
+
+CASE v:
+  WHEN "DEFAULT" THEN std_font = ?.
+  WHEN ? THEN std_font = 1.
+  OTHERWISE DO:
+    ASSIGN std_font = INTEGER(v) NO-ERROR.
+    IF ERROR-STATUS:ERROR THEN std_font = 1.
+  END.
+END CASE.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (case_statement
+    (identifier)
+    (body
+      (case_when_branch
         (case_condition
           (string_literal))
         (variable_assignment
           (assignment
             (identifier)
             (assignment_operator)
-            (number_literal))))
+            (null_expression))))
       (case_when_branch
         (case_condition
-          (string_literal))
+          (null_expression))
         (variable_assignment
           (assignment
             (identifier)
             (assignment_operator)
             (number_literal))))
       (case_otherwise_branch
-        (variable_assignment
-          (assignment
-            (identifier)
-            (assignment_operator)
-            (number_literal)))))))
+        (do_block
+          (body
+            (assign_statement
+              (assignment
+                (identifier)
+                (assignment_operator)
+                (function_call
+                  (identifier)
+                  (arguments
+                    (argument
+                      (identifier))))))
+            (if_statement
+              (object_access
+                (identifier)
+                (identifier))
+              (variable_assignment
+                (assignment
+                  (identifier)
+                  (assignment_operator)
+                  (number_literal))))))))))
 
 ================================================================================
 UNDO statement
@@ -1648,42 +1832,57 @@ RUN statement
 RUN getMyNumber.p(piFirstNum, piSecNum).
 RUN VALUE(programs[INDEX("12345", selection)]).
 RUN recall-query IN phand.
+RUN getMyValue.p(piFIrstNum, piSecNum, True).
 
 RUN server-error.p ON SERVER hServer
   ASYNCHRONOUS SET hRequest EVENT-PROCEDURE "procDone" IN
   THIS-PROCEDURE (OUTPUT numLines AS INTEGER).
 
+RUN "path1/path2/path3/SomeProcedure.p"(piFirstNum, piSecNum).
+RUN dir1/dir2/dir3/dir4/file.w.
+
+RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
+
 --------------------------------------------------------------------------------
 
 (source_code
   (run_statement
-    (file_name)
+    procedure: (file_name)
     (arguments
       (argument
         (identifier))
       (argument
         (identifier))))
   (run_statement
-    (function_call
-      (identifier)
+    procedure: (function_call
+      function: (identifier)
       (arguments
         (argument
           (array_access
-            (identifier)
+            array: (identifier)
             (array_literal
               (function_call
-                (identifier)
+                function: (identifier)
                 (arguments
                   (argument
                     (string_literal))
                   (argument
                     (identifier))))))))))
   (run_statement
-    (identifier)
+    procedure: (identifier)
     (run_tuning
       (identifier)))
   (run_statement
-    (file_name)
+    procedure: (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))
+      (argument
+        (boolean_literal))))
+  (run_statement
+    procedure: (file_name)
     (run_tuning
       (identifier))
     (run_tuning)
@@ -1697,7 +1896,25 @@ RUN server-error.p ON SERVER hServer
         (argument_mode)
         (identifier)
         (type_tuning
-          (primitive_type))))))
+          type: (primitive_type)))))
+  (run_statement
+    procedure: (string_literal)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (identifier))))
+  (run_statement
+    procedure: (file_name))
+  (run_statement
+    procedure: (file_name)
+    (arguments
+      (argument
+        (identifier))
+      (argument
+        (member_access
+          object: (identifier)
+          property: (identifier))))))
 
 ================================================================================
 ENUM statement
@@ -1727,6 +1944,14 @@ ENUM Direction:
                 South
                 East
                 West.
+END ENUM.
+
+ENUM StatusCode:
+    DEFINE ENUM Success = 0
+                Unknown = ?
+                Pending
+                Failed = ?
+                Complete = 1.
 END ENUM.
 
 --------------------------------------------------------------------------------
@@ -1782,7 +2007,25 @@ END ENUM.
         (enum_member
           (identifier))
         (enum_member
-          (identifier))))))
+          (identifier)))))
+  (enum_statement
+    (identifier)
+    (body
+      (enum_definition
+        (enum_member
+          (identifier)
+          (number_literal))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier))
+        (enum_member
+          (identifier)
+          (null_expression))
+        (enum_member
+          (identifier)
+          (number_literal))))))
 
 ================================================================================
 ON statement
@@ -1792,6 +2035,36 @@ ON F1 GO.
 
 ON WRITE OF Customer NEW new-cust OLD old-cust DO:
   a = 3.
+END.
+
+ON HELP OF FRAME FRAME-A ANYWHERE
+  RUN adeedit/_edithlp.p (INPUT "Save_Buffers_Dialog_Box").
+
+ON VALUE-CHANGED OF Buf_List IN FRAME FRAME-A DO:
+  RUN SelectedCount.
+END.
+
+ON ENTRY OF qbf-a, qbf-b, qbf-s, qbf-t ANYWHERE
+  RUN SetUpDown.
+
+ON CHOOSE OF b_auto_insert OR LEAVE OF mi.lbl IN FRAME menu_edit DO:
+  DEF VAR n AS CHAR NO-UNDO.
+END.
+
+ON CHOOSE OF BtnHelp IN FRAME Dialog-Frame
+OR HELP OF FRAME {&FRAME-NAME}
+  DO:
+    RUN adecomm/_adehelp.p ("AB":U, "CONTEXT":U, iHelpcontext, ?). 
+  END.
+
+ON CHOOSE OF BtnOK 
+OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
+  IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
+END.
+
+ON "GO" OF FRAME FldPicker DO:
+     IF v_MapLst:LIST-ITEMS IN FRAME FldPicker = ? THEN
+        ASSIGN p_Result = "":U.
 END.
 
 --------------------------------------------------------------------------------
@@ -1811,5 +2084,339 @@ END.
           (assignment
             name: (identifier)
             (assignment_operator)
-            (number_literal)))))))
+            (number_literal))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (file_name)
+      (arguments
+        (argument
+          (argument_mode)
+          (string_literal)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (do_block
+      (body
+        (run_statement
+          procedure: (identifier)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (run_statement
+      procedure: (identifier)))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (qualified_name
+      (identifier)
+      (identifier))
+    (identifier)
+    (do_block
+      (body
+        (variable_definition
+          name: (identifier)
+          (type_tuning
+            type: (primitive_type))
+          (variable_tuning)))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (run_statement
+          procedure: (file_name)
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))
+            (argument
+              (null_expression)))))))
+  (on_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (constant
+      (identifier))
+    (do_block
+      (body
+        (if_statement
+          condition: (object_access
+            object: (identifier)
+            property: (identifier))
+          (return_statement)))))
+    (on_statement
+    (string_literal)
+    (identifier)
+    (do_block
+      (body
+        (if_statement
+          condition: (comparison_expression
+            (in_frame_phrase
+              (object_access
+                object: (identifier)
+                property: (identifier))
+              frame: (identifier))
+            (null_expression))
+          (assign_statement
+            (assignment
+              name: (identifier)
+              (assignment_operator)
+              (string_literal
+                (string_literal_attribute)))))))))
 
+================================================================================
+IF statement with IN FRAME
+================================================================================
+
+IF qbf-s:SCREEN-VALUE IN FRAME qbf-area = qbf-c THEN
+  qbf-s = qbf-l-cat[qbf-i].
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (comparison_expression
+          (in_frame_phrase
+            (object_access
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier))
+        (variable_assignment
+          (assignment
+            (identifier)
+            (assignment_operator)
+            (array_access
+              (identifier)
+              (array_literal
+                (identifier)))))))
+
+================================================================================
+RETURN statement
+================================================================================
+
+return error .
+
+RETURN ERROR mye.
+
+return this-object .
+
+RETURN "Operation completed successfully".
+
+RETURN 404.
+
+RETURN TRUE.
+
+RETURN NULL.
+
+RETURN GetUserAge(userId).
+
+RETURN userProfile:getFullName().
+
+RETURN orderDetails.totalAmount.
+
+RETURN cartItems[0].
+
+RETURN NEW Invoice(customerId, amount).
+
+RETURN (balance + deposit) * 0.95.
+
+RETURN -pendingCount.
+
+RETURN price * quantity + tax.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement)
+      (return_statement
+        (identifier))
+      (return_statement
+        (identifier))
+      (return_statement
+        (string_literal))
+      (return_statement
+        (number_literal))
+      (return_statement
+        (boolean_literal))
+      (return_statement
+        (identifier))
+      (return_statement
+        (function_call
+          (identifier)
+          (arguments
+            (argument
+              (identifier)))))
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments)))
+      (return_statement
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (return_statement
+        (array_access
+          (identifier)
+          (array_literal
+            (number_literal))))
+      (return_statement
+        (new_expression
+          (identifier)
+          (arguments
+            (argument
+              (identifier))
+            (argument
+              (identifier)))))
+      (return_statement
+        (multiplicative_expression
+          (parenthesized_expression
+            (additive_expression
+              (identifier)
+              (identifier)))
+          (number_literal)))
+      (return_statement
+        (unary_expression
+          (identifier)))
+      (return_statement
+        (additive_expression
+          (multiplicative_expression
+            (identifier)
+            (identifier))
+          (identifier))))
+
+================================================================================
+RETURN and IF statements
+================================================================================
+
+return error if return-value > "" then return-value else error-status:get-message(1) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (ternary_expression
+          (comparison_expression
+            (identifier)
+            (string_literal))
+          (identifier)
+          (function_call
+            (object_access
+              (identifier)
+              (identifier))
+            (arguments
+              (argument
+                (number_literal)))))))
+
+================================================================================
+IF and RETURN statements
+================================================================================
+
+IF RETURN-VALUE > "":U AND RETURN-VALUE <> cReturnValue THEN
+                UNDO, THROW NEW WowError(RETURN-VALUE, 0) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (if_statement
+        (logical_expression
+          (comparison_expression
+            (identifier)
+            (string_literal
+              (string_literal_attribute)))
+          (comparison_expression
+            (identifier)
+            (identifier)))
+        (undo_statement
+          (new_expression
+            (identifier)
+            (arguments
+              (argument
+                (identifier))
+              (argument
+                (number_literal)))))))
+
+
+================================================================================
+RETURN statement object access
+================================================================================
+
+return oTableModel:NewCharacterFilter ("Contact":u, this-object) .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments
+            (argument
+              (string_literal
+                (string_literal_attribute)))
+            (argument
+              (identifier))))))
+
+================================================================================
+RETURN statement this object access
+================================================================================
+
+    return this-object:RefCall:Available .
+--------------------------------------------------------------------------------
+
+    (source_code
+      (return_statement
+        (object_access
+          (identifier)
+          (identifier)
+          (identifier))))
+
+================================================================================
+MESSAGE statement
+================================================================================
+
+MESSAGE "Hello world".
+
+MESSAGE "You have" cust-name SKIP(1) "records".
+
+MESSAGE "Operation complete." COLOR VALUE("BLUE")
+    VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+
+MESSAGE "Enter your name:" UPDATE user-name AS CHARACTER.
+--------------------------------------------------------------------------------
+
+    (source_code
+      (message_statement
+        (string_literal))
+      (message_statement
+        (string_literal)
+        (identifier)
+        (parenthesized_expression
+          (number_literal))
+        (string_literal))
+      (message_statement
+        (string_literal)
+        (message_color
+          (color_phrase
+            (string_literal)))
+        (alert_box_type)
+        (alert_box_buttons))
+      (message_statement
+        (string_literal)
+        (message_update
+          (identifier)
+          (primitive_type))))

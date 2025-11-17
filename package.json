@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-abl",
-  "version": "0.0.49",
+  "version": "0.1.0",
   "description": "ABL grammar for tree-sitter",
   "repository": "https://github.com/eglekaz/tree-sitter-abl",
   "keywords": [
@@ -10,6 +10,7 @@
     "abl"
   ],
   "main": "bindings/node",
+
   "scripts": {
     "generate": "tree-sitter generate",
     "build": "tree-sitter generate && node-gyp build",

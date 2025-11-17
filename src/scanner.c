@@ -20,7 +20,8 @@ enum TokenType {
   DEF_KEYWORD,
   VAR_KEYWORD,
   INDEX_KEYWORD,
-  FIELD_KEYWORD
+  FIELD_KEYWORD,
+  RETURN_KEYWORD
 };
 
 void * tree_sitter_abl_external_scanner_create() {
@@ -92,6 +93,7 @@ bool tree_sitter_abl_external_scanner_scan(
   if (valid_symbols[VAR_KEYWORD] && match_keyword(lexer, "VAR", VAR_KEYWORD)) return true;
   if (valid_symbols[INDEX_KEYWORD] && match_keyword(lexer, "INDEX", INDEX_KEYWORD)) return true;
   if (valid_symbols[FIELD_KEYWORD] && match_keyword(lexer, "FIELD", FIELD_KEYWORD)) return true;
+  if (valid_symbols[RETURN_KEYWORD] && match_keyword(lexer, "RETURN", RETURN_KEYWORD)) return true;
 
   if (valid_symbols[AUGMENTED_ASSIGNMENT]) {
     while (!lexer->eof(lexer) && iswspace(lexer->lookahead)) {
@@ -114,13 +116,34 @@ bool tree_sitter_abl_external_scanner_scan(
     char start = lexer->lookahead;
     lexer->advance(lexer, false);
 
-    while (!lexer->eof(lexer) && lexer->lookahead != start) {
-      if (lexer->lookahead == '~') {
+    // while (!lexer->eof(lexer) && lexer->lookahead != start) {
+    //   if (lexer->lookahead == '~') {
+    //     lexer->advance(lexer, false);
+    //     if (!lexer->eof(lexer))
+    //       lexer->advance(lexer, false);
+    //   }
+    //   else lexer->advance(lexer, false);
+    // }
+
+    while (!lexer->eof(lexer)) {
+      if (lexer->lookahead == start) {
+        lexer->advance(lexer, false);
+        // Check for embedded double quote ("")
+        if (lexer->lookahead == start) {
+          // Embedded quote, consume and continue
+          lexer->advance(lexer, false);
+          continue;
+        }
+        // End of string
+        lexer->result_symbol = ESCAPED_STRING;
+        return true;
+      } else if (lexer->lookahead == '~') {
         lexer->advance(lexer, false);
         if (!lexer->eof(lexer))
           lexer->advance(lexer, false);
+      } else {
+        lexer->advance(lexer, false);
       }
-      else lexer->advance(lexer, false);
     }
 
     if (!lexer->eof(lexer) && lexer->lookahead == start) {

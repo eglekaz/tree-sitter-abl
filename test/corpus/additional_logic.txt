@@ -1,4 +1,16 @@
 ================================================================================
+PROPARSE DIRECTIVE CONSTANT
+================================================================================
+
+{&_proparse_ prolint-nowarn(overflow)}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (constant
+    (identifier)))
+    
+================================================================================
 Preprocessor Directives
 ================================================================================
 
@@ -48,6 +60,29 @@ DISPLAY {&VAR1}.
     (identifier)
     (constant
       (identifier))))
+
+================================================================================
+INCLUDE with procedure calls
+================================================================================
+
+{get ObjectType cObjectType phInstance}
+{set ObjectType cObjectType phInstance}
+{method-call param1 param2 param3}
+{ {&dir}/helper.i arg1 arg2}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (include
+    (file_name))
+  (include
+    (file_name))
+  (include
+    (file_name))
+  (include
+    (file_name
+      (constant
+        (identifier)))))
 
 ================================================================================
 COMMENT
@@ -107,6 +142,8 @@ END CLASS.
 PROCEDURE TestP1:
 END PROCEDURE.
 
+
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -139,3 +176,35 @@ END PROCEDURE.
   (procedure_statement
     (identifier)
     (body)))
+
+================================================================================
+METHOD statement (top-level)
+================================================================================
+
+method public static void Type (input pArgument as Object):
+define variable oDerivedClass as Progress.Lang.Class no-undo.
+end method.
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (method_statement
+    (access_tuning)
+    (scope_tuning)
+    (return_type (primitive_type))
+    name: (identifier)
+    (parameters
+      (function_parameter
+        (argument_mode)
+        name: (identifier)
+        (type_tuning 
+          type: (identifier))))
+    (body
+      (variable_definition
+        name: (identifier)
+        (type_tuning
+          type: (qualified_name
+            (identifier)
+            (identifier)
+            (identifier)))
+        (variable_tuning)))))

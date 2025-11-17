@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-abl",
-  "version": "0.0.51",
+  "version": "0.1.0",
   "description": "ABL grammar for tree-sitter",
   "repository": "https://github.com/eglekaz/tree-sitter-abl",
   "keywords": [

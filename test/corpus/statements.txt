@@ -598,11 +598,8 @@ END.
     (on_endkey_phrase
       (action_phrase))
     (body
-      (abl_statement
-        statement: (identifier)
-        (string_literal)
-        (identifier)
-        (identifier)))))
+      (message_statement
+        (string_literal)))))
 
 ================================================================================
 ABL statements

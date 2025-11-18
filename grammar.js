@@ -1941,11 +1941,11 @@ module.exports = grammar({
       ),
 
     return_statement: ($) =>
-      seq(
+      prec(1, seq(
         alias($._return_keyword, "RETURN"),
         optional($._return_action),
         $._terminator
-      ),
+      )),
 
     input_output_statement: ($) =>
       seq(

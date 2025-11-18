@@ -28,7 +28,8 @@ module.exports = grammar({
     $._def_keyword,
     $._var_keyword,
     $._index_keyword,
-    $._field_keyword
+    $._field_keyword,
+    $._return_keyword
   ],
   extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   word: ($) => $.identifier,
@@ -55,7 +56,7 @@ module.exports = grammar({
     
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
-    _statement_body: ($) => choice($.do_block, prec(2, $._statement)),
+    _statement_body: ($) => choice($.do_block, prec(2, $._statement), $.constant),
 
     dot_body: ($) => seq(choice(":", "."), repeat(choice($._statement, $._definition))),
 
@@ -155,11 +156,16 @@ module.exports = grammar({
 
     _name: ($) => choice($.identifier, $.qualified_name),
 
-    file_name: ($) => /[A-z-_|0-9|\/]+\.[ip]/i,
+    file_name: ($) => /[A-z-_|0-9|\/]+\.[ipwr]/i,
 
-    // TODO: FIX: Comments inside comments caused memory leak
+    // TODO: FIX
     comment: ($) =>
       choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+    // Note: This was initial solution for comments inside comments. Does not work
+    //  choice(
+    //     seq("//", /.*/),
+    //     seq("/*", repeat(choice(/[^*]/, /\*+[^/*]/)), /\*+\//)
+    //   ),
 
     annotation: ($) =>
       seq(
@@ -375,6 +381,106 @@ module.exports = grammar({
         kw("SUB-MINIMUM"),
         kw("SUB-TOTAL")
       ),
+
+    _message_tuning: ($) =>
+      choice(
+        $.message_color,
+        $._message_alert_box,
+        $.message_update,
+        $.message_pause,
+        kw("NO-ERROR")
+    ),
+
+    message_color: ($) =>
+      seq(
+        kw("COLOR"),
+        $.color_phrase
+      ),
+
+    color_phrase: ($) =>
+      choice(
+        kw("NORMAL"),
+        kw("INPUT"),
+        kw("MESSAGES"),
+        seq(
+          optional(
+            choice(
+              kw("BLINK-"),
+              kw("RVV-"),
+              kw("UNDERLINE-"),
+              kw("BRIGHT-")
+            )
+          ),
+          choice($.string_literal, $.identifier)
+        ),
+
+        seq(
+          kw("VALUE"),
+          "(", $._expression, 
+          ")")
+      ),
+    
+    _message_alert_box: ($) =>
+      seq(
+        kw("VIEW-AS"),
+        kw("ALERT-BOX"),
+        optional($.alert_box_type),
+        optional($.alert_box_buttons),
+        optional(seq(kw("TITLE"), choice($.string_literal, $.additive_expression)))
+      ),
+
+    alert_box_type: ($) =>
+      choice(
+        kw("MESSAGE"),
+        kw("INFORMATION"),
+        kw("INFO"),
+        kw("WARNING"),
+        kw("ERROR"),
+        kw("QUESTION")
+      ),
+
+    alert_box_buttons: ($) =>
+      seq(
+        kw("BUTTONS"),
+        choice(
+          kw("OK"),
+          kw("CANCEL"),
+          kw("OK-CANCEL"),
+          kw("YES-NO"),
+          kw("YES-NO-CANCEL"),
+          kw("OK-HELP"),
+          kw("YES-NO-HELP"),
+          $.identifier,
+          $.string_literal
+        )
+      ),
+
+    message_update: ($) =>
+      seq(
+        choice(
+          kw("UPDATE"),
+          kw("SET")
+        ),
+        $._name,
+        repeat(
+          choice(
+            seq(
+              choice(
+                kw("AS"),
+                kw("LIKE")),
+                $._type
+              ),
+              seq(
+                kw("FORMAT"),
+                $.string_literal
+              ),
+              kw("AUTO-RETURN")
+          )
+        ),
+      ),
+
+    message_pause:($) => kw("PAUSE"),
+    
 
     // button_tuning: ($) =>
     //   choice(
@@ -632,7 +738,7 @@ module.exports = grammar({
       seq($._name, $.generic_expression),
 
     return_type: ($) =>
-      seq(choice(kw("RETURNS"), kw("RETURN")), field("type", $._type)),
+      seq(choice(kw("RETURNS"), alias($._return_keyword, "RETURN")), field("type", $._type)),
 
     member_modifier: ($) => choice(kw("ABSTRACT"), kw("OVERRIDE"), kw("FINAL")),
 
@@ -645,7 +751,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          field("array", choice($.identifier, $.object_access)),
+          field("array", choice($.identifier, $.qualified_name, $.object_access)),
           $.array_literal,
         )
       ),
@@ -672,7 +778,7 @@ module.exports = grammar({
           choice(
             $.ternary_expression,
             seq(
-              choice($._name, $.object_access),
+              choice($._name, $.object_access, $.member_access),
               optional($.type_tuning)
             ),
             seq(
@@ -692,7 +798,8 @@ module.exports = grammar({
             $.constant,
             $._binary_expression,
             $.unary_expression,
-            $.function_call
+            $.function_call,
+            $.boolean_literal
           ),
           repeat($.parameter_tuning)
         )
@@ -897,7 +1004,7 @@ module.exports = grammar({
         seq(kw("NEXT"), optional(field("label", $.identifier))),
         seq(kw("RETRY"), optional(field("label", $.identifier))),
         seq(
-          kw("RETURN"),
+          alias($._return_keyword, "RETURN"),
           $._return_action
         )
       ),
@@ -917,7 +1024,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
-        choice($.function_call, $._integer_literal, $.identifier, $.object_access),
+        choice($.function_call, $._integer_literal, $._name, $.object_access),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
@@ -1515,7 +1622,7 @@ module.exports = grammar({
       seq(
         $._define,
         optional(
-          choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT"), kw("RETURN"))
+          choice(alias($._input_keyword, "INPUT"), alias($._output_keyword, "OUTPUT"), kw("INPUT-OUTPUT"), alias($._return_keyword, "RETURN"))
         ),
         choice(kw("PARAMETER"), kw("PARAM")),
         optional($._parameter_definition_option),
@@ -1665,6 +1772,27 @@ module.exports = grammar({
 
     // STATEMENTS
 
+    message_statement:($) =>
+      seq(
+        kw("MESSAGE"),
+        repeat1(
+          choice(
+            $._expression,
+            seq(
+              kw("SKIP"),
+              optional(seq("(", $._integer_literal, ")"))
+            )
+          )
+        ),
+        repeat($._message_tuning),
+        optional(seq(
+          kw("IN"),
+          kw("WINDOW"),
+          $._name
+        )),
+        $._terminator
+    ),
+
     null_statement: ($) => seq($.object_access, $._terminator),
 
     using_statement: ($) =>
@@ -1813,7 +1941,7 @@ module.exports = grammar({
 
     return_statement: ($) =>
       seq(
-        kw("RETURN"),
+        alias($._return_keyword, "RETURN"),
         optional($._return_action),
         $._terminator
       ),
@@ -1848,7 +1976,7 @@ module.exports = grammar({
         optional($.label),
         alias($._for_keyword, "FOR"),
         _list($._for_phrase, ","),
-        repeat(choice($._on_phrase, $.frame_phrase)),
+        repeat(choice($._on_phrase, $.frame_phrase, $.while_phrase)),
         $.body,
         $._block_terminator
       ),
@@ -1978,7 +2106,7 @@ module.exports = grammar({
         kw("RUN"),
         field(
           "procedure",
-          choice($._name, $.function_call, $.file_name)
+          choice($._name, $.function_call, $.file_name, $.string_literal)
         ),
         repeat($.run_tuning),
         optional(alias($.function_arguments, $.arguments)),
@@ -2248,6 +2376,7 @@ module.exports = grammar({
     _statement: ($) =>
       choice(
         $.var_statement,
+        $.message_statement,
         $.null_statement,
         $.procedure_statement,
         $.function_statement,
@@ -2266,8 +2395,6 @@ module.exports = grammar({
         $.undo_statement,
         $.error_scope_statement,
         $.using_statement,
-        // $.class_statement,
-        // $.interface_statement,
         $.on_statement,
         $.prompt_for_statement,
         $.release_statement,
@@ -2275,10 +2402,7 @@ module.exports = grammar({
         $.enum_statement,
         $.abl_statement,
 
-        // $._definition,
-
         $.variable_assignment,
-        // $.do_block,
         $.preprocessor_directive,
         $.include,
         $.annotation //TODO: Check should it be in supertype

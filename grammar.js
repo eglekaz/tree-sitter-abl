@@ -44,6 +44,7 @@ module.exports = grammar({
     [$.size_phrase, $.frame_definition],
     [$.dataset_expression, $.object_access],
     [$.in_frame_phrase, $._expression],
+    [$.in_frame_phrase, $._message_statement_expression],
     [$.include, $.constant],
     [$.include_argument],
     [$.include_argument, $._constant_value],
@@ -1777,7 +1778,7 @@ module.exports = grammar({
         kw("MESSAGE"),
         repeat1(
           choice(
-            $._expression,
+            $._message_statement_expression,
             seq(
               kw("SKIP"),
               optional(seq("(", $._integer_literal, ")"))
@@ -2336,6 +2337,33 @@ module.exports = grammar({
         $.unary_expression,
         $._binary_expression
       ),
+
+  _message_statement_expression: ($) => 
+    choice(
+      $.unary_expression,
+      $.null_expression,
+      $.ternary_expression,
+      $.available_expression,
+      $.accumulate_expression,
+      $.parenthesized_expression,
+      $.ambiguous_expression,
+      $.current_changed_expression,
+      $.locked_expression,
+      $.can_find_expression,
+      $.additive_expression,
+      $.multiplicative_expression,
+      $.boolean_literal,
+      $.string_literal,
+      $.date_literal,
+      $.number_literal,
+      $.array_literal,
+      $.object_access,
+      $.member_access,
+      $.array_access,
+      $.function_call,
+      $._name,
+      $.constant
+    ),
 
     // SUPERTYPES
 

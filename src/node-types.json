@@ -2384,6 +2384,101 @@
     }
   },
   {
+    "type": "function_call_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_mode",
+          "named": true
+        },
+        {
+          "type": "array_access",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "input_expression",
+          "named": true
+        },
+        {
+          "type": "logical_expression",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "multiplicative_expression",
+          "named": true
+        },
+        {
+          "type": "null_expression",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "object_access",
+          "named": true
+        },
+        {
+          "type": "parameter_tuning",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "type_tuning",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_call_statement",
     "named": true,
     "fields": {},
@@ -4351,6 +4446,10 @@
           "named": true
         },
         {
+          "type": "function_call_argument",
+          "named": true
+        },
+        {
           "type": "run_tuning",
           "named": true
         }
@@ -6086,6 +6185,10 @@
     "named": false
   },
   {
+    "type": "LIST-BOX",
+    "named": false
+  },
+  {
     "type": "LIST-ITEM-PAIRS",
     "named": false
   },
@@ -6459,6 +6562,10 @@
   },
   {
     "type": "SCROLLING",
+    "named": false
+  },
+  {
+    "type": "SELECTION-LIST",
     "named": false
   },
   {

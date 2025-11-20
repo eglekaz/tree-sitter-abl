@@ -12,6 +12,8 @@ variable -= 4.
 variable *= 2.
 variable /= 3.
 
+ERROR-STATUS:ERROR = FALSE NO-ERROR.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -55,7 +57,15 @@ variable /= 3.
     (assignment
       name: (identifier)
       (assignment_operator)
-      (number_literal))))
+      (number_literal)))
+  (variable_assignment
+    (assignment
+      name: (object_access
+        object: (identifier)
+        property: (identifier))
+        (assignment_operator)
+        (boolean_literal)
+        (identifier))))
 
 ================================================================================
 IF statement
@@ -630,6 +640,8 @@ ASSIGN
 
 ASSIGN
     myVariable = MyBuffer.MyArray[iNum].
+
+
 
 --------------------------------------------------------------------------------
 
@@ -1843,6 +1855,8 @@ RUN dir1/dir2/dir3/dir4/file.w.
 
 RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
 
+RUN product/dump/lod_raw.p 256.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1914,7 +1928,11 @@ RUN myProcedure.p(iNum, hDbDetail::_db-mac-key).
       (argument
         (member_access
           object: (identifier)
-          property: (identifier))))))
+          property: (identifier)))))
+  (run_statement
+    procedure: (file_name)
+    (function_call_argument
+      (number_literal))))
 
 ================================================================================
 ENUM statement

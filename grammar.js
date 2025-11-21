@@ -1025,6 +1025,7 @@ module.exports = grammar({
       seq(
         $.assignment,
         kw("TO"),
+        optional(choice(kw("BROWSE"), kw("SELECTION-LIST"), kw("LIST-BOX"))),
         choice($.function_call, $._integer_literal, $._name, $.object_access),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
@@ -1892,6 +1893,7 @@ module.exports = grammar({
             )
           ),
           $.assignment_operator,
+          optional($.boolean_literal),
           prec.right(choice($._expression, $.include)),
           optional($.when_expression),
           optional(seq(kw("IN"), $._frame))
@@ -2109,6 +2111,7 @@ module.exports = grammar({
           "procedure",
           choice($._name, $.function_call, $.file_name, $.string_literal)
         ),
+        optional($.function_call_argument),
         repeat($.run_tuning),
         optional(alias($.function_arguments, $.arguments)),
         optional(kw("NO-ERROR")),

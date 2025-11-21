@@ -580,6 +580,10 @@ DO TRANSACTION:
   CREATE x.
 END.
 
+DO TRANSACTION ON STOP UNDO, NEXT ON ENDKEY UNDO, LEAVE:
+    MESSAGE "Test" VIEW-AS ALERT-BOX.
+END.
+
 --------------------------------------------------------------------------------
 
 (source_code
@@ -587,7 +591,15 @@ END.
     (body
       (abl_statement
         statement: (identifier)
-        (identifier)))))
+        (identifier))))
+  (do_block
+    (on_stop_phrase
+      (action_phrase))
+    (on_endkey_phrase
+      (action_phrase))
+    (body
+      (message_statement
+        (string_literal)))))
 
 ================================================================================
 ABL statements

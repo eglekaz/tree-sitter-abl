@@ -1872,7 +1872,7 @@ module.exports = grammar({
         $._block_terminator
       ),
 
-    variable_assignment: ($) => seq($.assignment, $._terminator),
+    variable_assignment: ($) => seq($.assignment, optional(kw("NO-ERROR")), $._terminator),
 
     assignment: ($) =>
       prec.right(
@@ -1893,7 +1893,6 @@ module.exports = grammar({
             )
           ),
           $.assignment_operator,
-          optional($.boolean_literal),
           prec.right(choice($._expression, $.include)),
           optional($.when_expression),
           optional(seq(kw("IN"), $._frame))

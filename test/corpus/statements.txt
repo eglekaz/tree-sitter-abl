@@ -64,8 +64,7 @@ ERROR-STATUS:ERROR = FALSE NO-ERROR.
         object: (identifier)
         property: (identifier))
         (assignment_operator)
-        (boolean_literal)
-        (identifier))))
+        (boolean_literal))))
 
 ================================================================================
 IF statement

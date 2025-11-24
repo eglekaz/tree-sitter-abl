@@ -355,6 +355,10 @@ DO WHILE x < 10:
   x = 5.
 END.
 
+DO i = 1 TO iNum + 1:
+  x = 5.
+END.
+
 z:
 DO x = 5 TO 20:
   LEAVE z.
@@ -413,6 +417,21 @@ END.
   (do_block
     (while_phrase
       (comparison_expression
+        (identifier)
+        (number_literal)))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (additive_expression
         (identifier)
         (number_literal)))
     (body
@@ -955,6 +974,9 @@ INPUT CLOSE.
 INPUT STREAM-HANDLE hi FROM VALUE(in).
 INPUT CLOSE.
 
+INPUT FROM VALUE(myFile.json) NO-ECHO NO-MAP
+CONVERT TARGET ToPage Source FromPage.
+
 OUTPUT STREAM o TO "CLIPBOARD".
 OUTPUT CLOSE.
 
@@ -994,6 +1016,19 @@ OUTPUT CLOSE.
         (argument
           (identifier)))))
   (input_output_statement)
+  (input_output_statement
+    (function_call
+      function: (identifier)
+      (arguments
+        (argument
+          (qualified_name
+            (identifier)
+            (identifier)))))
+    (stream_flag)
+    (stream_flag)
+    (stream_tuning
+      (identifier)
+      (identifier)))
   (input_output_statement
     name: (identifier)
     (string_literal))

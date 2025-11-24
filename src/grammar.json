@@ -3507,8 +3507,17 @@
                       "value": "TARGET"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "string_literal"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "string_literal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3540,8 +3549,17 @@
                       "value": "SOURCE"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "string_literal"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "string_literal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -7389,6 +7407,14 @@
             {
               "type": "SYMBOL",
               "name": "object_access"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "multiplicative_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "additive_expression"
             }
           ]
         },
@@ -13906,14 +13932,14 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "stream_tuning"
+            "name": "stream_flag"
           }
         },
         {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "stream_flag"
+            "name": "stream_tuning"
           }
         },
         {

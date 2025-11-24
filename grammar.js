@@ -577,8 +577,8 @@ module.exports = grammar({
         seq(kw("MAP"), $.identifier),
         seq(
           kw("CONVERT"),
-          optional(seq(kw("TARGET"), $.string_literal)),
-          optional(seq(kw("SOURCE"), $.string_literal))
+          optional(seq(kw("TARGET"), choice($.identifier, $.string_literal))),
+          optional(seq(kw("SOURCE"), choice($.identifier, $.string_literal)))
         ),
       ),
 
@@ -1026,7 +1026,7 @@ module.exports = grammar({
         $.assignment,
         kw("TO"),
         optional(choice(kw("BROWSE"), kw("SELECTION-LIST"), kw("LIST-BOX"))),
-        choice($.function_call, $._integer_literal, $._name, $.object_access),
+        choice($.function_call, $._integer_literal, $._name, $.object_access, $.multiplicative_expression, $.additive_expression),
         optional(seq(kw("BY"), choice($._integer_literal, $.unary_expression)))
       ),
 
@@ -1959,8 +1959,8 @@ module.exports = grammar({
           ),
         ),
         $._input_output_option,
-        repeat($.stream_tuning),
         repeat($.stream_flag),
+        repeat($.stream_tuning),
         optional($.constant),
         $._terminator
       ),

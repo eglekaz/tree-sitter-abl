@@ -4940,6 +4940,10 @@
       "required": true,
       "types": [
         {
+          "type": "additive_expression",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -4949,6 +4953,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "multiplicative_expression",
           "named": true
         },
         {

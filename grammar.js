@@ -1879,7 +1879,7 @@ module.exports = grammar({
         $._block_terminator
       ),
 
-    variable_assignment: ($) => seq($.assignment, $._terminator),
+    variable_assignment: ($) => seq($.assignment, optional(kw("NO-ERROR")), $._terminator),
 
     assignment: ($) =>
       prec.right(
@@ -1900,7 +1900,6 @@ module.exports = grammar({
             )
           ),
           $.assignment_operator,
-          optional($.boolean_literal),
           prec.right(choice($._expression, $.include)),
           optional($.when_expression),
           optional(seq(kw("IN"), $._frame))
@@ -1937,7 +1936,7 @@ module.exports = grammar({
         repeat($._repeat_phrase),
         optional($.preselect_phrase),
         optional($.while_phrase),
-        optional($._on_phrase),
+        repeat($._on_phrase),
         $.body,
         $._block_terminator
       ),
@@ -1950,11 +1949,11 @@ module.exports = grammar({
       ),
 
     return_statement: ($) =>
-      seq(
+      prec(1, seq(
         alias($._return_keyword, "RETURN"),
         optional($._return_action),
         $._terminator
-      ),
+      )),
 
     input_output_statement: ($) =>
       seq(
@@ -2139,7 +2138,7 @@ module.exports = grammar({
         optional($.label),
         kw("DO"),
         repeat($._do_tuning),
-        optional($._on_phrase),
+        repeat($._on_phrase),
         optional($.frame_phrase),
         $.body,
         $._block_terminator

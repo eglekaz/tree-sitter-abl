@@ -3409,9 +3409,17 @@
     "named": true,
     "fields": {
       "object": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "BROWSE",
+            "named": false
+          },
+          {
+            "type": "FRAME",
+            "named": false
+          },
           {
             "type": "constant",
             "named": true

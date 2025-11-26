@@ -48,7 +48,8 @@ module.exports = grammar({
     [$.include, $.constant],
     [$.include_argument],
     [$.include_argument, $._constant_value],
-    [$._literal, $._expression]
+    [$._literal, $._expression],
+    [$._widget_scoped_identifier, $._name]
   ],
 
   rules: {
@@ -877,10 +878,16 @@ module.exports = grammar({
       prec(2, seq(
         field(
           "object",
-          choice($.new_expression, $.function_call, $.constant, $._name)
+          choice($._widget_scoped_identifier, $.new_expression, $.function_call, $.constant, $._name)
         ),
         repeat1(seq(alias($._namecolon, ":"), field("property", $.identifier)))
       )),
+
+    _widget_scoped_identifier: $ =>
+      seq(
+        choice(kw("BROWSE"), kw("FRAME")), 
+        $.identifier
+      ),
 
     member_access: ($) =>
       seq(

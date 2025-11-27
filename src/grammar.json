@@ -3507,8 +3507,17 @@
                       "value": "TARGET"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "string_literal"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "string_literal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3540,8 +3549,17 @@
                       "value": "SOURCE"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "string_literal"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "string_literal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -7389,6 +7407,14 @@
             {
               "type": "SYMBOL",
               "name": "object_access"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "multiplicative_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "additive_expression"
             }
           ]
         },
@@ -13917,14 +13943,14 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "stream_tuning"
+            "name": "stream_flag"
           }
         },
         {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "stream_flag"
+            "name": "stream_tuning"
           }
         },
         {
@@ -14014,6 +14040,143 @@
                 {
                   "type": "SYMBOL",
                   "name": "function_call"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[tT][hH][rR][oO][uU][gG][hH]"
+                  }
+                }
+              },
+              "named": false,
+              "value": "THROUGH"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "TOKEN",
+                        "content": {
+                          "type": "PREC",
+                          "value": 1,
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[vV][aA][lL][uU][eE]"
+                          }
+                        }
+                      },
+                      "named": false,
+                      "value": "VALUE"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "("
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ")"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "number_literal"
+                  },
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "TOKEN",
+                          "content": {
+                            "type": "PREC",
+                            "value": 1,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[vV][aA][lL][uU][eE]"
+                            }
+                          }
+                        },
+                        "named": false,
+                        "value": "VALUE"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "("
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_expression"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ">"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
                 }
               ]
             }

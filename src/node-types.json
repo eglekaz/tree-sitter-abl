@@ -2955,11 +2955,7 @@
       "required": false,
       "types": [
         {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "function_call",
+          "type": "_expression",
           "named": true
         },
         {
@@ -2968,10 +2964,6 @@
         },
         {
           "type": "stream_tuning",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         }
       ]
@@ -4940,6 +4932,10 @@
       "required": true,
       "types": [
         {
+          "type": "additive_expression",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -4949,6 +4945,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "multiplicative_expression",
           "named": true
         },
         {
@@ -6734,6 +6734,10 @@
   },
   {
     "type": "THIS-PROCEDURE",
+    "named": false
+  },
+  {
+    "type": "THROUGH",
     "named": false
   },
   {

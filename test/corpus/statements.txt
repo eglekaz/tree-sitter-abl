@@ -354,6 +354,10 @@ DO WHILE x < 10:
   x = 5.
 END.
 
+DO i = 1 TO iNum + 1:
+  x = 5.
+END.
+
 z:
 DO x = 5 TO 20:
   LEAVE z.
@@ -412,6 +416,21 @@ END.
   (do_block
     (while_phrase
       (comparison_expression
+        (identifier)
+        (number_literal)))
+    (body
+      (variable_assignment
+        (assignment
+          (identifier)
+          (assignment_operator)
+          (number_literal)))))
+  (do_block
+    (to_phrase
+      (assignment
+        (identifier)
+        (assignment_operator)
+        (number_literal))
+      (additive_expression
         (identifier)
         (number_literal)))
     (body
@@ -652,8 +671,6 @@ ASSIGN
 ASSIGN
     myVariable = MyBuffer.MyArray[iNum].
 
-
-
 --------------------------------------------------------------------------------
 
 (source_code
@@ -710,7 +727,6 @@ ASSIGN
           (identifier))
         (array_literal
           (identifier))))))
-
 ================================================================================
 FOR EACH statement
 ================================================================================
@@ -966,12 +982,17 @@ INPUT CLOSE.
 INPUT STREAM-HANDLE hi FROM VALUE(in).
 INPUT CLOSE.
 
+INPUT FROM VALUE(myFile.json) NO-ECHO NO-MAP
+CONVERT TARGET ToPage Source FromPage.
+
 OUTPUT STREAM o TO "CLIPBOARD".
 OUTPUT CLOSE.
 
 OUTPUT STREAM-HANDLE ho TO "CLIPBOARD".
 OUTPUT CLOSE.
 
+OUTPUT THROUGH crypt mypass > ecust.
+INPUT THROUGH r-iothru UNBUFFERED.
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1006,13 +1027,33 @@ OUTPUT CLOSE.
           (identifier)))))
   (input_output_statement)
   (input_output_statement
+    (function_call
+      function: (identifier)
+      (arguments
+        (argument
+          (qualified_name
+            (identifier)
+            (identifier)))))
+    (stream_flag)
+    (stream_flag)
+    (stream_tuning
+      (identifier)
+      (identifier)))
+  (input_output_statement
     name: (identifier)
     (string_literal))
   (input_output_statement)
   (input_output_statement
     name: (identifier)
     (string_literal))
-  (input_output_statement))
+  (input_output_statement)
+  (input_output_statement
+    (identifier)
+    (identifier)
+    (identifier))
+  (input_output_statement
+    (identifier)
+    (stream_flag)))
 
 ================================================================================
 CATCH and FINALLY statements

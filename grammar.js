@@ -48,7 +48,10 @@ module.exports = grammar({
     [$.include, $.constant],
     [$.include_argument],
     [$.include_argument, $._constant_value],
-    [$._literal, $._expression]
+    [$._literal, $._expression],
+    [$._form_with_option, $._expression],
+    [$.combo_box_phrase],
+    [$.radio_set_phrase]
   ],
 
   rules: {
@@ -1795,6 +1798,77 @@ module.exports = grammar({
         $._terminator
     ),
 
+    form_statement: ($) =>
+      seq(
+        kw("FORM"),
+        repeat1($._form_item),
+        $._terminator
+      ),
+
+    _form_item: ($) =>
+      choice(
+        $.form_skip,
+        $.form_space,
+        $.form_header,
+        $.form_string_item,
+        $.form_field_item,
+        $.form_with_clause
+      ),
+
+    form_skip: ($) =>
+      seq(kw("SKIP"), optional(seq("(", field("count", $.number_literal), ")"))),
+
+    form_space: ($) =>
+      seq(kw("SPACE"), optional(seq("(", field("count", $.number_literal), ")"))),
+
+    form_header: ($) =>
+      seq(kw("HEADER"), $._expression),
+
+    form_string_item: ($) =>
+      seq(
+        $.string_literal,
+        optional(seq(kw("VIEW-AS"), kw("TEXT"))),
+        optional(seq(kw("AT"), choice($.number_literal, $.identifier)))
+      ),
+
+    form_field_item: ($) =>
+      seq(
+        $._name,
+        repeat(choice(
+          $.view_as_phrase,
+          $._format,
+          $._label,
+          kw("NO-LABEL"),
+          $.size_phrase,
+          seq(kw("AT"), choice($.number_literal, $.identifier))
+        ))
+      ),
+
+    form_with_clause: ($) =>
+      seq(
+        kw("WITH"),
+        repeat1($._form_with_option)
+      ),    _form_with_option: ($) =>
+      choice(
+        kw("NO-BOX"),
+        kw("NO-LABEL"),
+        kw("NO-UNDERLINE"),
+        kw("SIDE-LABELS"),
+        kw("CENTERED"),
+        kw("THREE-D"),
+        seq(kw("TITLE"), choice($.string_literal, $._expression)),
+        seq(kw("VIEW-AS"), kw("DIALOG-BOX")),
+        seq(kw("FRAME"), field("frame", choice($.identifier, $.constant))),
+        $.size_phrase,
+        $._position,
+        seq($.number_literal, kw("DOWN")),
+        seq($.number_literal, kw("COLUMNS")),
+        seq(kw("WIDTH"), $.number_literal),
+        seq(kw("BGCOLOR"), $.number_literal),
+        seq(kw("FGCOLOR"), $.number_literal),
+        seq(kw("FONT"), $.number_literal)
+      ),
+
     null_statement: ($) => seq($.object_access, $._terminator),
 
     using_statement: ($) =>
@@ -2431,6 +2505,7 @@ module.exports = grammar({
         $.run_statement,
         $.enum_statement,
         $.abl_statement,
+        $.form_statement,
 
         $.variable_assignment,
         $.preprocessor_directive,

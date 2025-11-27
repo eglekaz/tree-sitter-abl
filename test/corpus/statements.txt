@@ -671,8 +671,6 @@ ASSIGN
 ASSIGN
     myVariable = MyBuffer.MyArray[iNum].
 
-
-
 --------------------------------------------------------------------------------
 
 (source_code
@@ -729,7 +727,6 @@ ASSIGN
           (identifier))
         (array_literal
           (identifier))))))
-
 ================================================================================
 FOR EACH statement
 ================================================================================
@@ -994,6 +991,8 @@ OUTPUT CLOSE.
 OUTPUT STREAM-HANDLE ho TO "CLIPBOARD".
 OUTPUT CLOSE.
 
+OUTPUT THROUGH crypt mypass > ecust.
+INPUT THROUGH r-iothru UNBUFFERED.
 --------------------------------------------------------------------------------
 
 (source_code
@@ -1047,7 +1046,14 @@ OUTPUT CLOSE.
   (input_output_statement
     name: (identifier)
     (string_literal))
-  (input_output_statement))
+  (input_output_statement)
+  (input_output_statement
+    (identifier)
+    (identifier)
+    (identifier))
+  (input_output_statement
+    (identifier)
+    (stream_flag)))
 
 ================================================================================
 CATCH and FINALLY statements

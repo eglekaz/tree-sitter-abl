@@ -2955,11 +2955,7 @@
       "required": false,
       "types": [
         {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "function_call",
+          "type": "_expression",
           "named": true
         },
         {
@@ -2968,10 +2964,6 @@
         },
         {
           "type": "stream_tuning",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         }
       ]
@@ -3409,17 +3401,9 @@
     "named": true,
     "fields": {
       "object": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "BROWSE",
-            "named": false
-          },
-          {
-            "type": "FRAME",
-            "named": false
-          },
           {
             "type": "constant",
             "named": true
@@ -6750,6 +6734,10 @@
   },
   {
     "type": "THIS-PROCEDURE",
+    "named": false
+  },
+  {
+    "type": "THROUGH",
     "named": false
   },
   {

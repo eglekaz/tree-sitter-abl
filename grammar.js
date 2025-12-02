@@ -161,7 +161,7 @@ module.exports = grammar({
 
     // TODO: FIX
     comment: ($) =>
-      choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+      choice(seq("//", /[^\r\n]*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
     // Note: This was initial solution for comments inside comments. Does not work
     //  choice(
     //     seq("//", /.*/),

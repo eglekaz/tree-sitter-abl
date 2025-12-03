@@ -242,6 +242,10 @@
         "named": true
       },
       {
+        "type": "update_statement",
+        "named": true
+      },
+      {
         "type": "using_statement",
         "named": true
       },
@@ -2682,6 +2686,21 @@
     }
   },
   {
+    "type": "go_on_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -5082,6 +5101,109 @@
     }
   },
   {
+    "type": "update_constant",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "update_skip",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "update_space",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "update_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "frame_phrase",
+          "named": true
+        },
+        {
+          "type": "go_on_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "update_constant",
+          "named": true
+        },
+        {
+          "type": "update_skip",
+          "named": true
+        },
+        {
+          "type": "update_space",
+          "named": true
+        },
+        {
+          "type": "update_text",
+          "named": true
+        },
+        {
+          "type": "when_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "update_text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "using",
     "named": true,
     "fields": {},
@@ -6049,6 +6171,10 @@
     "named": false
   },
   {
+    "type": "GO-ON",
+    "named": false
+  },
+  {
     "type": "GT",
     "named": false
   },
@@ -6649,6 +6775,10 @@
     "named": false
   },
   {
+    "type": "SPACE",
+    "named": false
+  },
+  {
     "type": "STATIC",
     "named": false
   },
@@ -6793,6 +6923,10 @@
     "named": false
   },
   {
+    "type": "UNLESS-HIDDEN",
+    "named": false
+  },
+  {
     "type": "UPDATE",
     "named": false
   },
@@ -6918,6 +7052,10 @@
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
     "named": false
   },
   {

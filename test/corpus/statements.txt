@@ -2490,3 +2490,79 @@ MESSAGE "Enter your name:" UPDATE user-name AS CHARACTER.
         (message_update
           (identifier)
           (primitive_type))))
+
+================================================================================
+UPDATE statement
+================================================================================
+
+UPDATE Order.ShipDate Order.Instructions TEXT(s-com) WITH FRAME o-com.
+
+UPDATE inv.inv-no
+       inv.qty   FORMAT ">>>>9"
+       inv.price
+       inv.date WHEN TODAY > inv.date.
+
+UPDATE doc.author = App:UserService:GetCurrentUser()
+       doc.date   = Session:GetDate()
+       doc.status
+   WITH FRAME fr-doc.
+--------------------------------------------------------------------------------
+
+    (source_code
+    (update_statement
+        (qualified_name
+        (identifier)
+          (identifier))
+        (qualified_name
+          (identifier)
+          (identifier))
+        (update_text
+          (identifier))
+        (frame_phrase
+          (identifier)))
+    (update_statement
+      (qualified_name
+        (identifier)
+        (identifier))
+      (qualified_name
+        (identifier)
+        (identifier))
+      (string_literal)
+      (qualified_name
+        (identifier)
+        (identifier))
+      (qualified_name
+        (identifier)
+        (identifier))
+      (when_expression
+        (comparison_expression
+          (identifier)
+          (qualified_name
+            (identifier)
+            (identifier)))))
+    (update_statement
+      (comparison_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (function_call
+          (object_access
+            (identifier)
+            (identifier)
+            (identifier))
+          (arguments)))
+      (comparison_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (function_call
+          (object_access
+            (identifier)
+            (identifier))
+          (arguments)))
+      (qualified_name
+        (identifier)
+        (identifier))
+      (frame_phrase
+        (identifier))))
+      

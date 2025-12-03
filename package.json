@@ -10,7 +10,6 @@
     "abl"
   ],
   "main": "bindings/node",
-
   "scripts": {
     "generate": "tree-sitter generate",
     "build": "tree-sitter generate && node-gyp build",

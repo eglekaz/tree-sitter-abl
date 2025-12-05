@@ -2510,59 +2510,69 @@ UPDATE doc.author = App:UserService:GetCurrentUser()
 
     (source_code
     (update_statement
-        (qualified_name
-        (identifier)
-          (identifier))
+      (update_tuning
         (qualified_name
           (identifier)
-          (identifier))
-        (update_text
-          (identifier))
-        (frame_phrase
           (identifier)))
-    (update_statement
-      (qualified_name
-        (identifier)
-        (identifier))
-      (qualified_name
-        (identifier)
-        (identifier))
-      (string_literal)
-      (qualified_name
-        (identifier)
-        (identifier))
-      (qualified_name
-        (identifier)
-        (identifier))
-      (when_expression
-        (comparison_expression
+      (update_tuning
+        (qualified_name
           (identifier)
+          (identifier)))
+      (update_tuning
+      (identifier))
+      (frame_phrase
+        (identifier)))
+    (update_statement
+      (update_tuning
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (update_tuning
+        (qualified_name
+          (identifier)
+          (identifier))
+        (string_literal))
+      (update_tuning
+        (qualified_name
+          (identifier)
+          (identifier)))
+      (update_tuning
+        (qualified_name
+          (identifier)
+          (identifier))
+        (when_expression
+          (comparison_expression
+            (identifier)
+            (qualified_name
+              (identifier)
+              (identifier))))))
+    (update_statement
+      (update_tuning
+        (comparison_expression
           (qualified_name
             (identifier)
-            (identifier)))))
-    (update_statement
-      (comparison_expression
-        (qualified_name
-          (identifier)
-          (identifier))
-        (function_call
-          (object_access
-            (identifier)
+            (identifier))
+          (function_call
+            (object_access
+              (identifier)
+              (identifier)
+              (identifier))
+            (arguments))))
+      (update_tuning
+        (comparison_expression
+          (qualified_name
             (identifier)
             (identifier))
-          (arguments)))
-      (comparison_expression
+          (function_call
+            (object_access
+              (identifier)
+              (identifier))
+            (arguments))))
+      (update_tuning
         (qualified_name
           (identifier)
-          (identifier))
-        (function_call
-          (object_access
-            (identifier)
-            (identifier))
-          (arguments)))
-      (qualified_name
-        (identifier)
-        (identifier))
+          (identifier)))
       (frame_phrase
         (identifier))))
+    
       

@@ -49,8 +49,7 @@ module.exports = grammar({
     [$.include_argument],
     [$.include_argument, $._constant_value],
     [$._literal, $._expression],
-    [$.update_skip],
-    [$.update_space]
+    [$._update_space_skip]
   ],
 
   rules: {
@@ -484,14 +483,13 @@ module.exports = grammar({
 
     message_pause:($) => kw("PAUSE"),
 
-    _update_tuning: ($) => choice(
+    update_tuning: ($) => choice(
       $.comparison_expression,
       $._update_field,
-      $.update_text,
-      $.update_constant,
+      $._update_text,
+      $._update_constant,
       "^",
-      $.update_space,
-      $.update_skip
+      $._update_space_skip
     ),
 
   _update_field: ($) =>
@@ -501,14 +499,14 @@ module.exports = grammar({
       optional($.when_expression)
     ),
 
-  update_text: ($) =>
+  _update_text: ($) =>
     seq(
       kw("TEXT"),
       "(",
         _list(seq($._name, optional($._format)), ","),
       ")"
     ),
-  update_constant: ($) =>
+  _update_constant: ($) =>
     seq(
       $.constant,
       optional(
@@ -519,18 +517,11 @@ module.exports = grammar({
       )
     ),
 
-  update_space: ($) =>
+  _update_space_skip: ($) =>
     seq(
-      kw("SPACE"),
+      choice(kw("SPACE"), kw("SKIP")),
       optional(seq("(", $._integer_literal, ")"))
     ),
-
-  update_skip: ($) =>
-    seq(
-      kw("SKIP"),
-      optional(seq("(", $._integer_literal, ")"))
-    ),
-    
 
     // button_tuning: ($) =>
     //   choice(
@@ -2236,7 +2227,7 @@ module.exports = grammar({
     update_statement: ($) => seq(
       kw("UPDATE"),
       optional(kw("UNLESS-HIDDEN")),
-      repeat($._update_tuning),
+      repeat($.update_tuning),
       optional($.go_on_clause),
       optional($.frame_phrase),
       optional(kw("NO-ERROR")),

@@ -5101,31 +5101,6 @@
     }
   },
   {
-    "type": "update_constant",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "update_skip",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "update_space",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "update_statement",
     "named": true,
     "fields": {},
@@ -5133,10 +5108,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "comparison_expression",
-          "named": true
-        },
         {
           "type": "frame_phrase",
           "named": true
@@ -5146,58 +5117,26 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "update_constant",
-          "named": true
-        },
-        {
-          "type": "update_skip",
-          "named": true
-        },
-        {
-          "type": "update_space",
-          "named": true
-        },
-        {
-          "type": "update_text",
-          "named": true
-        },
-        {
-          "type": "when_expression",
+          "type": "update_tuning",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "update_text",
+    "type": "update_tuning",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
+          "type": "when_expression",
           "named": true
         }
       ]

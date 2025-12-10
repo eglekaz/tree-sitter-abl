@@ -49,6 +49,7 @@ module.exports = grammar({
     [$.include_argument],
     [$.include_argument, $._constant_value],
     [$._literal, $._expression],
+    [$._update_space_skip]
   ],
 
   rules: {
@@ -481,7 +482,46 @@ module.exports = grammar({
       ),
 
     message_pause:($) => kw("PAUSE"),
-    
+
+    update_tuning: ($) => choice(
+      $.comparison_expression,
+      $._update_field,
+      $._update_text,
+      $._update_constant,
+      "^",
+      $._update_space_skip
+    ),
+
+  _update_field: ($) =>
+    seq(
+      $._name,
+      optional($._format),
+      optional($.when_expression)
+    ),
+
+  _update_text: ($) =>
+    seq(
+      kw("TEXT"),
+      "(",
+        _list(seq($._name, optional($._format)), ","),
+      ")"
+    ),
+  _update_constant: ($) =>
+    seq(
+      $.constant,
+      optional(
+        choice(
+          seq(kw("AT"), $._expression),
+          seq(kw("TO"), $._expression)
+        )
+      )
+    ),
+
+  _update_space_skip: ($) =>
+    seq(
+      choice(kw("SPACE"), kw("SKIP")),
+      optional(seq("(", $._integer_literal, ")"))
+    ),
 
     // button_tuning: ($) =>
     //   choice(
@@ -1895,7 +1935,7 @@ module.exports = grammar({
           $.assignment_operator,
           prec.right(choice($._expression, $.include)),
           optional($.when_expression),
-          optional(seq(kw("IN"), $._frame))
+          optional(seq(token.immediate(kw("IN")), $._frame)),
         )
       ),
 
@@ -2184,6 +2224,33 @@ module.exports = grammar({
         )
       ),
 
+    update_statement: ($) => seq(
+      kw("UPDATE"),
+      optional(kw("UNLESS-HIDDEN")),
+      repeat($.update_tuning),
+      optional($.go_on_clause),
+      optional($.frame_phrase),
+      optional(kw("NO-ERROR")),
+      $._terminator
+    ),
+   
+  go_on_clause: ($) =>
+    seq(
+      kw("GO-ON"),
+      "(",
+      _list($.identifier, ","),
+      ")"
+    ),
+
+  editing_phrase: ($) =>
+    seq(
+      optional(seq($.identifier, ":")),
+      kw("EDITING"),
+      ":",
+      repeat(choice($._statement, $._definition)), 
+      kw("END")
+    ),
+
     // EXPRESSIONS
 
     null_expression: ($) => /\?/,
@@ -2443,6 +2510,7 @@ module.exports = grammar({
         $.release_statement,
         $.run_statement,
         $.enum_statement,
+        $.update_statement,
         $.abl_statement,
 
         $.variable_assignment,

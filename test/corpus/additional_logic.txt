@@ -65,7 +65,7 @@ DISPLAY {&VAR1}.
 INCLUDE with procedure calls
 ================================================================================
 
-{get ObjectType cObjectType phInstance}
+{get ObjectType cObjectType phInstance}.
 {set ObjectType cObjectType phInstance}
 {method-call param1 param2 param3}
 { {&dir}/helper.i arg1 arg2}

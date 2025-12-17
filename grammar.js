@@ -312,7 +312,8 @@ module.exports = grammar({
           $.identifier
         ),
         repeat($.include_argument),
-        "}"
+        "}",
+        optional(".")
       )),
 
     include_file_path: ($) =>

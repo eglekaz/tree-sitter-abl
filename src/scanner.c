@@ -8,20 +8,8 @@ enum TokenType {
   NAMEDOT,
   NAMECOLON,
   NAMEDOUBLECOLON,
-  OR_OPERATOR,
-  AND_OPERATOR,
   AUGMENTED_ASSIGNMENT,
-  ESCAPED_STRING,
-  INPUT_KEYWORD,
-  OUTPUT_KEYWORD,
-  NEW_KEYWORD,
-  OLD_KEYWORD,
-  FOR_KEYWORD,
-  DEF_KEYWORD,
-  VAR_KEYWORD,
-  INDEX_KEYWORD,
-  FIELD_KEYWORD,
-  RETURN_KEYWORD
+  ESCAPED_STRING
 };
 
 void * tree_sitter_abl_external_scanner_create() {
@@ -80,20 +68,6 @@ bool tree_sitter_abl_external_scanner_scan(
       }
     }
   }
-
-  if (valid_symbols[OR_OPERATOR] && match_keyword(lexer, "OR", OR_OPERATOR)) return true;
-  if (valid_symbols[AND_OPERATOR] && match_keyword(lexer, "AND", AND_OPERATOR)) return true;
-
-  if (valid_symbols[INPUT_KEYWORD] && match_keyword(lexer, "INPUT", INPUT_KEYWORD)) return true;
-  if (valid_symbols[OUTPUT_KEYWORD] && match_keyword(lexer, "OUTPUT", OUTPUT_KEYWORD)) return true;
-  if (valid_symbols[NEW_KEYWORD] && match_keyword(lexer, "NEW", NEW_KEYWORD)) return true;
-  if (valid_symbols[OLD_KEYWORD] && match_keyword(lexer, "OLD", OLD_KEYWORD)) return true;
-  if (valid_symbols[FOR_KEYWORD] && match_keyword(lexer, "FOR", FOR_KEYWORD)) return true;
-  if (valid_symbols[DEF_KEYWORD] && match_keyword(lexer, "DEF", DEF_KEYWORD)) return true;
-  if (valid_symbols[VAR_KEYWORD] && match_keyword(lexer, "VAR", VAR_KEYWORD)) return true;
-  if (valid_symbols[INDEX_KEYWORD] && match_keyword(lexer, "INDEX", INDEX_KEYWORD)) return true;
-  if (valid_symbols[FIELD_KEYWORD] && match_keyword(lexer, "FIELD", FIELD_KEYWORD)) return true;
-  if (valid_symbols[RETURN_KEYWORD] && match_keyword(lexer, "RETURN", RETURN_KEYWORD)) return true;
 
   if (valid_symbols[AUGMENTED_ASSIGNMENT]) {
     while (!lexer->eof(lexer) && iswspace(lexer->lookahead)) {

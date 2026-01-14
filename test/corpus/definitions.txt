@@ -34,8 +34,8 @@ DEFINE VARIABLE nullable-array AS CHARACTER NO-UNDO EXTENT 4
 DEFINE VARIABLE hist-date  AS DATE NO-UNDO FORMAT "99/99/9999"
   VIEW-AS COMBO-BOX LIST-ITEMS 07/04/1776, 07/11/1969, 09/10/1993.
 
-DEFINE VARIABLE qbf-acdc AS CHARACTER NO-UNDO 
-  VIEW-AS RADIO-SET HORIZONTAL RADIO-BUTTONS "A&scending", "A":u, 
+DEFINE VARIABLE qbf-acdc AS CHARACTER NO-UNDO
+  VIEW-AS RADIO-SET HORIZONTAL RADIO-BUTTONS "A&scending", "A":u,
   "Des&cending", "D":u SIZE 30 BY 1.
 
 define variable oManager as "Manager" no-undo.
@@ -313,12 +313,14 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
     (index_clause
       (identifier)
       (index_tuning)
-      (identifier)
-      (sort_order))
+      (index_field
+        (identifier)
+        (sort_order)))
     (index_clause
       (identifier)
-      (identifier)
-      (sort_order)))
+      (index_field
+        (identifier)
+        (sort_order))))
   (temp_table_definition
     (identifier)
     (field_clause
@@ -335,12 +337,15 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
         (primitive_type)))
     (index_clause
       (identifier)
-      (identifier)
-      (sort_order)
-      (identifier)
-      (sort_order)
-      (identifier)
-      (sort_order)))
+      (index_field
+        (identifier)
+        (sort_order))
+      (index_field
+        (identifier)
+        (sort_order))
+      (index_field
+        (identifier)
+        (sort_order))))
   (temp_table_definition
     (identifier)
     (temp_table_tuning)
@@ -366,12 +371,14 @@ DEFINE TEMP-TABLE temp-item NO-UNDO SERIALIZE-NAME "theName" {1}
     (index_clause
       (identifier)
       (index_tuning)
-      (identifier)
-      (sort_order))
+      (index_field
+        (identifier)
+        (sort_order)))
     (index_clause
       (identifier)
-      (identifier)
-      (sort_order))))
+      (index_field
+        (identifier)
+        (sort_order)))))
 
 ================================================================================
 PROCEDURE PARAMETER DEFINITION statement

@@ -55,7 +55,7 @@ module.exports = grammar({
   rules: {
     source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.method_statement, $.constant)),
 
-    
+
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
     _statement_body: ($) => choice($.do_block, prec(2, $._statement), $.constant),
@@ -318,7 +318,7 @@ module.exports = grammar({
 
     include_file_path: ($) =>
       prec.right(repeat1(choice(
-        $.constant, 
+        $.constant,
         /[A-z-_|0-9|\/\.]+/i
       ))),
 
@@ -335,7 +335,7 @@ module.exports = grammar({
       seq("{", optional("&"), $._constant_value, "}"),
 
     _constant_value: ($) => choice(
-      $.identifier, 
+      $.identifier,
       $._integer_literal,
       seq($.identifier, "=", choice($.identifier, $._integer_literal, $.string_literal)),
       seq($.identifier, repeat1(choice(/[\s\-()a-zA-Z0-9]+/)))
@@ -418,10 +418,10 @@ module.exports = grammar({
 
         seq(
           kw("VALUE"),
-          "(", $._expression, 
+          "(", $._expression,
           ")")
       ),
-    
+
     _message_alert_box: ($) =>
       seq(
         kw("VIEW-AS"),
@@ -963,15 +963,18 @@ module.exports = grammar({
         alias($._index_keyword, "INDEX"),
         $.identifier,
         repeat($.index_tuning),
-        repeat(seq(field("field", $.identifier), optional($.sort_order)))
+        repeat($.index_field)
       ),
+
+    index_field: ($) =>
+      seq(field("field", $.identifier), optional($.sort_order)),
 
     variable: ($) => choice(field("name", $.identifier), $.assignment),
 
     enum_member: ($) =>
       prec.right(
       seq(
-        repeat($.annotation), 
+        repeat($.annotation),
         field("name", $.identifier),
         field(
           "value",
@@ -982,7 +985,7 @@ module.exports = grammar({
             )
           )
         ),
-        repeat($.annotation), 
+        repeat($.annotation),
       )
     ),
 
@@ -1112,13 +1115,13 @@ module.exports = grammar({
         optional(choice(seq(kw("HORIZONTAL"), optional(kw("EXPAND"))), kw("VERTICAL"))),
         seq(
           kw("RADIO-BUTTONS"),
-          field("label", choice($.string_literal, $.identifier)), 
-          ",", 
+          field("label", choice($.string_literal, $.identifier)),
+          ",",
           field("value", choice($.string_literal, $.identifier, $._expression)),
           repeat(seq(
-            ",", 
-            field("label", choice($.string_literal, $.identifier)), 
-            ",", 
+            ",",
+            field("label", choice($.string_literal, $.identifier)),
+            ",",
             field("value", choice($.string_literal, $.identifier, $._expression))
           ))
         ),
@@ -2013,7 +2016,7 @@ module.exports = grammar({
         ),
         seq(
           kw("THROUGH"),
-          choice($.identifier, seq(kw("VALUE"), "(", $._expression, ")")), 
+          choice($.identifier, seq(kw("VALUE"), "(", $._expression, ")")),
           repeat(
             choice(
             $.identifier,
@@ -2022,7 +2025,7 @@ module.exports = grammar({
             seq(kw("VALUE"), "(", $._expression, ")")
             )
           ),
-          optional(seq(">", $.identifier)) 
+          optional(seq(">", $.identifier))
         )
       ),
 
@@ -2233,7 +2236,7 @@ module.exports = grammar({
       optional(kw("NO-ERROR")),
       $._terminator
     ),
-   
+
   go_on_clause: ($) =>
     seq(
       kw("GO-ON"),
@@ -2247,7 +2250,7 @@ module.exports = grammar({
       optional(seq($.identifier, ":")),
       kw("EDITING"),
       ":",
-      repeat(choice($._statement, $._definition)), 
+      repeat(choice($._statement, $._definition)),
       kw("END")
     ),
 
@@ -2420,7 +2423,7 @@ module.exports = grammar({
         $._binary_expression
       ),
 
-  _message_statement_expression: ($) => 
+  _message_statement_expression: ($) =>
     choice(
       $.unary_expression,
       $.null_expression,

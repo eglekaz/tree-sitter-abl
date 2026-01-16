@@ -2861,18 +2861,7 @@
   {
     "type": "index_clause",
     "named": true,
-    "fields": {
-      "field": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -2882,9 +2871,35 @@
           "named": true
         },
         {
-          "type": "index_tuning",
+          "type": "index_field",
           "named": true
         },
+        {
+          "type": "index_tuning",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "index_field",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
         {
           "type": "sort_order",
           "named": true

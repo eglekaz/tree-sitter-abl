@@ -19,7 +19,7 @@ module.exports = grammar({
     $._augmented_assignment,
     $._escaped_string
   ],
-  // extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
+  extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   word: ($) => $.identifier,
   supertypes: ($) => [$._expression, $._statement],
   conflicts: ($) => [
@@ -45,7 +45,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_code: ($) => repeat($._statement),
+    // source_code: ($) => repeat(choice($._statement, $.class_statement, $._definition, $.do_block, $.interface_statement, $.method_statement, $.constant)),
+    source_code: ($) => repeat1(choice($._statement, $._definition)),
 
     body: ($) => seq(":", repeat(choice($._statement, $._definition, $.do_block, prec(-1, $.annotation)))),
 
@@ -59,7 +60,7 @@ module.exports = grammar({
         repeat(
           choice(
             $._definition,
-            $.var_statement,
+            // $.var_statement,
             $.include,
             seq(
               optional($.annotation),
@@ -91,7 +92,8 @@ module.exports = grammar({
 
     label: ($) => seq($.identifier, ":"),
 
-    _terminator: ($) => /\s*\./,
+    // _terminator: ($) => /\s*\./,
+    _terminator: ($) => /\./,
 
     _block_terminator: ($) =>
       seq(
@@ -254,7 +256,7 @@ module.exports = grammar({
         $.number_literal,
         $.string_literal,
         $.boolean_literal,
-        // $.null_expression,
+        $.null_expression,
         // $.function_call,
         $.array_literal,
         // $.array_access,
@@ -270,11 +272,11 @@ module.exports = grammar({
         $._integer_literal
       ),
 
-    _define: ($) =>
-      choice(
-        $._DEFINE,
-        $._DEF,
-      ),
+    // _define: ($) =>
+    //   choice(
+    //     $._DEFINE,
+    //     $._DEF,
+    //   ),
 
     // INCLUDES
 
@@ -733,9 +735,9 @@ module.exports = grammar({
      _type: ($) =>
       choice(
         $.primitive_type,
-        $.identifier,
+        seq($.identifier, optional($.identifier)),
         $.qualified_name,
-        $.class_type,
+        // $.class_type,
         $.generic_type
       ),
 
@@ -1563,7 +1565,11 @@ module.exports = grammar({
 
     buffer_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._BUFFER,
         field("name", $.identifier),
@@ -1584,7 +1590,11 @@ module.exports = grammar({
 
     dataset_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._DATASET,
         field("name", $.identifier),
@@ -1596,7 +1606,11 @@ module.exports = grammar({
 
     data_source_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._DATA_SOURCE,
         $.identifier,
@@ -1613,7 +1627,11 @@ module.exports = grammar({
 
     enum_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         $._ENUM,
         repeat($.enum_member),
         $._terminator
@@ -1621,7 +1639,11 @@ module.exports = grammar({
 
     event_definition: ($) =>
       seq(
-      $._define,
+      // $._define,
+      choice(
+        $._DEFINE,
+        $._DEF,
+      ),
       repeat($._tuning),
       $._EVENT,
       field("name", $.identifier),
@@ -1637,23 +1659,33 @@ module.exports = grammar({
     // Refactor
     frame_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._FRAME,
         field("name", choice($.identifier, $.constant)),
         repeat(choice($.identifier, $.constant, $.object_access)),
         optional(seq(
-          $._WITH,
           repeat1(choice(
-            $.size_phrase,
-            seq($._SIZE_PIXELS, $.number_literal, $._BY, $.number_literal),
-            $._NO_BOX,
-            seq($._FONT, $.number_literal),
-            seq($._BGCOLOR, $.number_literal),
-            seq($._FGCOLOR, $.number_literal),
-            $._SCROLLABLE,
-            $._RESIZABLE
+            // $.size_phrase,
+            seq($.identifier, $.number_literal, $.identifier, $.number_literal),
           ))
+
+
+          // $._WITH,
+          // repeat1(choice(
+          //   $.size_phrase,
+          //   seq($._SIZE_PIXELS, $.number_literal, $._BY, $.number_literal),
+          //   $._NO_BOX,
+          //   seq($._FONT, $.number_literal),
+          //   seq($._BGCOLOR, $.number_literal),
+          //   seq($._FGCOLOR, $.number_literal),
+          //   $._SCROLLABLE,
+          //   $._RESIZABLE
+          // ))
         )),
         optional(seq($._AT, $._COLUMN, field("column", choice($.number_literal, $.identifier)))),
         optional(seq($._ROW, field("row", choice($.number_literal, $.identifier)))),
@@ -1680,7 +1712,11 @@ module.exports = grammar({
 
     parameter_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         optional(
           choice($._INPUT, $._OUTPUT, $._INPUT_OUTPUT, $._RETURN)
         ),
@@ -1714,7 +1750,11 @@ module.exports = grammar({
 
     browse_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._BROWSE,
         field("name", $.identifier),
@@ -1742,7 +1782,11 @@ module.exports = grammar({
 
     rectangle_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._RECTANGLE,
         field("name", $.identifier),
@@ -1757,7 +1801,11 @@ module.exports = grammar({
 
     property_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._PROPERTY,
         field("name", $.identifier),
@@ -1768,7 +1816,11 @@ module.exports = grammar({
 
     query_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._QUERY,
         field("name", $.identifier),
@@ -1780,7 +1832,11 @@ module.exports = grammar({
 
     stream_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         $._STREAM,
         field("name", $.identifier),
@@ -1789,7 +1845,11 @@ module.exports = grammar({
 
     temp_table_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         optional($.serialization_tuning),
         $._TEMP_TABLE,
@@ -1808,7 +1868,11 @@ module.exports = grammar({
 
     variable_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         choice($._VARIABLE, $._VAR),
         field("name", $.identifier),
@@ -1823,7 +1887,11 @@ module.exports = grammar({
 
     workfile_definition: ($) =>
       seq(
-        $._define,
+        // $._define,
+        choice(
+        $._DEFINE,
+        $._DEF,
+      ),
         repeat($._tuning),
         choice($._WORKFILE, $._WORK_TABLE),
         field("name", $.identifier),
@@ -2167,17 +2235,17 @@ module.exports = grammar({
   //       choice(seq(kw("EDITING"), $.body, $._block_terminator), $._terminator)
   //     ),
 
-    var_statement: ($) =>
-      seq(
-        $._VAR,
-        optional(
-          choice($.scope_tuning, $.access_tuning, $.serialization_tuning)
-        ),
-        alias(choice($._type, $.string_literal), $.type_tuning),
-        optional(field("size", $.array_literal)),
-        _list($.variable, ","),
-        $._terminator
-      ),
+    // var_statement: ($) =>
+    //   seq(
+    //     $._VAR,
+    //     optional(
+    //       choice($.scope_tuning, $.access_tuning, $.serialization_tuning)
+    //     ),
+    //     alias(choice($._type, $.string_literal), $.type_tuning),
+    //     optional(field("size", $.array_literal)),
+    //     _list($.variable, ","),
+    //     $._terminator
+    //   ),
 
   //   release_statement: ($) =>
   //     seq(
@@ -2524,7 +2592,7 @@ module.exports = grammar({
 
     _statement: ($) =>
       choice(
-        $.var_statement,
+        // $.var_statement,
         $.message_statement,
 //         $.null_statement,
         // $.procedure_statement,

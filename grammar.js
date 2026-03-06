@@ -263,6 +263,7 @@ module.exports = grammar({
     _array_literal_member: ($) =>
       choice(
         $.new_expression,
+        $.ternary_expression,
         $.number_literal,
         $.string_literal,
         $.boolean_literal,
@@ -332,7 +333,7 @@ module.exports = grammar({
     // ),
 
     constant: ($) =>
-      seq("{", optional("&"), $._constant_value, "}"),
+      seq("{", optional("&"), repeat($._constant_value), "}"),
 
     _constant_value: ($) => choice(
       $.identifier,
@@ -1685,7 +1686,7 @@ module.exports = grammar({
         kw("TABLE"),
         kw("TABLE-HANDLE"),
         kw("DATASET-HANDLE"),
-        kw("DATASET")
+        seq(kw("DATASET"), optional(kw("FOR")))
       ),
 
     _parameter_definition_option: ($) =>
@@ -1903,6 +1904,8 @@ module.exports = grammar({
         kw("PROCEDURE"),
         $.identifier,
         optional(kw("PRIVATE")),
+        optional(seq(kw("EXTERNAL"), $.string_literal)),
+        optional(seq(kw("ORDINAL"), $.number_literal)),
         optional($.body),
         $._block_terminator
       ),
@@ -1936,6 +1939,7 @@ module.exports = grammar({
             )
           ),
           $.assignment_operator,
+          // optional(kw("BROWSE")), // Commented for formatter purposes
           prec.right(choice($._expression, $.include)),
           optional($.when_expression),
           optional(seq(token.immediate(kw("IN")), $._frame)),
@@ -2374,7 +2378,7 @@ module.exports = grammar({
     available_expression: ($) =>
       seq(
         choice(kw("AVAIL"), kw("AVAILABLE")),
-        choice($.identifier, $.parenthesized_expression),
+        choice($.identifier, $.qualified_name, $.parenthesized_expression),
       ),
 
     new_expression: ($) =>

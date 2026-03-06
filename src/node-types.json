@@ -775,6 +775,10 @@
         {
           "type": "string_literal",
           "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
         }
       ]
     }
@@ -893,6 +897,10 @@
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         }
       ]
@@ -3815,6 +3823,14 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }
@@ -6049,6 +6065,10 @@
     "named": false
   },
   {
+    "type": "EXTERNAL",
+    "named": false
+  },
+  {
     "type": "FALSE",
     "named": false
   },
@@ -6450,6 +6470,10 @@
   },
   {
     "type": "OR",
+    "named": false
+  },
+  {
+    "type": "ORDINAL",
     "named": false
   },
   {

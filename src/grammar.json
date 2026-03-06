@@ -1562,6 +1562,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "ternary_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "number_literal"
         },
         {
@@ -1815,8 +1819,11 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_constant_value"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constant_value"
+          }
         },
         {
           "type": "STRING",
@@ -12051,20 +12058,49 @@
           "value": "DATASET-HANDLE"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
               "content": {
-                "type": "PATTERN",
-                "value": "[dD][aA][tT][aA][sS][eE][tT]"
-              }
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[dD][aA][tT][aA][sS][eE][tT]"
+                  }
+                }
+              },
+              "named": false,
+              "value": "DATASET"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[fF][oO][rR]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "FOR"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
-          },
-          "named": false,
-          "value": "DATASET"
+          ]
         }
       ]
     },
@@ -13638,6 +13674,72 @@
               },
               "named": false,
               "value": "PRIVATE"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[eE][xX][tT][eE][rR][nN][aA][lL]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "EXTERNAL"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "string_literal"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[oO][rR][dD][iI][nN][aA][lL]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "ORDINAL"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "number_literal"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -16754,6 +16856,10 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "qualified_name"
             },
             {
               "type": "SYMBOL",

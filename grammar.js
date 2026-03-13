@@ -345,7 +345,7 @@ module.exports = grammar({
     qualified_name: ($) =>
       seq(
         $.identifier,
-        repeat1(seq(alias($._namedot, "."), choice($.identifier, "*")))
+        repeat1(seq(alias($._namedot, "."), choice(seq($.identifier, optional($.generic_expression)), "*")))
       ),
 
     // TUNING
